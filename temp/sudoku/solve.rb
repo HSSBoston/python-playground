@@ -13,6 +13,30 @@ def printGrid(grid, pad="\n")
   print gridStr(grid, pad) + "\n"
 end
 
+def row(grid, cell_i)
+  grid.slice(9 * (cell_i / 9), 9)
+end
+
+def column(grid, cell_i)
+  (0..8).map{ |k| grid[9 * k + cell_i % 9] }
+end
+
+def square(grid, cell_i)
+  (0..8).map{ |k| grid[9*(3*(cell_i/9/3)+(k/3))+3*(cell_i%9/3)+(k%3)]}
+end
+
+def constraintsSatisfied?(grid, cell_i)
+  row = row(grid, cell_i)
+  column = column(grid, cell_i)
+  square = square(grid, cell_i)
+  unique?(row) && unique?(column) && unique?(square)
+end
+
+def unique?(list)
+  compactedList = list.compact
+  compactedList.length == compactedList.uniq.length
+end
+
 def solve(grid)
   solve_sub(grid, 0)
   return grid
@@ -37,30 +61,6 @@ def solve_sub(grid, cell_i)
       return false
     end
   end
-end
-
-def row(grid, cell_i)
-  grid.slice(9 * (cell_i / 9), 9)
-end
-
-def column(grid, cell_i)
-  (0..8).map{ |k| grid[9 * k + cell_i % 9] }
-end
-
-def square(grid, cell_i)
-  (0..8).map{ |k| grid[9*(3*(cell_i/9/3)+(k/3))+3*(cell_i%9/3)+(k%3)]}
-end
-
-def constraintsSatisfied?(grid, cell_i)
-  row = row(grid, cell_i)
-  column = column(grid, cell_i)
-  square = square(grid, cell_i)
-  unique?(row) && unique?(column) && unique?(square)
-end
-
-def unique?(list)
-  compactedList = list.compact
-  compactedList.length == compactedList.uniq.length
 end
 
 solutions = []
