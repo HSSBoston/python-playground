@@ -37,26 +37,28 @@ def unique?(list)
   compactedList.length == compactedList.uniq.length
 end
 
-def possibleNumbers(grid, cell_i)
+def usableNumbers(grid, cell_i)
     (1..9).is_a - usedNumbers(grid, cell_i)
 end
 
 def usedNumbers(grid, cell_i)
-    (row(grid, cell_i).compact + column(grid, cell_i).compact + square(grid, cell_i).compact).uniq
+    (row(grid, cell_i).compact +
+     column(grid, cell_i).compact +
+     square(grid, cell_i).compact).uniq
 
 def solve(grid)
-  solve_sub(grid, 0)
+  solve_cell(grid, 0)
   return grid
 end
 
-def solve_sub(grid, cell_i)
+def solve_cell(grid, cell_i)
   if cell_i > 80
     return true
   else
     if grid[cell_i]
       solve_sub(grid, cell_i + 1)
     else
-      possibleNumbers(grid, cell_i).each do |val|
+      usableNumbers(grid, cell_i).each do |val|
         grid[cell_i] = val
         if constraintsSatisfied?(grid, cell_i)
           if solve_sub(grid, cell_i + 1)
