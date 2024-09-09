@@ -21,7 +21,11 @@ cv2.drawContours(image, contours, -1, (255, 0, 0), 3)
     # -1: draw all contours
     # (255, 0, 0): Coutour color
     # 3: Thickness of a contour line
-cv2.approxPolyDP
+# cv2.imwrite("shapes-binary.jpg", binaryImage)
+# 
+# cv2.approxPolyDP
 
-plt.imshow(image)
-plt.show()
+print(len(contours))
+
+# plt.imshow(image)
+# plt.show()

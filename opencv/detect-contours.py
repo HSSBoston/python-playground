@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# origFileNameWithoutExt = "big-dipper"
-origFileNameWithoutExt = "red"
+origFileNameWithoutExt = "big-dipper"
+# origFileNameWithoutExt = "red"
 
 origFileName = origFileNameWithoutExt + ".jpg"
 image = cv2.imread(origFileName)
@@ -23,14 +23,18 @@ _, binaryImage = cv2.threshold(grayscaleImage, 127, 255, cv2.THRESH_BINARY)
     # Otherwise, it becomes 0. 
 cv2.imwrite(origFileNameWithoutExt + "-binary.jpg", binaryImage)
 
+contours, hierarchy = cv2.findContours(binaryImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cv2.drawContours(image, contours, -1, (255, 0, 0), 3)
+    # -1: Draw all contours
+    # (255, 0, 0): Coutour color
+    # 3: Thickness of a contour line
+cv2.imwrite(origFileNameWithoutExt + "-contours.jpg", image)
+print("Number of contours", len(contours))
 
+# cv2.imshow("contours", image)
+# plt.imshow(image)
+# plt.show()
 
-
-# contours, hierarchy = cv2.findContours(binaryImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-# cv2.drawContours(image, contours, -1, (255, 0, 0), 3)
-#     # -1: draw all contours
-#     # (255, 0, 0): Coutour color
-#     # 3: Thickness of a contour line
 # cv2.approxPolyDP
 
 
