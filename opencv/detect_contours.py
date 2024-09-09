@@ -12,14 +12,17 @@ def detectContours(origFileNameWithoutExt):
     contours, hierarchy = cv2.findContours(binaryImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cv2.drawContours(image, contours, -1, (255, 0, 0), 3)
         # -1: Draw all contours
-        # (255, 0, 0): Coutour color
+        # (255, 0, 0): Coutour color (BGR)
         # 3: Thickness of a contour line
     cv2.imwrite(origFileNameWithoutExt + "-contours.jpg", image)
     print("Number of detected contours:", len(contours))
+    
+    return (contours, grayscaleImage, binaryImage)
 
 
 if __name__ == "__main__":
-    # origFileNameWithoutExt = "big-dipper"
-    origFileNameWithoutExt = "red"
+    # origFileNameWithoutExt = "images/big-dipper"
+    origFileNameWithoutExt = "images/red"
+    
     detectContours(origFileNameWithoutExt)
 
