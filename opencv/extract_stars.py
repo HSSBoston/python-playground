@@ -3,13 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from detect_contours import detectContours
 
-def extractShapes(origFileNameWithoutExt):
+def extractStars(origFileNameWithoutExt):
     origFileName = origFileNameWithoutExt + ".jpg"
     image = cv2.imread(origFileName)
 
     contours, grayscaleImage, binaryImage = detectContours(origFileNameWithoutExt)
     
-    shapes = []
+    stars = []
     
     for i, contour in enumerate(contours):
         arclen = cv2.arcLength(contour, True)
@@ -22,14 +22,21 @@ def extractShapes(origFileNameWithoutExt):
             radius = int(radius)
             shapes.append([center, radius])
             if radius >= 8:
+                shapeName = "big-circle"
                 print("big circle", center, radius)
             else:
+                shapeName = "small-circle"
                 print("small circle", center, radius)
+            star = Star(shapeName, center
+                        center[0]-radius, center[0]+radius,
+                        center[1]-radius, center[0]+radius)
         else:
             x, y, width, height = cv2.boundingRect(approxPoly)
             center = (int(x+(width/2)), int(y+(height/2)))
             halfSideLength = int((width + height)/4)
-            shapes.append([center, halfSideLength])
+            star.
+            stars.append([center, halfSideLength])
+            
             print("rectangle", center, halfSideLength)
 
     return shapes, grayscaleImage, binaryImage
@@ -44,5 +51,6 @@ if __name__ == "__main__":
     origFileNameWithoutExt = "images/orion"
     
     print(origFileNameWithoutExt)
-    extractShapes(origFileNameWithoutExt)
+    extractStars(origFileNameWithoutExt)
     
+
