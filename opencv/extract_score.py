@@ -4,39 +4,63 @@ from star import Star
 from crop_image import cropImage
 
 def extractScore(origFileNameWithoutExt, bigConstellation):
-    constellationName = split(origFileNameWithoutExt, "/")[1]
+    constellationName = origFileNameWithoutExt.split("/")[1]
     
-    stars, cropTop, cropBottom, leftMost, rightMost = cropImage(origFileNameWithoutExt)
+    stars, cropTop, cropBottom, leftMost, rightMost = cropImage(origFileNameWithoutExt, bigConstellation)
     sortedStars = sorted(stars, key=lambda x: x.center[0])
 
     for star in sortedStars:
-        print(star.center[0])
-        determineHorizontalPosition(star, cropTop, cropBottom, leftMost, rightMost)
+        hPosition, hPositionNote = determineHorizontalPosition(star, bigConstellation,
+                                                               cropTop, cropBottom, leftMost, rightMost)
+        midiNoteNumber = determineVerticalPosition(star, cropTop, cropBottom, leftMost, rightMost)
+        print(midiNoteNumber, hPosition, hPositionNote, star.shape)
 
-def determineHorizontalPosition(star, cropTop, cropBottom, leftMost, rightMost):
-    if (rightMost-leftMost) < 150:
-    
+def determineHorizontalPosition(star, bigConstellation, cropTop, cropBottom, leftMost, rightMost):
+    if bigConstellation:
+        divisionCountX = 8
     else:
+        divisionCountY = 4
     
     starX = star.center[0]
+#     print(starX)
     
-    currentX = 0
-    for i in range(8):
+    currentX = leftMost
+    for i in range(divisionCountX):
         if random.random() < 0.5:
-            xMargin = math.floor((rightMost-leftMost)/8)
+            xMargin = math.floor((rightMost-leftMost)/divisionCountX)
         else:
-            xMargin = math.ceil(croppedWidth/8)
+            xMargin = math.ceil((rightMost-leftMost)/divisionCountX)
+        previousX = currentX
         currentX += xMargin
         
-        if starX <= currentX 
+        if starX > previousX and starX <= currentX:
+            hPosition = i
+            if starX < previousX + (currentX - previousX)/4:
+                hPositionNote = "<<"
+            elif starX < previousX + (currentX - previousX)*3/4:
+                hPositionNote = "--"
+            else:
+                hPositionNote = "<<"
+    return (hPosition, hPositionNote)
 
-
-
-
+def determineVerticalPosition(star, cropTop, cropBottom, leftMost, rightMost):
+    starY = star.center[1]
     
+    currentY = cropBottom
+    yInterval = (cropBottom - cropTop)/24
+    for i in range(24):
+        if starY > int(currentY - yInterval/2) and starY <= int(currentY + yInterval/2):
+            vPosition = i
+        
+        if random.random() < 0.5:
+            yMargin = math.floor(yInterval)
+        else:
+            yMargin = math.ceil(yInterval)
+        currentY -= yMargin
     
+    midiNoteNumber = vPosition+54
+    return midiNoteNumber
 
-    
 if __name__ == "__main__":
 #     origFileNamesWithoutExt = ["images/canis-major",
 #                                "images/lyra",
