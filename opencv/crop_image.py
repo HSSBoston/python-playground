@@ -3,7 +3,7 @@ from extract_stars import extractStars
 from star import Star
 from extract_constellation_size import extractConstellationSize
 
-def cropImage(origFileNameWithoutExt):
+def cropImage(origFileNameWithoutExt, bigConstellation):
     binaryFileName = origFileNameWithoutExt + "-binary" + ".jpg"
     binaryImage = cv2.imread(binaryFileName)
     height = binaryImage.shape[0]
@@ -22,16 +22,20 @@ def cropImage(origFileNameWithoutExt):
     croppedHeight = croppedBinaryImage.shape[0]
     croppedWidth = croppedBinaryImage.shape[1]
     
+    if bigConstellation:
+        divisionCountX = 8
+    else: 
+        divisionCountX = 4
     currentX = 0
-    for i in range(8):
-        if i == 4:
+    for i in range(divisionCountX):
+        if i == divisionCountX/2:
             cv2.line(croppedBinaryImage, (currentX,0), (currentX,croppedHeight-1), (0,0,255))
         else:
             cv2.line(croppedBinaryImage, (currentX,0), (currentX,croppedHeight-1), (255,0,0))
         if random.random() < 0.5:
-            xMargin = math.floor(croppedWidth/8)
+            xMargin = math.floor(croppedWidth/divisionCountX)
         else:
-            xMargin = math.ceil(croppedWidth/8)
+            xMargin = math.ceil(croppedWidth/divisionCountX)
         currentX += xMargin
     
     currentY = 0
@@ -57,21 +61,24 @@ def cropImage(origFileNameWithoutExt):
         croppedBinaryImage[adjustedY+1, adjustedX] = [0, 255, 0]
     
     cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
-    
+    return (stars, cropTop, cropBottom, leftMost, rightMost)
     
 
 if __name__ == "__main__":
-    origFileNamesWithoutExt = ["images/aquila",
-                               "images/big-dipper",
-                               "images/canis-major",
-                               "images/cassiopeia",
-                               "images/cygnus",
+    origFileNamesWithoutExt = ["images/canis-major",
                                "images/lyra",
-                               "images/orion",
                                "images/canis-minor"]
     for fileName in origFileNamesWithoutExt:
-        cropImage(fileName)
-    
+        cropImage(fileName, bigConstellation=False)
+
+    origFileNamesWithoutExt = ["images/aquila",
+                               "images/big-dipper",
+                               "images/cassiopeia",
+                               "images/cygnus",
+                               "images/orion"]
+    for fileName in origFileNamesWithoutExt:
+        cropImage(fileName, bigConstellation=True)
+ 
 
 
 

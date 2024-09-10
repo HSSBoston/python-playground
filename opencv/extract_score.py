@@ -1,71 +1,58 @@
 import cv2, random, math, numpy as np, matplotlib.pyplot as plt
 from extract_stars import extractStars
 from star import Star
-from extract_constellation_size import extractConstellationSize
+from crop_image import cropImage
 
-def extractScore(origFileNameWithoutExt):
-    binaryFileName = origFileNameWithoutExt + "-binary" + ".jpg"
-    binaryImage = cv2.imread(binaryFileName)
-    height = binaryImage.shape[0]
-    width = binaryImage.shape[1]
-#     print(height,width)
-    maxConstellationHeight = 322
+def extractScore(origFileNameWithoutExt, bigConstellation):
+    constellationName = split(origFileNameWithoutExt, "/")[1]
     
-    stars, leftMost, rightMost, topMost, bottomMost = extractConstellationSize(origFileNameWithoutExt)
-    verticalMiddle = int((bottomMost + topMost)/2)
-    cropTop = int(verticalMiddle-(maxConstellationHeight/2))
-    cropBottom = int(verticalMiddle+(maxConstellationHeight/2))
+    stars, cropTop, cropBottom, leftMost, rightMost = cropImage(origFileNameWithoutExt)
+    sortedStars = sorted(stars, key=lambda x: x.center[0])
+
+    for star in sortedStars:
+        print(star.center[0])
+        determineHorizontalPosition(star, cropTop, cropBottom, leftMost, rightMost)
+
+def determineHorizontalPosition(star, cropTop, cropBottom, leftMost, rightMost):
+    if (rightMost-leftMost) < 150:
     
-    croppedBinaryImage = binaryImage[cropTop:cropBottom, leftMost:rightMost]
-#     cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
+    else:
     
-    croppedHeight = croppedBinaryImage.shape[0]
-    croppedWidth = croppedBinaryImage.shape[1]
+    starX = star.center[0]
     
     currentX = 0
     for i in range(8):
-        if i == 4:
-            cv2.line(croppedBinaryImage, (currentX,0), (currentX,croppedHeight-1), (0,0,255))
-        else:
-            cv2.line(croppedBinaryImage, (currentX,0), (currentX,croppedHeight-1), (255,0,0))
         if random.random() < 0.5:
-            xMargin = math.floor(croppedWidth/8)
+            xMargin = math.floor((rightMost-leftMost)/8)
         else:
             xMargin = math.ceil(croppedWidth/8)
         currentX += xMargin
-    
-    currentY = 0
-    for i in range(13):
-        if i >= 4 and i <= 8:
-            cv2.line(croppedBinaryImage, (0,currentY), (croppedWidth-1,currentY), (0,0,255))
-        else:
-            cv2.line(croppedBinaryImage, (0,currentY), (croppedWidth-1,currentY), (255,0,0))
-        if random.random() < 0.5:
-            yMargin = math.floor(croppedHeight/12)
-        else:
-            yMargin = math.ceil(croppedHeight/12)
-        currentY += yMargin        
         
-#         cv2.line(croppedBinaryImage, (croppedWidth-1,0), (croppedWidth-1,croppedHeight-1), (255,0,0))
-    
-    cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
+        if starX <= currentX 
+
+
+
+
     
     
 
+    
 if __name__ == "__main__":
-    origFileNamesWithoutExt = ["images/aquila",
-                               "images/big-dipper",
-                               "images/canis-major",
-                               "images/cassiopeia",
-                               "images/cygnus",
-                               "images/lyra",
-                               "images/orion",
-                               "images/canis-minor"]
-    for fileName in origFileNamesWithoutExt:
-        cropImage(fileName)
-    
+#     origFileNamesWithoutExt = ["images/canis-major",
+#                                "images/lyra",
+#                                "images/canis-minor"]
+#     for fileName in origFileNamesWithoutExt:
+#         cropImage(fileName, bigConstellation=False)
+# 
+#     origFileNamesWithoutExt = ["images/aquila",
+#                                "images/big-dipper",
+#                                "images/cassiopeia",
+#                                "images/cygnus",
+#                                "images/orion"]
+#     for fileName in origFileNamesWithoutExt:
+#         cropImage(fileName, bigConstellation=True)
 
-
+    extractScore("images/cygnus", bigConstellation=True)
 
 
 
