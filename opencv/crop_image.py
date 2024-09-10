@@ -1,40 +1,56 @@
-import cv2, numpy as np, matplotlib.pyplot as plt
+import cv2, random, math, numpy as np, matplotlib.pyplot as plt
 from extract_stars import extractStars
 from star import Star
+from extract_constellation_size import extractConstellationSize
 
-def extractConstellationHeight(origFileNameWithoutExt):
-    origFileName = origFileNameWithoutExt + ".jpg"
-    image = cv2.imread(origFileName)
-
-    stars, grayscaleImage, binaryImage = extractStars(origFileNameWithoutExt)
+def cropImage(origFileNameWithoutExt):
+    binaryFileName = origFileNameWithoutExt + "-binary" + ".jpg"
+    binaryImage = cv2.imread(binaryFileName)
+    height = binaryImage.shape[0]
+    width = binaryImage.shape[1]
+#     print(height,width)
+    maxConstellationHeight = 322
     
-    leftMost = 1000
-    rightMost = 0
-    topMost = 1000
-    bottomMost = 0
-
-#     for star in stars:
-#         print(star.shape, star.center,
-#               star.xLeft, star.xRight, star.yTop, star.yBottom)
-
-    for star in stars:
-        if star.xLeft < leftMost: leftMost = star.xLeft
-        if star.xRight > rightMost: rightMost = star.xRight
-        if star.yTop < topMost: topMost = star.yTop
-        if star.yBottom > bottomMost: bottomMost = star.yBottom
+    stars, leftMost, rightMost, topMost, bottomMost = extractConstellationSize(origFileNameWithoutExt)
+    verticalMiddle = int((bottomMost + topMost)/2)
+    cropTop = int(verticalMiddle-(maxConstellationHeight/2))
+    cropBottom = int(verticalMiddle+(maxConstellationHeight/2))
     
-    print(leftMost, rightMost, topMost, bottomMost)
-    return (leftMost, rightMost, topMost, bottomMost)
-
-def extractMaxConstellationHeight(origFileNamesWithoutExt):
-    maxHeight = 0
-    for fileName in origFileNamesWithoutExt:
-        _, _, topMost, bottomMost = extractConstellationHeight(fileName)
-        height = bottomMost - topMost
-        print("Height", height)
-        if height > maxHeight:
-            maxHeight = height
-    return maxHeight
+    croppedBinaryImage = binaryImage[cropTop:cropBottom, leftMost:rightMost]
+#     cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
+    
+    croppedHeight = croppedBinaryImage.shape[0]
+    croppedWidth = croppedBinaryImage.shape[1]
+    
+    currentX = 0
+    for i in range(8):
+        if i == 4:
+            cv2.line(croppedBinaryImage, (currentX,0), (currentX,croppedHeight-1), (0,0,255))
+        else:
+            cv2.line(croppedBinaryImage, (currentX,0), (currentX,croppedHeight-1), (255,0,0))
+        if random.random() < 0.5:
+            xMargin = math.floor(croppedWidth/8)
+        else:
+            xMargin = math.ceil(croppedWidth/8)
+        currentX += xMargin
+    
+    currentY = 0
+    for i in range(13):
+        if i == 4 or i == 6 or i == 8:
+            cv2.line(croppedBinaryImage, (0,currentY), (croppedWidth-1,currentY), (0,0,255))
+        else:
+            cv2.line(croppedBinaryImage, (0,currentY), (croppedWidth-1,currentY), (255,0,0))
+        if random.random() < 0.5:
+            yMargin = math.floor(croppedHeight/12)
+        else:
+            yMargin = math.ceil(croppedHeight/12)
+        currentY += yMargin        
+        
+#         cv2.line(croppedBinaryImage, (croppedWidth-1,0), (croppedWidth-1,croppedHeight-1), (255,0,0))
+    
+    cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
+    
+    
 
 if __name__ == "__main__":
     origFileNamesWithoutExt = ["images/aquila",
@@ -43,10 +59,13 @@ if __name__ == "__main__":
                                "images/cassiopeia",
                                "images/cygnus",
                                "images/lyra",
-                               "images/orion"]
-    maxHeight = extractMaxConstellationHeight(origFileNamesWithoutExt)
-    print("Max height", maxHeight)
+                               "images/orion",
+                               "images/canis-minor"]
+    for fileName in origFileNamesWithoutExt:
+        cropImage(fileName)
     
+
+
 
 
 

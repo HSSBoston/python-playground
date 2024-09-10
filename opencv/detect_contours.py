@@ -10,7 +10,7 @@ def detectContours(origFileNameWithoutExt):
     grayscaleImage, binaryImage = binalizeImage(origFileNameWithoutExt)
 
     contours, hierarchy = cv2.findContours(binaryImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    cv2.drawContours(image, contours, -1, (255, 0, 0), 3)
+    cv2.drawContours(image, contours, -1, (255, 0, 0), 3, cv2.LINE_AA)
         # -1: Draw all contours
         # (255, 0, 0): Coutour color (BGR)
         # 3: Thickness of a contour line
