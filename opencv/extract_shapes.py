@@ -9,6 +9,8 @@ def extractShapes(origFileNameWithoutExt):
 
     contours, grayscaleImage, binaryImage = detectContours(origFileNameWithoutExt)
     
+    shapes = []
+    
     for i, contour in enumerate(contours):
         arclen = cv2.arcLength(contour, True)
         approxPoly = cv2.approxPolyDP(contour, 0.015 * arclen, True)
@@ -18,6 +20,7 @@ def extractShapes(origFileNameWithoutExt):
             (x,y), radius = cv2.minEnclosingCircle(approxPoly)
             center = (int(x), int(y))
             radius = int(radius)
+            shapes.append([center, radius])
             if radius >= 8:
                 print("big circle", center, radius)
             else:
@@ -25,8 +28,11 @@ def extractShapes(origFileNameWithoutExt):
         else:
             x, y, width, height = cv2.boundingRect(approxPoly)
             center = (int(x+(width/2)), int(y+(height/2)))
-            print("rectangle", center)
-        
+            halfSideLength = (width + height)/4
+            shapes.append([center, halfSideLength])
+            print("rectangle", center, halfSideLength)
+
+    return shapes, grayscaleImage, binaryImage
 
 if __name__ == "__main__":
 #     origFileNameWithoutExt = "images/aquila"
