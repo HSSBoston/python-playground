@@ -11,15 +11,21 @@ def extractShapes(origFileNameWithoutExt):
     
     for i, contour in enumerate(contours):
         arclen = cv2.arcLength(contour, True)
-        approx = cv2.approxPolyDP(contour, 0.01 * arclen, True)
+        approx = cv2.approxPolyDP(contour, 0.015 * arclen, True)
         print(len(approx))
+#         print(approx)
 
 
 
 
 if __name__ == "__main__":
-    # origFileNameWithoutExt = "images/big-dipper"
-    origFileNameWithoutExt = "images/red"
+#     origFileNameWithoutExt = "images/aquila"
+#     origFileNameWithoutExt = "images/big-dipper"
+#     origFileNameWithoutExt = "images/canis-major"
+#     origFileNameWithoutExt = "images/cassiopeia"
+#     origFileNameWithoutExt = "images/cygnus"
+#     origFileNameWithoutExt = "images/lyra"
+    origFileNameWithoutExt = "images/orion"
     
     extractShapes(origFileNameWithoutExt)
     

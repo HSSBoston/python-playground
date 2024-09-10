@@ -22,7 +22,8 @@ def detectContours(origFileNameWithoutExt):
 
 if __name__ == "__main__":
     # origFileNameWithoutExt = "images/big-dipper"
-    origFileNameWithoutExt = "images/red"
+#     origFileNameWithoutExt = "images/red"
+    origFileNameWithoutExt = "images/orion"
     
     detectContours(origFileNameWithoutExt)
 
