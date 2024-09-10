@@ -3,7 +3,7 @@ from extract_stars import extractStars
 from star import Star
 from extract_constellation_size import extractConstellationSize
 
-def cropImage(origFileNameWithoutExt):
+def extractScore(origFileNameWithoutExt):
     binaryFileName = origFileNameWithoutExt + "-binary" + ".jpg"
     binaryImage = cv2.imread(binaryFileName)
     height = binaryImage.shape[0]
@@ -44,17 +44,9 @@ def cropImage(origFileNameWithoutExt):
             yMargin = math.floor(croppedHeight/12)
         else:
             yMargin = math.ceil(croppedHeight/12)
-        currentY += yMargin
-    
-    for star in stars:
-        x, y = star.center
-        adjustedX = x - leftMost
-        adjustedY = y - cropTop
-        croppedBinaryImage[adjustedY, adjustedX] = [0, 255, 0]
-        croppedBinaryImage[adjustedY, adjustedX-1] = [0, 255, 0]
-        croppedBinaryImage[adjustedY, adjustedX+1] = [0, 255, 0]
-        croppedBinaryImage[adjustedY-1, adjustedX] = [0, 255, 0]
-        croppedBinaryImage[adjustedY+1, adjustedX] = [0, 255, 0]
+        currentY += yMargin        
+        
+#         cv2.line(croppedBinaryImage, (croppedWidth-1,0), (croppedWidth-1,croppedHeight-1), (255,0,0))
     
     cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
     
@@ -72,6 +64,7 @@ if __name__ == "__main__":
     for fileName in origFileNamesWithoutExt:
         cropImage(fileName)
     
+
 
 
 
