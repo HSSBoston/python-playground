@@ -13,7 +13,7 @@ def extractScore(origFileNameWithoutExt, bigConstellation):
         hPosition, hPositionNote = determineHorizontalPosition(star, bigConstellation,
                                                                cropTop, cropBottom, leftMost, rightMost)
         midiNoteNumber = determineVerticalPosition(star, cropTop, cropBottom, leftMost, rightMost)
-        print(midiNoteNumber, hPosition, hPositionNote, star.shape)
+        print(midiNoteNumber, hPosition, hPositionNote, star.shape )
 
 def determineHorizontalPosition(star, bigConstellation, cropTop, cropBottom, leftMost, rightMost):
     if bigConstellation:
