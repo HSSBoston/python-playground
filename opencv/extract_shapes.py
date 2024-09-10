@@ -11,12 +11,22 @@ def extractShapes(origFileNameWithoutExt):
     
     for i, contour in enumerate(contours):
         arclen = cv2.arcLength(contour, True)
-        approx = cv2.approxPolyDP(contour, 0.015 * arclen, True)
-        print(len(approx))
-#         print(approx)
-
-
-
+        approxPoly = cv2.approxPolyDP(contour, 0.015 * arclen, True)
+#         print(approxPoly)
+        
+        if len(approxPoly) >= 8:
+            (x,y), radius = cv2.minEnclosingCircle(approxPoly)
+            center = (int(x), int(y))
+            radius = int(radius)
+            if radius >= 8:
+                print("big circle", center, radius)
+            else:
+                print("small circle", center, radius)
+        else:
+            x, y, width, height = cv2.boundingRect(approxPoly)
+            center = (int(x+(width/2)), int(y+(height/2)))
+            print("rectangle", center)
+        
 
 if __name__ == "__main__":
 #     origFileNameWithoutExt = "images/aquila"
@@ -27,5 +37,6 @@ if __name__ == "__main__":
 #     origFileNameWithoutExt = "images/lyra"
     origFileNameWithoutExt = "images/orion"
     
+    print(origFileNameWithoutExt)
     extractShapes(origFileNameWithoutExt)
     

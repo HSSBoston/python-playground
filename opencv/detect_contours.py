@@ -15,14 +15,18 @@ def detectContours(origFileNameWithoutExt):
         # (255, 0, 0): Coutour color (BGR)
         # 3: Thickness of a contour line
     cv2.imwrite(origFileNameWithoutExt + "-contours.jpg", image)
-    print("Number of detected contours:", len(contours))
+    print("Number of detected contours (stars):", len(contours))
     
     return (contours, grayscaleImage, binaryImage)
 
 
 if __name__ == "__main__":
-    # origFileNameWithoutExt = "images/big-dipper"
-#     origFileNameWithoutExt = "images/red"
+#     origFileNameWithoutExt = "images/aquila"
+#     origFileNameWithoutExt = "images/big-dipper"
+#     origFileNameWithoutExt = "images/canis-major"
+#     origFileNameWithoutExt = "images/cassiopeia"
+#     origFileNameWithoutExt = "images/cygnus"
+#     origFileNameWithoutExt = "images/lyra"
     origFileNameWithoutExt = "images/orion"
     
     detectContours(origFileNameWithoutExt)

@@ -20,8 +20,12 @@ def binalizeImage(origFileNameWithoutExt):
     return (grayscaleImage, binaryImage)
 
 if __name__ == "__main__":
-    # origFileNameWithoutExt = "images/big-dipper"
-#     origFileNameWithoutExt = "images/red"
+#     origFileNameWithoutExt = "images/aquila"
+#     origFileNameWithoutExt = "images/big-dipper"
+#     origFileNameWithoutExt = "images/canis-major"
+#     origFileNameWithoutExt = "images/cassiopeia"
+#     origFileNameWithoutExt = "images/cygnus"
+#     origFileNameWithoutExt = "images/lyra"
     origFileNameWithoutExt = "images/orion"
     
     binalizeImage(origFileNameWithoutExt)
