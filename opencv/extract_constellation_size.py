@@ -1,11 +1,8 @@
-import cv2, numpy as np, matplotlib.pyplot as plt
+import cv2, numpy as np
 from extract_stars import extractStars
 from star import Star
 
 def extractConstellationSize(origFileNameWithoutExt):
-    origFileName = origFileNameWithoutExt + ".jpg"
-    image = cv2.imread(origFileName)
-
     stars, grayscaleImage, binaryImage = extractStars(origFileNameWithoutExt)
     
     leftMost = 1000
@@ -13,14 +10,10 @@ def extractConstellationSize(origFileNameWithoutExt):
     topMost = 1000
     bottomMost = 0
 
-#     for star in stars:
-#         print(star.shape, star.center,
-#               star.xLeft, star.xRight, star.yTop, star.yBottom)
-
     for star in stars:
-        if star.xLeft < leftMost: leftMost = star.xLeft
-        if star.xRight > rightMost: rightMost = star.xRight
-        if star.yTop < topMost: topMost = star.yTop
+        if star.xLeft < leftMost:    leftMost = star.xLeft
+        if star.xRight > rightMost:  rightMost = star.xRight
+        if star.yTop < topMost:      topMost = star.yTop
         if star.yBottom > bottomMost: bottomMost = star.yBottom
     
 #     print(leftMost, rightMost, topMost, bottomMost)
@@ -31,8 +24,9 @@ def extractMaxConstellationHeight(origFileNamesWithoutExt):
     for fileName in origFileNamesWithoutExt:
         stars, leftMost, rightMost, topMost, bottomMost = extractConstellationSize(fileName)
         height = bottomMost - topMost
-        print(leftMost, rightMost, topMost, bottomMost)
-        print("Height", height)
+        print(fileName)
+        print("\t", leftMost, rightMost, topMost, bottomMost)
+        print("\t", "Height", height)
         if height > maxHeight:
             maxHeight = height
     return maxHeight

@@ -1,4 +1,4 @@
-import cv2, random, math, numpy as np, matplotlib.pyplot as plt
+import cv2, random, math, numpy as np
 from extract_stars import extractStars
 from star import Star
 from extract_constellation_size import extractConstellationSize
@@ -7,25 +7,23 @@ def cropImage(origFileNameWithoutExt, bigConstellation):
     binaryFileName = origFileNameWithoutExt + "-binary" + ".jpg"
     binaryImage = cv2.imread(binaryFileName)
     height = binaryImage.shape[0]
-    width = binaryImage.shape[1]
+    width  = binaryImage.shape[1]
 #     print(height,width)
     maxConstellationHeight = 322
     
     stars, leftMost, rightMost, topMost, bottomMost = extractConstellationSize(origFileNameWithoutExt)
     verticalMiddle = int((bottomMost + topMost)/2)
-    cropTop = int(verticalMiddle-(maxConstellationHeight/2))
+    cropTop    = int(verticalMiddle-(maxConstellationHeight/2))
     cropBottom = int(verticalMiddle+(maxConstellationHeight/2))
     
     croppedBinaryImage = binaryImage[cropTop:cropBottom, leftMost:rightMost]
-#     cv2.imwrite(origFileNameWithoutExt + "-binary-cropped.jpg", croppedBinaryImage)
     
     croppedHeight = croppedBinaryImage.shape[0]
-    croppedWidth = croppedBinaryImage.shape[1]
+    croppedWidth  = croppedBinaryImage.shape[1]
     
-    if bigConstellation:
-        divisionCountX = 8
-    else: 
-        divisionCountX = 4
+    if bigConstellation: divisionCountX = 8
+    else:                divisionCountX = 4
+    
     currentX = 0
     for i in range(divisionCountX):
         if i == divisionCountX/2:
