@@ -3,9 +3,7 @@ from extract_stars import extractStars
 from star import Star
 from crop_image import cropImage
 
-def extractScore(origFileNameWithoutExt, bigConstellation):
-    constellationName = origFileNameWithoutExt.split("/")[1]
-    
+def createScore(origFileNameWithoutExt, bigConstellation):
     stars, cropTop, cropBottom, leftMost, rightMost = cropImage(origFileNameWithoutExt, bigConstellation)
     sortedStars = sorted(stars, key=lambda x: x.center[0])
 
@@ -16,11 +14,8 @@ def extractScore(origFileNameWithoutExt, bigConstellation):
         print(midiNoteNumber, hPosition, hPositionNote, star.shape )
 
 def determineHorizontalPosition(star, bigConstellation, cropTop, cropBottom, leftMost, rightMost):
-    if bigConstellation:
-        divisionCountX = 8
-    else:
-        divisionCountY = 4
-    
+    if bigConstellation: divisionCountX = 8
+    else:                divisionCountY = 4
     starX = star.center[0]
 #     print(starX)
     
@@ -45,17 +40,15 @@ def determineHorizontalPosition(star, bigConstellation, cropTop, cropBottom, lef
 
 def determineVerticalPosition(star, cropTop, cropBottom, leftMost, rightMost):
     starY = star.center[1]
-    
-    currentY = cropBottom
+
     yInterval = (cropBottom - cropTop)/24
+    currentY = cropBottom
     for i in range(24):
         if starY > int(currentY - yInterval/2) and starY <= int(currentY + yInterval/2):
             vPosition = i
         
-        if random.random() < 0.5:
-            yMargin = math.floor(yInterval)
-        else:
-            yMargin = math.ceil(yInterval)
+        if random.random() < 0.5: yMargin = math.floor(yInterval)
+        else:                     yMargin = math.ceil(yInterval)
         currentY -= yMargin
     
     midiNoteNumber = vPosition+54
@@ -72,7 +65,7 @@ if __name__ == "__main__":
 #                                "images/cygnus",
 #                                "images/orion"]
 
-    extractScore("images/cygnus", bigConstellation=True)
+    createScore("images/cygnus", bigConstellation=True)
 
 
 
