@@ -8,13 +8,13 @@ def detectContours(origFileNameWithoutExt):
     grayscaleImage, binaryImage = binalizeImage(origFileNameWithoutExt)
 
     contours, hierarchy = cv2.findContours(binaryImage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # Edge and contour detection for stars
     cv2.drawContours(image, contours, -1, (255, 0, 0), 3, cv2.LINE_AA)
+        # Draw contours on the oroginal color image
         # -1: Draw all contours
         # (255, 0, 0): Coutour color (BGR)
         # 3: Thickness of a contour line
     cv2.imwrite(origFileNameWithoutExt + "-contours.jpg", image)
-    print("Number of detected contours (stars):", len(contours))
-    
     return (contours, grayscaleImage, binaryImage)
 
 
@@ -37,4 +37,7 @@ if __name__ == "__main__":
                                "images/orion",
                                "images/canis-minor"]
     for fileName in origFileNamesWithoutExt:
-        detectContours(fileName)
+        contours ,_ ,_ = detectContours(fileName)
+        print(fileName)
+        print("\t# of contours:", len(contours))
+        
