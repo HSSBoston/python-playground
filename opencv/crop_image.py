@@ -52,7 +52,7 @@ def cropImage(origFileNameWithoutExt, bigConstellation):
         x, y = star.center
         adjustedX = x - leftMost
         adjustedY = y - cropTop
-        croppedBinaryImage[adjustedY, adjustedX] = [0, 255, 0]
+        croppedBinaryImage[adjustedY, adjustedX]   = [0, 255, 0]
         croppedBinaryImage[adjustedY, adjustedX-1] = [0, 255, 0]
         croppedBinaryImage[adjustedY, adjustedX+1] = [0, 255, 0]
         croppedBinaryImage[adjustedY-1, adjustedX] = [0, 255, 0]

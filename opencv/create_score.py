@@ -1,4 +1,4 @@
-import cv2, random, math, numpy as np, matplotlib.pyplot as plt
+import cv2, random, math, numpy as np
 from extract_stars import extractStars
 from star import Star
 from crop_image import cropImage
@@ -65,16 +65,12 @@ if __name__ == "__main__":
 #     origFileNamesWithoutExt = ["images/canis-major",
 #                                "images/lyra",
 #                                "images/canis-minor"]
-#     for fileName in origFileNamesWithoutExt:
-#         cropImage(fileName, bigConstellation=False)
 # 
 #     origFileNamesWithoutExt = ["images/aquila",
 #                                "images/big-dipper",
 #                                "images/cassiopeia",
 #                                "images/cygnus",
 #                                "images/orion"]
-#     for fileName in origFileNamesWithoutExt:
-#         cropImage(fileName, bigConstellation=True)
 
     extractScore("images/cygnus", bigConstellation=True)
 
