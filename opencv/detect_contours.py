@@ -1,6 +1,4 @@
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
+import cv2, numpy as np
 from binalize import binalizeImage
 
 def detectContours(origFileNameWithoutExt):
@@ -27,7 +25,16 @@ if __name__ == "__main__":
 #     origFileNameWithoutExt = "images/cassiopeia"
 #     origFileNameWithoutExt = "images/cygnus"
 #     origFileNameWithoutExt = "images/lyra"
-    origFileNameWithoutExt = "images/orion"
-    
-    detectContours(origFileNameWithoutExt)
+#     origFileNameWithoutExt = "images/orion"
+#     detectContours(origFileNameWithoutExt)
 
+    origFileNamesWithoutExt = ["images/aquila",
+                               "images/big-dipper",
+                               "images/canis-major",
+                               "images/cassiopeia",
+                               "images/cygnus",
+                               "images/lyra",
+                               "images/orion",
+                               "images/canis-minor"]
+    for fileName in origFileNamesWithoutExt:
+        detectContours(fileName)

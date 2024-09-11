@@ -1,7 +1,4 @@
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
-
+import cv2, numpy as np
 
 def binalizeImage(origFileNameWithoutExt):
     origFileName = origFileNameWithoutExt + ".jpg"
