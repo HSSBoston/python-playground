@@ -1,11 +1,9 @@
 import numpy as np
-from notes import *
 from mlib.wave_file import wave_write_16bit_mono
 from mlib.musical_instruments import acoustic_piano, violin, cello
 
 masterVolume = 0.9
 samplingFreq = 44100
-initOnset = 0.5
 
 def synthesize(midiData, instrument, outputFileName):
     score = np.array(midiData)
