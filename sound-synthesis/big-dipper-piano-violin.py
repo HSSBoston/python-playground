@@ -30,3 +30,6 @@ midiData = [[1, initOnset,
 
 synthesize(midiData, "piano", "big-dipper-piano.wav")
 synthesize(midiData, "violin", "big-dipper-violin.wav")
+
+# synthesize(midiData, "trumpet", "big-dipper-trumpet.wav")
+

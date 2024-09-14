@@ -1,7 +1,7 @@
 import numpy as np
 from notes import *
 from mlib.wave_file import wave_write_16bit_mono
-from mlib.musical_instruments import acoustic_piano, violin, cello
+from mlib.musical_instruments import acoustic_piano, violin, cello, trumpet
 
 masterVolume = 0.9
 samplingFreq = 44100
@@ -40,6 +40,8 @@ def synth(score, noteCount, instrument, outputFileName):
                 samples = acoustic_piano(samplingFreq, noteNumber, velocity, gate)
             elif instrument=="violin":
                 samples = violin(samplingFreq, noteNumber, velocity, gate)
+            elif instrument=="trumpet":
+                samples = trumpet(samplingFreq, noteNumber, velocity, gate)
             elif instrument=="harp":
                 samples = harp(samplingFreq, noteNumber, velocity, gate)
             elif instrument=="acoustic_guitar":
