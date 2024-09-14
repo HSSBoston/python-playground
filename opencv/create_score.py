@@ -51,7 +51,7 @@ def determineVerticalPosition(star, cropTop, cropBottom, leftMost, rightMost):
         else:                     yMargin = math.ceil(yInterval)
         currentY -= yMargin
     
-    midiNoteNumber = vPosition+54
+    midiNoteNumber = vPosition+50
     return midiNoteNumber
 
 if __name__ == "__main__":
