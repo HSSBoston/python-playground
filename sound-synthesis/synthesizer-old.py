@@ -68,7 +68,7 @@ def synth(score, noteCount, instrument, outputFileName):
         masterSamples[n] = masterSamples[n] * n/(samplingFreq * 0.01)
         
     masterSamples = masterSamples/np.max(np.abs(masterSamples))
-    masterSamples = masterSamples * velocity/127
+    masterSamples = masterSamples * masterVolume
     
     outputFileName = "wav/" + outputFileName
     wave_write_16bit_mono(samplingFreq, masterSamples, outputFileName)
