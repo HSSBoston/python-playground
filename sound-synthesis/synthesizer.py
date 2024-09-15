@@ -80,7 +80,7 @@ def synth(score, noteCount, instrument, outputFileName):
     print("\tSaved:", outputFileName)
     
     _, samples = wave_read_16bit_mono(outputFileName)
-    reverbTime = 2
+    reverbTime = 1
     reverbLevel = 0.1
     samples = reverb(samplingFreq, reverbTime, reverbLevel, samples)
     wave_write_16bit_mono(samplingFreq, samples.copy(),
