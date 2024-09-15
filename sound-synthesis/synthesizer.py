@@ -25,9 +25,11 @@ def synth(score, noteCount, instrument, outputFileName):
 
     masterSamplesCount = int(samplingFreq * masterDuration)
     masterSamples = np.zeros(masterSamplesCount)
+    
+    initOnSet = score[0, 1]
 
     for i in range(score.shape[0]):
-            print("\tTrack #", int(score[i, 0]), " instrument, Note #", i%noteCount)
+            print("\tTrack #", int(score[i, 0]), instrument, "Note #", i%noteCount)
             onset = score[i, 1]
     #         print(onset)
             noteNumber = int(score[i, 2])
@@ -64,11 +66,13 @@ def synth(score, noteCount, instrument, outputFileName):
                 masterSamples[offset -1 + n] += samples[n]
     
     # Fade-in effect
-    for n in range(int(samplingFreq * 0.01)):
+    for n in range(int(samplingFreq * initOnSet),
+                   int(samplingFreq * (initOnSet + 0.01) )):
         masterSamples[n] = masterSamples[n] * n/(samplingFreq * 0.01)
         
-    masterSamples = masterSamples/np.max(np.abs(masterSamples))
-    masterSamples = masterSamples * velocity/127
+#     masterSamples = masterSamples/np.max(np.abs(masterSamples))
+#     masterSamples = masterSamples * masterVolume
+##    masterSamples = masterSamples * velocity/127
     
     outputFileName = "wav/" + outputFileName
     wave_write_16bit_mono(samplingFreq, masterSamples, outputFileName)

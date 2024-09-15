@@ -7,19 +7,23 @@ def mix(trackFileNames, outputFileName):
 
     fs = 44100
     length_of_s_master = int(fs * 12)
-    # track = np.zeros((length_of_s_master, number_of_track))
-    # s_master = np.zeros((length_of_s_master, 1))
+#     track = np.zeros((length_of_s_master, number_of_track))
+#     s_master = np.zeros((length_of_s_master, 2))
 
     fs, s= wave_read_16bit_mono(trackFileNames[0])
-    track = np.zeros((len(s), number_of_track))
-    s_master = np.zeros((len(s), number_of_track))
-    track[:, 0] = s
-#     print(len(s))
+    track = np.zeros((len(s)+1, number_of_track))
+    s_master = np.zeros((len(s)+1, number_of_track))
+#     track[:, 0] = s
+    print("Track", len(s)+1)
     
-    for i in range(1, number_of_track):
+    for i in range(0, number_of_track):
         fs, s = wave_read_16bit_mono(trackFileNames[i])
-        track[:, i] = s
-#         print(len(s))
+        print("Track", i, len(s))
+#         track[:, i] = s
+        for n in range(len(s)):
+            track[n, i] += s[n]
+
+
 
     v = np.array([1, 1, 1, 1])
     p = np.array([0.5, 0.5, 1, 0])
