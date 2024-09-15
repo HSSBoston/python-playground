@@ -1,7 +1,8 @@
 import numpy as np
 from notes import *
-from mlib.wave_file import wave_write_16bit_mono
+from mlib.wave_file import wave_write_16bit_mono, wave_read_16bit_mono
 from mlib.musical_instruments import acoustic_piano, violin, cello, trumpet
+from sound_effects import reverb
 
 masterVolume = 0.9
 samplingFreq = 44100
@@ -66,9 +67,9 @@ def synth(score, noteCount, instrument, outputFileName):
                 masterSamples[offset -1 + n] += samples[n]
     
     # Fade-in effect
-    for n in range(int(samplingFreq * initOnSet),
-                   int(samplingFreq * (initOnSet + 0.01) )):
-        masterSamples[n] = masterSamples[n] * n/(samplingFreq * 0.01)
+#     for n in range(int(samplingFreq * initOnSet)-1,
+#                    int(samplingFreq * (initOnSet + 0.01) )):
+#         masterSamples[n] = masterSamples[n] * n/(samplingFreq * 0.01)
         
 #     masterSamples = masterSamples/np.max(np.abs(masterSamples))
 #     masterSamples = masterSamples * masterVolume
@@ -76,6 +77,14 @@ def synth(score, noteCount, instrument, outputFileName):
     
     outputFileName = "wav/" + outputFileName
     wave_write_16bit_mono(samplingFreq, masterSamples, outputFileName)
+    print("\tSaved:", outputFileName)
+    
+    _, samples = wave_read_16bit_mono(outputFileName)
+    reverbTime = 2
+    reverbLevel = 0.1
+    samples = reverb(samplingFreq, reverbTime, reverbLevel, samples)
+    wave_write_16bit_mono(samplingFreq, samples.copy(),
+                          outputFileName.split(".")[0] + "-reverb.wav")
     print("\tSaved:", outputFileName)
 
 if __name__ == "__main__":
