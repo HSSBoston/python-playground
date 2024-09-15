@@ -23,8 +23,6 @@ def mix(trackFileNames, outputFileName):
         for n in range(len(s)):
             track[n, i] += s[n]
 
-
-
     v = np.array([1, 1, 1, 1])
     p = np.array([0.5, 0.5, 1, 0])
 
