@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_24b6f3258e2c0bf3715749d1787fe88c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_24b6f3258e2c0bf3715749d1787fe88c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_24b6f3258e2c0bf3715749d1787fe88c = L.map(
+                "map_24b6f3258e2c0bf3715749d1787fe88c",
+                {
+                    center: [42.365792221496, -71.00966724673485],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 11,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_704bb7aa59855b2a150da948caffca50 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_704bb7aa59855b2a150da948caffca50.addTo(map_24b6f3258e2c0bf3715749d1787fe88c);
+        
+    
+            var marker_0220042209254da08ddd2b9c65c86d1a = L.marker(
+                [42.365792221496, -71.00966724673485],
+                {}
+            ).addTo(map_24b6f3258e2c0bf3715749d1787fe88c);
+        
+    
+            var icon_5dc48117010d9ca369661025ef00baa5 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "cloud", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_0220042209254da08ddd2b9c65c86d1a.setIcon(icon_5dc48117010d9ca369661025ef00baa5);
+        
+    
+        var popup_38e1623fc00947c2cf00694e9f402d1f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1dbc2e163789f385ac3b086a2dfe6876 = $(`<div id="html_1dbc2e163789f385ac3b086a2dfe6876" style="width: 100.0%; height: 100.0%;"><b><i>Logan Airport</i><b></div>`)[0];
+                popup_38e1623fc00947c2cf00694e9f402d1f.setContent(html_1dbc2e163789f385ac3b086a2dfe6876);
+            
+        
+
+        marker_0220042209254da08ddd2b9c65c86d1a.bindPopup(popup_38e1623fc00947c2cf00694e9f402d1f)
+        ;
+
+        
+    
+    
+            marker_0220042209254da08ddd2b9c65c86d1a.bindTooltip(
+                `<div>
+                     Click me!
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_9991ab17c17205ca6ef82d2be705284e = L.marker(
+                [42.46495591784104, -71.2869683230597],
+                {}
+            ).addTo(map_24b6f3258e2c0bf3715749d1787fe88c);
+        
+    
+            var icon_ba9c6cf3f56d34cd12d5950d6caa64f9 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "plane", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_9991ab17c17205ca6ef82d2be705284e.setIcon(icon_ba9c6cf3f56d34cd12d5950d6caa64f9);
+        
+    
+        var popup_080752a466230b063d05d7805adae42c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_52e6fafaf00eb80987f1a150739821fc = $(`<div id="html_52e6fafaf00eb80987f1a150739821fc" style="width: 100.0%; height: 100.0%;"><b><i>Hanscom Airport</i><b></div>`)[0];
+                popup_080752a466230b063d05d7805adae42c.setContent(html_52e6fafaf00eb80987f1a150739821fc);
+            
+        
+
+        marker_9991ab17c17205ca6ef82d2be705284e.bindPopup(popup_080752a466230b063d05d7805adae42c)
+        ;
+
+        
+    
+    
+            marker_9991ab17c17205ca6ef82d2be705284e.bindTooltip(
+                `<div>
+                     Hi!
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7d1c13596700f273f68d4605cbc136c2 = L.circleMarker(
+                [42.36092708954118, -71.06230482413301],
+                {"bubblingMouseEvents": true, "color": "#ff0000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0000ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 40, "stroke": true, "weight": 3}
+            ).addTo(map_24b6f3258e2c0bf3715749d1787fe88c);
+        
+    
+                var lat_lng_popup_7b3f9e848a6b1db3b3bebfbf8b4d0bfa = L.popup();
+                function latLngPop(e) {
+                    lat_lng_popup_7b3f9e848a6b1db3b3bebfbf8b4d0bfa
+                        .setLatLng(e.latlng)
+                        .setContent("Latitude: " + e.latlng.lat.toFixed(4) +
+                                    "<br>Longitude: " + e.latlng.lng.toFixed(4))
+                        .openOn(map_24b6f3258e2c0bf3715749d1787fe88c);
+                    }
+                map_24b6f3258e2c0bf3715749d1787fe88c.on('click', latLngPop);
+            
+</script>
+</html>
