@@ -17,6 +17,7 @@ logan = (42.365792221496, -71.00966724673485)
 hanscom = (42.46495591784104, -71.2869683230597)
 
 bostonMap = folium.Map(location=logan, zoom_start=11)
+
 folium.Marker(
     location=logan,
     popup="<b><i>Logan Airport</i><b>",
@@ -33,9 +34,10 @@ folium.Marker(
 
 folium.CircleMarker(
     location=(42.36092708954118, -71.06230482413301),
-    radius=40,
+    radius=40, # meters
     color='#ff0000',
     fill_color='#0000ff'
+    #popup=
 ).add_to(bostonMap)
 
 bostonMap.add_child(folium.LatLngPopup())
