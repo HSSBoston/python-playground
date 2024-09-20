@@ -3,16 +3,16 @@ import folium.features
 
 geoJsonFileName = "COUNTIES_POLYM.json"
 
-logan = (42.365792221496, -71.00966724673485)
-
-bostonMap = folium.Map(location=logan, zoom_start=11)
+maCenter = (42.4072, -71.3824)
+bostonMap = folium.Map(location=maCenter, zoom_start=9)
 
 
 gJson= folium.GeoJson(
     geoJsonFileName,
     style_function=lambda feature: {
+        "color": "darkblue",
         "weight": 2,
-        "fillColor": "green"
+        "fillColor": "lightblue"
             if feature["properties"]["COUNTY"].lower() == "middlesex"
             else "transparent",
         "fillOpacity": 0.1,
