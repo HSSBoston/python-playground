@@ -1,5 +1,15 @@
-# US counties database: https://simplemaps.com/data/us-counties
+# Font choices: https://fontawesome.com/
 #
+# Boundarires of MA counties (shepefiles):
+#   https://www.mass.gov/info-details/massgis-data-counties
+#
+# Shapefiles -> GeoJson conversion: 
+#   https://mapshaper.org/
+#     mapshaper -proj wgs84 -simplify dp 20% -o COUNTIES_POLYM.json
+#   GDAL's ogr2ogr command:
+#     ogr2ogr -f GeoJSON -t_srs crs:84 COUNTIES_POLYM.geojson COUNTIES_POLYM.shp
+#    
+# US counties database: https://simplemaps.com/data/us-counties
 
 import folium
 import folium.features
@@ -31,7 +41,7 @@ maCountiesLayer = folium.GeoJson(
         "color": "darkblue",
         "weight": 2,
         "fillColor": "lightblue"
-            if feature["properties"]["COUNTY"].lower() == "middlesex"
+            if feature["properties"]["COUNTY"] == "Middlesex"
             else "transparent",
         "fillOpacity": 0.1,
     },
