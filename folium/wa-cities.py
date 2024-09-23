@@ -35,7 +35,8 @@ cluster1 = ["Issaquah, WA", "North Bend, WA"]
 cluster2 = ["Easton, WA", "Cle Elum, WA"]
 cluster3 = ["Quincy, WA", "George, WA", "Ritzville, WA", "Ellensburg, WA", "Sprague, WA",
             "Cheney, WA", "Spokane, WA", "Liberty Lake, WA"]
-clusters = [cluster1, cluster2, cluster3, cluster4]
+clusters = [cluster0, cluster1, cluster2, cluster3]
+iconColors = ["red", "blue", "lightgray", "green"]
 
 waMap = folium.Map(location = waCenter, zoom_start = 8, tiles="TopPlusOpen.Color")
 
@@ -54,11 +55,16 @@ waCountiesLayer = folium.GeoJson(
 
 for clusterId, cluster in enumerate(clusters):
     for city in cluster:
+        cityName = city.split(",")[0]
         folium.Marker(
             cityStateToLatLon(city),
             popup = folium.Popup(
-                f"<b>{city.split(",")[0]}</b><p>Cluster ID: {clusterId}</p>",
+                f"<b>{cityName}</b><p>Cluster ID: {clusterId}</p>",
                 ),
+            icon=folium.Icon(
+                prefix = "fa",
+                icon = str(clusterId), 
+                color = iconColors[clusterId]),
         ).add_to(waMap)
 
 waMap.save("wa-counties.html")
