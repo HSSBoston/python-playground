@@ -12,7 +12,7 @@
 # Font choices: https://fontawesome.com/
 #
 # Boundarires of WA counties (shepefiles/GeoJson):
-#   https://geo.wa.gov/datasets/wadnr::wa-county-boundaries/about
+#   https://geo.wa.gov/datasets/wadnr::wa-county-boundaries/
 #
 # Shapefiles -> GeoJson (and GeoJson -> GeoJson) conversion: 
 #   https://mapshaper.org/
