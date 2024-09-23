@@ -23,6 +23,10 @@
 # Style choices in folium follows CSS style properties.
 #   https://www.w3schools.com/cssref/index.php
 #   Font name choices (predefined names): https://www.w3.org/wiki/CSS/Properties/color/keywords
+#
+# Icon color choices: 'darkgreen', 'white', 'cadetblue', 'darkred', 'darkblue', 'orange',
+#   'purple', 'green', 'lightblue', 'lightgray', 'red', 'black', 'blue', 'gray', 'darkpurple',
+#   'lightred', 'lightgreen', 'pink', 'beige'
 
 import folium
 from maputils import cityStateToLatLon
@@ -36,12 +40,13 @@ cluster2 = ["Easton, WA", "Cle Elum, WA"]
 cluster3 = ["Quincy, WA", "George, WA", "Ritzville, WA", "Ellensburg, WA", "Sprague, WA",
             "Cheney, WA", "Spokane, WA", "Liberty Lake, WA"]
 clusters = [cluster0, cluster1, cluster2, cluster3]
-iconColors = ["red", "blue", "lightgray", "green"]
+iconColors = ["red", "blue", "darkpurple", "pink"]
 
 waMap = folium.Map(location = waCenter, zoom_start = 8, tiles="TopPlusOpen.Color")
 
 waCountiesLayer = folium.GeoJson(
     geoJsonFileName,
+    name = "County boundaries",
     style_function=lambda feature: {
         "color": "darkblue",
         "weight": 2,
@@ -54,19 +59,20 @@ waCountiesLayer = folium.GeoJson(
 ).add_to(waMap)
 
 for clusterId, cluster in enumerate(clusters):
+    featureGroup = folium.FeatureGroup("Cluster " + str(clusterId)).add_to(waMap)
     for city in cluster:
         cityName = city.split(",")[0]
         folium.Marker(
             cityStateToLatLon(city),
             popup = folium.Popup(
-                f"<b>{cityName}</b><p>Cluster ID: {clusterId}</p>",
-                ),
+                f"<b>{cityName}</b><p>Cluster ID: {clusterId}</p>"),
             icon=folium.Icon(
                 prefix = "fa",
                 icon = str(clusterId), 
                 color = iconColors[clusterId]),
-        ).add_to(waMap)
+        ).add_to(featureGroup)
 
+folium.LayerControl().add_to(waMap)
 waMap.save("wa-counties.html")
 
 
