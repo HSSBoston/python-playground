@@ -12,9 +12,9 @@ TS                    MERRA-2 Earth Skin Temperature (C)
 TS_MAX                MERRA-2 Earth Skin Temperature Maximum (C) 
 PRECTOTCORR           MERRA-2 Precipitation Corrected (mm/day) 
 RH2M                  MERRA-2 Relative Humidity at 2 Meters (%) 
-GWETPROF              MERRA-2 Profile Soil Moisture (1) 
+GWETTOP               MERRA-2 Surface Soil Wetness (1) 
 -END HEADER-
-YEAR,DOY,ALLSKY_SFC_SW_DWN,T2M,T2M_MAX,TS,TS_MAX,PRECTOTCORR,RH2M,GWETPROF
+YEAR,DOY,ALLSKY_SFC_SW_DWN,T2M,T2M_MAX,TS,TS_MAX,PRECTOTCORR,RH2M,GWETTOP
 2024,253,20.67,16.26,21.59,16.47,21.44,0.15,75.12,-999.0
 2024,254,20.85,17.16,22.76,17.15,22.43,0.06,75.19,-999.0
 2024,255,20.67,16.72,23.91,16.73,23.48,0.0,67.25,-999.0

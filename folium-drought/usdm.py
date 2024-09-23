@@ -22,10 +22,6 @@ def cityStateToCountyFips(cityName, stateCode):
                 if row[2] == countyFullName and row[4] == stateCode:
                     return row[3]
 
-
-return (location.latitude, location.longitude)
-
-
 # Takes "cityName, stateCode" as cityState (e.g. "Boston, MA") and
 #   return (cityName, stateName); e.g. ("Boston", "MA")
 #

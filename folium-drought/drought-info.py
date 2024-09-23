@@ -5,7 +5,8 @@
 # TS_MAX            MERRA-2 Earth Skin Temperature Maximum (C) 
 # PRECTOTCORR       MERRA-2 Precipitation Corrected (mm/day) 
 # RH2M              MERRA-2 Relative Humidity at 2 Meters (%)
-# GWETPROF          Profile Soil Moisture (0 to 1)
+# GWETROOT          Root Zone Soil Wetness
+# GWETTOP           Surface Soil Wetness, 
 # See https://power.larc.nasa.gov/#resources for all available data.
 
 from datetime import datetime, timedelta
@@ -19,7 +20,7 @@ city = "Boston"
 stateCode = "MA"
 
 dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
-                  "GWETPROF"]
+                  "GWETTOP"]
 
 def getPastDate(daysAgo):
     doubleDigitMonth = doubleDigitDay = "00"
