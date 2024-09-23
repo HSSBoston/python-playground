@@ -19,6 +19,7 @@ def cityStateToLatLon(cityState):
 
 if __name__ == "__main__":
     print( cityStateToLatLon("Boston, MA") )
+    
     waCities = ["Seattle, WA", "Bellevue, WA", "Renton, WA", "Issaquah, WA", "North Bend, WA",
                 "Easton, WA", "Cle Elum, WA", "Quincy, WA", "George, WA", "Ritzville, WA",
                 "Ellensburg, WA", "Sprague, WA", "Cheney, WA", "Spokane, WA", "Liberty Cake, WA"]
