@@ -1,3 +1,14 @@
+# Map tile choices: https://leaflet-extras.github.io/leaflet-providers/preview/
+#   USGS.USTopo
+#   OpenTopoMap
+#   TopPlusOpen.Color
+#   Stadia.StamenTerrainBackground
+#   Thunderforest.Landscape
+#   Jawg.Terrain
+#   Esri.WorldStreetMap
+#   Esri.WorldPhysical
+#   NASAGIBS.ViirsEarthAtNight2012
+#
 # Font choices: https://fontawesome.com/
 #
 # Boundarires of WA counties (shepefiles/GeoJson):
@@ -14,7 +25,7 @@ import folium
 geoJsonFileName = "counties_wa.json"
 waCenter = (47.7511, -120.7401)
 
-waMap = folium.Map(location = waCenter, zoom_start = 7, tiles="OpenTopoMap")
+waMap = folium.Map(location = waCenter, zoom_start = 8, tiles="TopPlusOpen.Color")
 
 waCountiesLayer = folium.GeoJson(
     geoJsonFileName,

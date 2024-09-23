@@ -12,7 +12,6 @@
 # US counties database: https://simplemaps.com/data/us-counties
 
 import folium
-import folium.features
 
 geoJsonFileName = "COUNTIES_POLYM.json"
 
