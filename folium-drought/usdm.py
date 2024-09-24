@@ -4,6 +4,17 @@ import requests, csv, usstates
 
 geolocator = Nominatim(user_agent="spaceapps24")
 
+def downloadUsdmDroughtSeverityGeoJson(fileName):
+    url = "https://droughtmonitor.unl.edu/data/json/" + fileName
+    response = requests.get(url)
+    if response.status_code == 200:
+        open(fileName, "wb").write(response.content)
+        print(f"Successfully downloaded and saved {fileName}.")
+        return fileName
+    else:
+        raise RuntimeError(f"Failed to download {fileName} from USDM: {response.status_code}")
+
+
 def cityStateToCountyFips(cityName, stateCode):
     queryParams = {"city" : cityName,
                    "state" : stateCode,
