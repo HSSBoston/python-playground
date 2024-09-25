@@ -12,7 +12,11 @@ folium.Marker(
     icon=folium.Icon(color="green", icon="cloud")
 ).add_to(bostonMap)
 
-popupHanscom = folium.Popup("Oooo",
+html = """
+"<p>Oooo</p><img width="60" src="alaska.png">"
+"""
+
+popupHanscom = folium.Popup(html,
                             show=True,)
 
 folium.Marker(
