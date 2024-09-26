@@ -4,7 +4,9 @@ import pytz
 pst = pytz.timezone("US/Pacific")
 dtPst = datetime.now(pst)
 print(dtPst)
+
 dtUtc = dtPst.astimezone( pytz.timezone("UTC") )
+print(dtPst)
 
 print(dtPst.utcoffset())
 
