@@ -94,20 +94,22 @@ if __name__ == "__main__":
     lat, lon = cityStateToLatLon("Boston, MA")
     print(cityState, lat, lon)
 
-    dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "PRECTOTCORR", "RH2M"]
-    fileName = downloadNasaData(lat, lon, "hourly", dataToDownload, "20231231", "20231231")
-    print("Downloaded data", dataToDownload)
-    print("Elevation", getElevation(fileName))
+#     dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "PRECTOTCORR", "RH2M"]
+#     fileName = downloadNasaData(lat, lon, "hourly", dataToDownload, "20231231", "20231231")
+#     print("Downloaded data", dataToDownload)
+#     print("Elevation", getElevation(fileName))
+
+#     dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
+#                       "GWETPROF"]
+#     fileName = downloadNasaData(lat, lon, "daily", dataToDownload, "20231231", "20231231")
+#     print("Elevation", getElevation(fileName))
+#     print("Downloaded data", dataToDownload)
+#     print("Mean", readDailyData(fileName, dataToDownload))
 
     dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
-                      "GWETPROF"]
-    fileName = downloadNasaData(lat, lon, "daily", dataToDownload, "20231231", "20231231")
-    print("Elevation", getElevation(fileName))
-    print("Downloaded data", dataToDownload)
-    print("Mean", readDailyData(fileName, dataToDownload))
-
-    fileName = downloadNasaData(lat, lon, "monthly", dataToDownload, "2022", "2022")
+                      "PRECTOTCORR_SUM", "GWETPROF"]
+    fileName = downloadNasaData(lat, lon, "monthly", dataToDownload, "1981", "2022")
     print("Elevation", getElevation(fileName))
 
-    fileName = downloadNasaData(lat, lon, "climatology", dataToDownload)
-    print("Elevation", getElevation(fileName))
+#     fileName = downloadNasaData(lat, lon, "climatology", dataToDownload)
+#     print("Elevation", getElevation(fileName))
