@@ -15,7 +15,7 @@ def cityStateToLatLon(cityState):
     else:
         raise RuntimeError(f"Failed to find (lat, lon) for {cityState} with Nominatim.")
 
-def readNasaData(csvFileName, features):
+def readDailyData(csvFileName, features):
     dataCount = 0
     featureSum = [0] * len(features)
     featureMissingCount = [0] * len(features)
@@ -50,37 +50,64 @@ def getElevation(csvFileName):
         return float(elevation)
 
 # Download data from NASA POWER and save it as a CSV file.
-# The name of an output file is formatted with startDate and endDate; e.g., nasa20240909-20240922.csv. 
+#   temporalResolution: "climatology", "monthly", "daily" or "hourly"
+#   startDate, endDate: YYYYMMDD format (e.g. "20230101") if temporalResolution=="daily" or "hourly"
+#                       YYYY format (e.g. "2023") if temporalResolution=="monthly"
+#   outputFileName: output CSV file name. When omitted, the file name is formatted with
+#     temporal resolution, startDate and endDate; e.g., nasa-monthly-20240909-20240922.csv. 
 #
-def downloadNasaData(lat, lon, paramsToDownload, startDate, endDate):
-    params = ",".join(paramsToDownload)
-    fileName = "nasa" + startDate + "-" + endDate + ".csv"
+def downloadNasaData(lat: float, lon: float, temporalResolution: str, paramsToDownload: list,
+                     startDate: str  = None, endDate: str  = None, outputfileName: str = None):
+    assert temporalResolution in ["climatology", "monthly", "daily", "hourly"], "Wrong temporal" +\
+        "resolution. It has to be 'climatology', 'monthly', 'daily' or 'hourly'."
 
-    url = "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=" + \
-            str(params) + "&community=AG&" + \
-            "longitude=" + str(lon) + "&latitude=" + str(lat) + \
-            "&start=" + str(startDate) + "&end=" + str(endDate) + "&format=CSV"
+    params = ",".join(paramsToDownload)
+
+    if temporalResolution in ["monthly", "daily", "hourly"]:
+        assert startDate != None and endDate != None, "startDate and endData must not be None when" +\
+            "temporal resolution is 'monthly', 'daily' or 'hourly'."
+        outputfileName = "nasa-" + temporalResolution + "-" + startDate + "-" + endDate + ".csv"
+        url = "https://power.larc.nasa.gov/api/temporal/" + \
+                temporalResolution + "/point?parameters=" + \
+                params + "&community=AG" + "&latitude=" + str(lat) + "&longitude=" + str(lon) + \
+                "&start=" + startDate + "&end=" + endDate + "&format=CSV"
+
+    if temporalResolution == "climatology":
+        assert startDate == None and endDate == None, "startDate and endData must be None when" +\
+            "temporal resolution is 'climatology'."
+        outputfileName = "nasa-" + temporalResolution + ".csv"
+        url = "https://power.larc.nasa.gov/api/temporal/" + \
+                temporalResolution + "/point?parameters=" + \
+                params + "&community=AG" + "&latitude=" + str(lat) + "&longitude=" + str(lon) + \
+                "&format=CSV"
+
     response = requests.get(url)
     if response.status_code == 200:
-        open(fileName, "wb").write(response.content)
-        print("Successfully downloaded data from NASA POWER. Saved it in", fileName)
+        open(outputfileName, "wb").write(response.content)
+        print("Successfully downloaded data from NASA POWER. Saved it in", outputfileName)
     else:
-        raise RuntimeError(f"Failed to download data from NASA POWER. Status code: {response.status_code}, {response.text}")
-
-    elevation = getElevation(fileName)    
-    meanFeatures = readNasaData(fileName, paramsToDownload)
-    return (elevation, meanFeatures)
+        raise RuntimeError(f"Failed to download data from NASA POWER. Status code: {response.status_code}, {response.text}")    
+    return outputfileName
 
 if __name__ == "__main__":
     cityState = "Boston, MA"
-    dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
-                      "GWETPROF"]
-    startDate = "20230101"
-    endDate   =  "20231231"
     lat, lon = cityStateToLatLon("Boston, MA")
     print(cityState, lat, lon)
 
-    elevation, dataset = downloadNasaData(lat, lon, dataToDownload, startDate, endDate)
-    print("Elevation", elevation)
-    print(dataToDownload)
-    print(dataset)
+    dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "PRECTOTCORR", "RH2M"]
+    fileName = downloadNasaData(lat, lon, "hourly", dataToDownload, "20231231", "20231231")
+    print("Downloaded data", dataToDownload)
+    print("Elevation", getElevation(fileName))
+
+    dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
+                      "GWETPROF"]
+    fileName = downloadNasaData(lat, lon, "daily", dataToDownload, "20231231", "20231231")
+    print("Elevation", getElevation(fileName))
+    print("Downloaded data", dataToDownload)
+    print("Mean", readDailyData(fileName, dataToDownload))
+
+    fileName = downloadNasaData(lat, lon, "monthly", dataToDownload, "2022", "2022")
+    print("Elevation", getElevation(fileName))
+
+    fileName = downloadNasaData(lat, lon, "climatology", dataToDownload)
+    print("Elevation", getElevation(fileName))
