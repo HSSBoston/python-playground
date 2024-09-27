@@ -1,7 +1,7 @@
 # Library to download WBGT (Web Bulb Globe Temperature) forecasts with
 # National Digital Forecast Database (NDFD).
 #
-# July 28, 2024, v0.03
+# September 28, 2024, v0.01
 #
 # NDFD is developed by Meteorological Development Laboratory (MDL) of
 # NOAA (National Oceanic and Atmospheric Administration) for
@@ -29,8 +29,8 @@ def downloadWbgt(lat, lon):
           "&lat=" + str(lat) +\
           "&lon=" + str(lon) +\
           "&product=time-series" +\
-          "&begin=" + "" +\
-          "&end=" + "" +\
+          "&begin=" + "dtNow" +\
+          "&end=" + "dtNow" +\
           "&Unit=e" +\
           "&wbgt=wbgt"
     # When "end=" is omitted in the URL, a 1-week forecast is returned. 
@@ -92,6 +92,6 @@ if __name__ == "__main__":
     lat = 42.0
     lon = -71.0
     dictToJson( downloadWbgt(lat, lon), "test.json")
-#     print( getWbgtSummary(lat, lon) )
+    print( getWbgtSummary(lat, lon) )
 
 
