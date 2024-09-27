@@ -117,7 +117,7 @@ def saveCurrentData(cityState):
 
 if __name__ == "__main__":    
 
-    estCities = ["Boston, MA", "Bedford, MA", "Franklin, MA",  "Worcester, MA", "Springfield, MA",
+    estCities1 = ["Boston, MA", "Bedford, MA", "Franklin, MA",  "Worcester, MA", "Springfield, MA",
                  "Hartford, CT", "New York, NY", "Albany, NY", "Providence, RI",
                  "Atlantic City, NJ", "Cape May, NJ", "Princeton, NJ", "Trenton, NJ",
                  "Philadelphia, PA", "Lancaster, PA", "Riverside, PA", "Pittsburgh, PA", "Oxford, PA", "York, PA",
@@ -129,8 +129,8 @@ if __name__ == "__main__":
                  "Chicago, IL", "Springfield, IL",
                  "Detroit, MI", "Lansing, MI",
                  "Minneapolis, MN", "Saint Paul, MN",
-                 "Milwaukee, WI",
-                 "Norfolk, VA", "Richmond, VA", "Reston, VA", "Winchester, VA", "Franklin, VA",
+                 "Milwaukee, WI"]
+    estCities2 = ["Norfolk, VA", "Richmond, VA", "Reston, VA", "Winchester, VA", "Franklin, VA",
                  "Gloucester, VA", "Warsaw, VA", "Blacksburg, VA",
                  "Jacksonville, NC", "Wilmington, NC", "Greenville, NC", "Raleigh, NC", "Rocky Mount, NC", "Fayetteville, NC",
                  "Lumberton, NC", "Benson, NC", "South Mills, NC", "Scranton, NC", "Washington, NC", "Charlotte, NC",
@@ -177,7 +177,7 @@ if __name__ == "__main__":
                "Portland, OR", "Salem, OR", "Albany, OR", "Eugene, OR", "Medford, OR", "Bend, OR"]
     hawaiiCities = ["Honolulu, HI", "Koloa, HI", "Kihei, HI", "Hilo, HI", "Koloa, HI"]
 
-    regions = [estCities, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
+    regions = [estCities1, estCities2, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
 
 #     for city in hawaiiCities:
 #         saveCurrentData(city)
