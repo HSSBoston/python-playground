@@ -117,39 +117,52 @@ def saveCurrentData(cityState):
 
 if __name__ == "__main__":    
 
-    estCities = ["Boston, MA",
-                 "Atlantic City, NJ", "Cape May, NJ", 
+    estCities = ["Boston, MA", "Bedford, MA", "Franklin, MA",  "Worcester, MA", "Springfield, MA",
+                 "Hartford, CT", "New York, NY", "Albany, NY", "Providence, RI",
+                 "Atlantic City, NJ", "Cape May, NJ", "Princeton, NJ", "Trenton, NJ",
                  "Philadelphia, PA", "Lancaster, PA", "Riverside, PA", "Pittsburgh, PA", "Oxford, PA", "York, PA",
-                 "Derry, PA", "Bear Rocks, PA", "Breakneck, PA", "South Uniontown, PA",
+                 "Derry, PA", "Bear Rocks, PA", "Breakneck, PA", "South Uniontown, PA", "Erie, PA", " Harrisburg, PA",
                  "Wilmington, DE", "Glasgow, DE", "Georgetown, DE", "Dover, DE",
                  "Berlin, MD", "Denton, MD", "Baltimore, MD", "Berlin, MD", "Edgewood, MD", "Annapolis, MD",
                  "Frederick, MD", "Hagerstown, MD",
+                 "Cleveland, OH", "Columbus, OH", "Cincinnati, OH",
+                 "Chicago, IL", "Springfield, IL",
+                 "Detroit, MI", "Lansing, MI",
+                 "Minneapolis, MN", "Saint Paul, MN",
+                 "Milwaukee, WI",
                  "Norfolk, VA", "Richmond, VA", "Reston, VA", "Winchester, VA", "Franklin, VA",
-                 "Gloucester, VA", "Warsaw, VA",
+                 "Gloucester, VA", "Warsaw, VA", "Blacksburg, VA",
                  "Jacksonville, NC", "Wilmington, NC", "Greenville, NC", "Raleigh, NC", "Rocky Mount, NC", "Fayetteville, NC",
-                 "Lumberton, NC", "Benson, NC",
+                 "Lumberton, NC", "Benson, NC", "South Mills, NC", "Scranton, NC", "Washington, NC", "Charlotte, NC",
                  "Charleston, SC", "Columbia, SC", "Florence, SC", "Myrtle Beach, SC",
-                 "Savannah, GA", "Brunswick, GA", "Statesboro, GA", "Waycross, GA",
-                 "Jacksonville, FL", "Ocala, FL", "Weston, FL", "Orlando, FL", "Tampa, FL", "Hardee, FL", "Key West, FL",
+                 "Savannah, GA", "Brunswick, GA", "Statesboro, GA", "Waycross, GA", "Atlanta, GA",
+                 "Birmingham, AL", "Montgomery, AL", "Dothan, AL", "Huntsville, AL"]
+    flCities = ["Jacksonville, FL", "Ocala, FL", "Weston, FL", "Orlando, FL", "Tampa, FL", "Hardee, FL", "Key West, FL",
                  "Naples, FL", "Melbourne, FL", "Palm City, FL", "Basinger, FL", "Zolfo Springs, FL", "Cornwell, FL", 
                  "Miami, FL", "Boca Raton, FL", "Sarasota, FL", "Palm Beach, FL", "Wellington, FL", "Jupiter, FL",
-                 "Sugarton, FL", "Deer Park, FL", "Big Pine Key, FL", "Bay Point, FL", ]
+                 "Sugarton, FL", "Deer Park, FL", "Big Pine Key, FL", "Bay Point, FL", "Panama City Beach, FL",
+                 "San Blas, FL", "White City, FL", "Port Charlotte, FL", "Cape Coral, FL", "Bonita Springs, FL",
+                 "Miles City, FL", "Long Key, FL", "Duck Key, FL", "Kalamazoo, FL", "Flagler Beach, FL", "Princeton, FL"]
     cstCities = ["El Paso, TX", "Austin, TX", "San Antonio, TX", "Houston, TX", "McAllen, TX", "Dallas, TX",
-                 "Corpus Christi, TX", "Baton Rouge, LA", "New Orleans, LA", "Monroe, LA",]
+                 "Corpus Christi, TX", "Port Isabel, TX", "Portland, TX", "Freeport, TX", "Edna, TX", "Amarillo, TX", 
+                 "Baton Rouge, LA", "New Orleans, LA", "Monroe, LA", "Monroe, LA", "Morgan City, LA", "Slidell, LA",
+                 "Gulfport, MS", "Pascagoula, MS", "Hattiesburg, MS", "Jackson, MS"]
     mstCities = ["Phoenix, AZ", "Tucson, AZ", "Flagstaff, AZ", "Yuma, AZ", "Kingman, AZ", "Sierra Vista, AZ",
                  "Graham, AZ", "Globe, AZ", "Beaver Dam, AZ", "Lake Havasu City, AZ", "Bullhead City, AZ", "Page, AZ",
                  "Mammoth, AZ", "New River, AZ", "Florence Junction, AZ", "Gila Bend, AZ", "Green Valley, AZ", "Why, AZ",
                  "Brenda, AZ", "Lake Havasu City, AZ", "Glendale, AZ", "Tempe, AZ", "Mesa, AZ", "Scottsdale, AZ",
-                 "Filbert, AZ", "Apache Junction, AZ", "Morristown, AZ", "Kino Springs, AZ", "Carmen, AZ",
-                 "Old Glory, AZ", "San Vicente, AZ",
+                 "Apache Junction, AZ", "Morristown, AZ", "Kino Springs, AZ", "Carmen, AZ",
+                 "Old Glory, AZ", "San Vicente, AZ", "Katherine, AZ",
                  "Deming, NM", "Lordsburg, NM", "Albuquerque, NM", "Santa Fe, NM", "Roswell, NM", "Mesita, NM",
-                 "Socorro, NM", "Silver City, NM", "Las Cruces, NM", "Alamogordo, NM",
-                 "Denver, CO", "Grand Junction, CO", "Grand Junction, CO",
+                 "Socorro, NM", "Silver City, NM", "Las Cruces, NM", "Alamogordo, NM", "Farmington, NM", "Gallup, NM", 
+                 "Denver, CO", "Grand Junction, CO", "Grand Junction, CO", "Fort Collins, CO", "Cortez, CO", "Uravan, CO",
                  "Salt Lake City, UT", "Cedar City, UT", "St. George, UT", "Halls Crossing, UT", "Moab, UT",
                  "Brendel, UT", "Ogden, UT", "Fillmore, UT", 
-                 "Cheyenne, WY", "Casper, WY", "Buffalo, WY", "Sundance, WY"]
-    pstCities = ["Las Vegas, NV", "Indian Springs, NV", "Carson City, NV", "Reno, NV", "Mesquite, NV",
-                 "Caliente, NV", "Beatty, NV", "Panaca, NV", "Latherine, NV", 
+                 "Cheyenne, WY", "Casper, WY", "Buffalo, WY", "Sundance, WY",
+                 "Boise, ID", "Twin Falls, ID", "Pocatello, ID", "Idaho Falls, ID"]
+    pstCities = ["Las Vegas, NV", "Indian Springs, NV", "Carson City, NV", "Reno, NV", "Mesquite, NV", "Dry Lake, NV",
+                 "Caliente, NV", "Beatty, NV", "Panaca, NV", "Cal-Nev-Ari, NV", "Nelson, NV", "Whitney, NV", "Elko, NV",
+                 "Carson City, NV",
                  "San Diego, CA", "El Centro, CA", "Borrego Springs, CA", "Salton City, CA", "San Diego, CA", "Blythe, CA",
                  "Sky Valley, CA", "Indio, CA", "Riverside, CA",  "Anaheim, CA", "Barstow, CA", "Baker, CA",
                  "Victorville, CA", "Riverside, CA", "Ridgecrest, CA", "Lancaster, CA", "Palmdale, CA", "Twentynine Palms, CA",
@@ -158,17 +171,26 @@ if __name__ == "__main__":
                  "Ukiah, CA", "Yuba City, CA", "Riverside, CA", "Chico, CA", "Willows, CA", "Red Bluff, CA",
                  "Boulder, CA", "Brawley, CA", "Trona, CA", "Rock Creek, CA", "Ukiah, CA", "Fresno, CA", "Klinefelter, CA", 
                  "Borrego Springs, CA", "Redding, CA", "Weaverville, CA", "Hillcrest, CA", "Sims, CA", "Coffee Creek, CA",
-                 "Lyman Springs, CA", "Yelowjacket, CA"]
+                 "Lyman Springs, CA", "Yellowjacket, CA", "San Rafael, CA", "Palo Alto, CA", "Sunnyvale, CA",
+                 "Santa Clara, CA", "Benicia, CA", "Antioch, CA", "Rio Vista, CA", "Napa, CA"]
+    nwCities =["Seattle, WA", "Olympia, WA", "Tacoma, WA", "Yakima, WA",
+               "Portland, OR", "Salem, OR", "Albany, OR", "Eugene, OR", "Medford, OR", "Bend, OR"]
     hawaiiCities = ["Honolulu, HI", "Koloa, HI", "Kihei, HI", "Hilo, HI", "Koloa, HI"]
 
-    regions = [estCities, cstCities, mstCities, pstCities, hawaiiCities]
+    regions = [estCities, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
 
+#     for city in hawaiiCities:
+#         saveCurrentData(city)
+
+dtNow = datetime.now()
+
+while dtNow.hour <= 20:
     for region in regions:
         for city in region:
             saveCurrentData(city)
-            time.sleep(300)
-    
-#     pprint( downloadWbgt(33.44, -112.07) )
-    
-#     print( getWbgtSummary(lat, lon) )
+        print("Sleeping for 3 mins...")
+        time.sleep(180)
+    dtNow = datetime.now()
+    skeepMin = 60 - dtNow.minute + 3
+    time.sleep(sleepMin * 60)
 
