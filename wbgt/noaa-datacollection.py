@@ -188,9 +188,10 @@ while dtNow.hour <= 20:
     for region in regions:
         for city in region:
             saveCurrentData(city)
-        print("Sleeping for 3 mins...")
-        time.sleep(180)
+        print("Sleeping for 4 mins...")
+        time.sleep(240)
     dtNow = datetime.now()
-    skeepMin = 60 - dtNow.minute + 3
+    sleepMin = 60 - dtNow.minute + 3
+    print(f"Sleeping for {sleepMin} mins...")
     time.sleep(sleepMin * 60)
 
