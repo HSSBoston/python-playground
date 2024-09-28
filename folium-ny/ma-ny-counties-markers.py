@@ -50,6 +50,24 @@ maCountiesLayer = folium.GeoJson(
     },
 ).add_to(maMap)
 
+maCountiesLayer = folium.GeoJson(
+    "nh-counties.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
+maCountiesLayer = folium.GeoJson(
+    "us-states.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
 for countyName, countyCenter in maCountyCenters.items():
     folium.Marker(
         countyCenter,
