@@ -17,7 +17,7 @@
 #   Font name choices (predefined names): https://www.w3.org/wiki/CSS/Properties/color/keywords
 #
 
-import folium, branca, json, ebird.api as eb
+import folium, branca, json, 
 from pprint import pprint
 
 ebirdJsonFileName = "maCountyNameToRecords.json"
@@ -78,7 +78,8 @@ for countyName, countyCenter in maCountyCenters.items():
             sticky = True,
     ).add_to(maMap)
 
-maMap.save("ma-counties.html")
+maMap.save("ma-choropleth.html")
+
 
 
 

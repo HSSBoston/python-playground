@@ -17,7 +17,8 @@
 #   Font name choices (predefined names): https://www.w3.org/wiki/CSS/Properties/color/keywords
 #
 
-import folium, branca, json, ebird.api as eb
+import folium, folium.plugins, branca
+import json
 from pprint import pprint
 
 ebirdJsonFileName = "maCountyNameToRecords.json"
@@ -26,7 +27,6 @@ countyNameToRecords = {}
 with open(ebirdJsonFileName, mode="r") as f:
     countyNameToRecords = json.load(f)
 
-geoJsonFileName = "COUNTIES_POLYM.json"
 maCenter =        (42.4072, -71.3824)
 maCountyCenters = {
     "Barnstable": (41.7244, -70.2903),
@@ -44,41 +44,40 @@ maCountyCenters = {
     "Suffolk":    (42.3329, -71.0735),
     "Worcester":  (42.3514, -71.9077),}
 
-maMap = folium.Map(location = maCenter, zoom_start = 9)
+maMap = folium.Map(location = maCenter, zoom_start = 7)
 
 folium.GeoJson(
-    geoJsonFileName,
+    "COUNTIES_POLYM.json",
     style_function = lambda geoJsonFeatures: {
         "color": "darkblue",
         "weight": 2,
         "fillOpacity": 0},
 ).add_to(maMap)
 
+folium.GeoJson(
+    "us-states.json",
+    style_function = lambda geoJsonFeatures: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0},
+).add_to(maMap)
+
+heatmapData =[]
 for countyName, countyCenter in maCountyCenters.items():
-    popupHtml = f"<b>{countyName}</b><br>" +\
-                '<table class="table table-striped table-hover table-condensed table-responsive">' +\
-                f"<tr><td>Total Observations</td><td>{countyNameToRecords[countyName]['totalObsCount']}</td></tr>"  +\
-                f"<tr><td>{countyNameToRecords[countyName]['records'][0]['comName']}</td>" +\
-                    f"<td>{countyNameToRecords[countyName]['records'][0]['howMany']}</td></tr>" +\
-                f"<tr><td>{countyNameToRecords[countyName]['records'][1]['comName']}</td>" +\
-                    f"<td>{countyNameToRecords[countyName]['records'][1]['howMany']}</td></tr>" +\
-                f"<tr><td>{countyNameToRecords[countyName]['records'][2]['comName']}</td>" +\
-                    f"<td>{countyNameToRecords[countyName]['records'][2]['howMany']}</td></tr>" +\
-                f"<tr><td>{countyNameToRecords[countyName]['records'][3]['comName']}</td>" +\
-                    f"<td>{countyNameToRecords[countyName]['records'][3]['howMany']}</td></tr>" +\
-                f"<tr><td>{countyNameToRecords[countyName]['records'][4]['comName']}</td>" +\
-                    f"<td>{countyNameToRecords[countyName]['records'][4]['howMany']}</td></tr>" +\
-                "</table>"
+    heatmapData.append( [countyCenter[0],
+                         countyCenter[1],
+                         countyNameToRecords[countyName]["totalObsCount"] ])
+    print(countyName, countyNameToRecords[countyName]["totalObsCount"])
+print(heatmapData)
 
-    popupIFrame = branca.element.IFrame(html=popupHtml, width=200, height=200)
-    folium.Marker(
-        countyCenter,
-        popup = folium.Popup(popupIFrame),
-            show = True,
-            sticky = True,
-    ).add_to(maMap)
+folium.plugins.HeatMap(
+    data = heatmapData,
+    radius = 30,    
+).add_to(maMap)
+# radius=30,max_opacity=1,gradient={0.38: 'blue', 0.4: 'lime', 0.5:'yellow',0.75: 'orange', 0.9:'red'}
 
-maMap.save("ma-counties.html")
+
+maMap.save("ma-heatmap.html")
 
 
 
