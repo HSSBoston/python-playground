@@ -60,6 +60,51 @@ maCountiesLayer = folium.GeoJson(
 ).add_to(maMap)
 
 maCountiesLayer = folium.GeoJson(
+    "ri-counties.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
+maCountiesLayer = folium.GeoJson(
+    "pa-counties.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
+maCountiesLayer = folium.GeoJson(
+    "fl-counties.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
+maCountiesLayer = folium.GeoJson(
+    "nj-counties.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
+maCountiesLayer = folium.GeoJson(
+    "ct-counties.json",
+    style_function=lambda feature: {
+        "color": "darkblue",
+        "weight": 2,
+        "fillOpacity": 0,
+    },
+).add_to(maMap)
+
+maCountiesLayer = folium.GeoJson(
     "us-states.json",
     style_function=lambda feature: {
         "color": "darkblue",
