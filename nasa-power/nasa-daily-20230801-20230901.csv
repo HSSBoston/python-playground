@@ -1,0 +1,43 @@
+-BEGIN HEADER-
+NASA/POWER CERES/MERRA2 Native Resolution Daily Data 
+Dates (month/day/year): 08/01/2023 through 09/01/2023 
+Location: Latitude  34.3426   Longitude 134.0465 
+Elevation from MERRA-2: Average for 0.5 x 0.625 degree lat/lon region = 98.42 meters
+The value for missing source data that cannot be computed or is outside of the sources availability range: -999 
+Parameter(s): 
+ALLSKY_SFC_SW_DWN     CERES SYN1deg All Sky Surface Shortwave Downward Irradiance (MJ/m^2/day) 
+GWETPROF              MERRA-2 Profile Soil Moisture (1) 
+-END HEADER-
+YEAR,DOY,ALLSKY_SFC_SW_DWN,GWETPROF
+2023,213,26.86,0.77
+2023,214,26.05,0.77
+2023,215,25.11,0.76
+2023,216,25.74,0.76
+2023,217,24.81,0.75
+2023,218,24.75,0.74
+2023,219,7.56,0.74
+2023,220,18.59,0.75
+2023,221,21.97,0.75
+2023,222,20.28,0.74
+2023,223,25.7,0.74
+2023,224,26.05,0.73
+2023,225,26.41,0.73
+2023,226,9.42,0.72
+2023,227,4.13,0.75
+2023,228,21.79,0.77
+2023,229,5.63,0.79
+2023,230,17.6,0.8
+2023,231,21.85,0.8
+2023,232,24.25,0.79
+2023,233,24.06,0.78
+2023,234,19.67,0.77
+2023,235,16.04,0.8
+2023,236,18.64,0.83
+2023,237,20.22,0.83
+2023,238,22.8,0.82
+2023,239,24.22,0.82
+2023,240,22.89,0.81
+2023,241,23.33,0.8
+2023,242,15.1,0.8
+2023,243,10.91,0.8
+2023,244,14.75,0.8

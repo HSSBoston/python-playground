@@ -177,7 +177,8 @@ if __name__ == "__main__":
                "Portland, OR", "Salem, OR", "Albany, OR", "Eugene, OR", "Medford, OR", "Bend, OR"]
     hawaiiCities = ["Honolulu, HI", "Koloa, HI", "Kihei, HI", "Hilo, HI", "Koloa, HI"]
 
-    regions = [estCities1, estCities2, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
+#     regions = [estCities1, estCities2, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
+    regions = [flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
 
 #     for city in hawaiiCities:
 #         saveCurrentData(city)

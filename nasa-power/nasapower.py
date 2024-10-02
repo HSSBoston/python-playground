@@ -15,6 +15,18 @@ def cityStateToLatLon(cityState):
     else:
         raise RuntimeError(f"Failed to find (lat, lon) for {cityState} with Nominatim.")
 
+# Takes 
+#
+def intlCityToLatLon(cityCountry):
+    queryParams = {"city" : cityCountry.split(",")[0].lstrip().rstrip(),
+#                    "state" : cityState.split(",")[1].lstrip().rstrip(),
+                   "country" : cityCountry.split(",")[1].lstrip().rstrip() }
+    location = geolocator.geocode(query=queryParams, timeout=1000)
+    if location != None:
+        return (location.latitude, location.longitude)
+    else:
+        raise RuntimeError(f"Failed to find (lat, lon) for {cityState} with Nominatim.")
+
 def readDailyData(csvFileName, features):
     dataCount = 0
     featureSum = [0] * len(features)
@@ -90,9 +102,12 @@ def downloadNasaData(lat: float, lon: float, temporalResolution: str, paramsToDo
     return outputfileName
 
 if __name__ == "__main__":
-    cityState = "Boston, MA"
-    lat, lon = cityStateToLatLon("Boston, MA")
-    print(cityState, lat, lon)
+#     cityState = "Boston, MA"
+#     lat, lon = cityStateToLatLon("Boston, MA")
+    
+    cityCountry = "Takamatsu, Japan"
+    lat, lon = intlCityToLatLon(cityCountry)
+    print(cityCountry, lat, lon)
 
 #     dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "PRECTOTCORR", "RH2M"]
 #     fileName = downloadNasaData(lat, lon, "hourly", dataToDownload, "20231231", "20231231")
@@ -106,9 +121,10 @@ if __name__ == "__main__":
 #     print("Downloaded data", dataToDownload)
 #     print("Mean", readDailyData(fileName, dataToDownload))
 
-    dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
-                      "PRECTOTCORR_SUM", "GWETPROF"]
-    fileName = downloadNasaData(lat, lon, "monthly", dataToDownload, "1981", "2022")
+#     dataToDownload = ["ALLSKY_SFC_SW_DWN", "T2M", "T2M_MAX", "TS", "TS_MAX", "PRECTOTCORR", "RH2M",
+#                       "PRECTOTCORR_SUM", "GWETPROF"]
+    dataToDownload = ["ALLSKY_SFC_SW_DWN", "GWETPROF"]
+    fileName = downloadNasaData(lat, lon, "daily", dataToDownload, "20230801", "20230901")
     print("Elevation", getElevation(fileName))
 
 #     fileName = downloadNasaData(lat, lon, "climatology", dataToDownload)
