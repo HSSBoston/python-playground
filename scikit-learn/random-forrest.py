@@ -34,4 +34,4 @@ plt.show()
 #           proportion=False, 
 #           precision=2,
 #           max_depth=2)
-plt.show()
+# plt.show()
