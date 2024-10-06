@@ -62,6 +62,7 @@ def downloadData(lat, lon):
     response = requests.get(url)
     if response.status_code == 200:
         responseDict = xmltodict.parse(response.text)
+        pprint(responseDict)
         return responseDict
     else:
         raise RuntimeError("Request failed. Status code: " + str(response.status_code))
@@ -185,7 +186,7 @@ if __name__ == "__main__":
 
 dtNow = datetime.now()
 
-while dtNow.hour <= 20:
+while dtNow.hour <= 30:
     for region in regions:
         for city in region:
             saveCurrentData(city)
