@@ -4,6 +4,7 @@ from sklearn.tree import DecisionTreeClassifier
 import numpy as np, dtreeviz, csv
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
+from sklearn.model_selection import GridSearchCV
 
 featureNames = []
 features = []
@@ -22,25 +23,43 @@ print(f"Feature names: {featureNames}")
 print(f"First 5 feature sets: {features[0:5]}")
 print(f"First 5 classes: {classes[0:5]}")
 
-
 # X = features
 # y = classes
+
+parameters = {"criterion": ["gini", "entropy"],
+              "splitter": ["best", "random"],
+              "max_depth": [i for i in range(1, 11)],
+              "min_samples_split": [i for i in range(2, 11)],
+              "min_samples_leaf": [i for i in range(1, 11)],
+              }
 
 featuresTraining, featuresTesting, classesTraining, classesTesting = train_test_split(features, classes,
                                                                                        test_size=0.3, random_state=0)
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
-dTree = DecisionTreeClassifier(max_depth=10, random_state=0)
-    # Too shallow tree: poorer classification
-    # Too deep: overfitting
-dTree.fit(featuresTraining, classesTraining)
-accuracy = dTree.score(featuresTesting, classesTesting)
+dTree = DecisionTreeClassifier(random_state=0)
+
+gcv = GridSearchCV(dTree, parameters)
+gcv.fit(featuresTraining, classesTraining)
+
+optimalModel = gcv.best_estimator_
+accuracy = optimalModel.score(featuresTesting, classesTesting)
 print (f"Accuracy: {round(accuracy,3)}")
 
+# accuracy = gcv.score(featuresTesting, classesTesting)
+# print (f"Accuracy: {round(accuracy,3)}")
 
+print("Best parameters: ", gcv.best_params_)
+
+# 
+# dTree.fit(featuresTraining, classesTraining)
+# accuracy = dTree.score(featuresTesting, classesTesting)
+# print (f"Accuracy: {round(accuracy,3)}")
+# 
+# 
 # K分割交差検証
 stratifiedkfold = StratifiedKFold(n_splits=10)  #K=10分割
-scores = cross_val_score(dTree, features, classes, cv=stratifiedkfold)
+scores = cross_val_score(optimalModel, featuresTesting, classesTesting, cv=stratifiedkfold)
 # print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
 print(f"Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
 
