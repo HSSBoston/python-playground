@@ -1,11 +1,10 @@
 def makeGrid(line):
-    lineSpacesRemoved = line.replace(" ", "")
+    line = line.replace(" ", "")
     try:
-        if len(lineSpacesRemoved) == 81:
-#             print(lineSpacesRemoved)
-            return [int(cell) if cell != "." else None for cell in lineSpacesRemoved]
+        if len(line) == 81:
+            return [int(cell) if cell != "." else None for cell in line]
         else:
-            raise RuntimeError("Incorrect problem")
+            raise RuntimeError("Incorrect problem input")
     except RuntimeError:
         raise
 
@@ -21,10 +20,10 @@ def column(grid, cellIndex):
     return [ grid[(9*i)+columnIndex] for i in range(0,9)]
 
 def block(grid, cellIndex):
-    cellRowIndex = cellIndex // 9
-    cellColumnIndex = cellIndex % 9
-    blockRowIndex = cellRowIndex // 3 
-    blockColumnIndex = cellColumnIndex // 3
+    cellRowIndex       = cellIndex // 9
+    cellColumnIndex    = cellIndex % 9
+    blockRowIndex      = cellRowIndex // 3 
+    blockColumnIndex   = cellColumnIndex // 3
     topLeftCellInBlock = blockRowIndex * 27 + blockColumnIndex * 3
     
     return grid[topLeftCellInBlock      : topLeftCellInBlock + 3] + \

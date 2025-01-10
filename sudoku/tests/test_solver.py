@@ -1,4 +1,4 @@
-from solve import *
+from solver import *
 
 problemStr = ".8.....1. 1..2..9.. ..7..4..3 3...1..9. ...7.2... .6..8...4 9..4..1.. ..4..3..5 .2.....8."
 problemList = [None, 8,    None, None, None, None, None, 1,    None,
