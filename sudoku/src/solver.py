@@ -86,6 +86,6 @@ if __name__ == "__main__":
         for line in f:
             grid = makeGrid(line.rstrip("\n"))
             solution = solve(grid)
-            if verifySolution(grid):
-                printSolution(grid)
+            if verifySolution(solution):
+                printSolution(solution)
 

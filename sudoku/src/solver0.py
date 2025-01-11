@@ -39,24 +39,21 @@ def usedNumbers(grid, cellIndex):
 def usableNumbers(grid, cellIndex):
     return {1, 2, 3, 4, 5, 6, 7, 8, 9} - usedNumbers(grid, cellIndex)
 
-def nextEmptyCell(emptyCells):
-    candidates = [ (i, usableNumbers(grid, i)) for i in emptyCells]
-    orderedCandidates = sorted(candidates,
-                               key = lambda candidate: len(candidate[1]))
-    return orderedCandidates[0]
 
 def solve(grid):
     emptyCells = emptyCellIndices(grid)
     if len(emptyCells) == 0:
         return grid
     else:
-        emptyCellIndex, usableNums = nextEmptyCell(emptyCells)
+        emptyCellIndex = emptyCells[0]
+        usableNums = usableNumbers(grid, emptyCellIndex)
         for n in usableNums:
             grid[emptyCellIndex] = n
             if solve(grid):
                 return grid
         grid[emptyCellIndex] = None
         return False
+
 
 def verifySolution(grid):
     for i, n in enumerate(grid):
@@ -86,6 +83,6 @@ if __name__ == "__main__":
         for line in f:
             grid = makeGrid(line.rstrip("\n"))
             solution = solve(grid)
-            if verifySolution(grid):
-                printSolution(grid)
+            if verifySolution(solution):
+                printSolution(solution)
 
