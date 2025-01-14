@@ -1,3 +1,6 @@
+# from solver import *
+import sys, os, pytest
+sys.path.append(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + "/../"))
 from solver import *
 
 problemStr = ".8.....1. 1..2..9.. ..7..4..3 3...1..9. ...7.2... .6..8...4 9..4..1.. ..4..3..5 .2.....8."

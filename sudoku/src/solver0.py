@@ -1,3 +1,5 @@
+from time import time
+
 def makeGrid(line):
     line = line.replace(" ", "")
     try:
@@ -74,7 +76,8 @@ def printSolution(grid):
     for rowIndex in range(0, 9):
         for i in range(rowIndex * 9, rowIndex * 9 + 9):
             solutionStr += str(grid[i])
-        solutionStr += "\n"
+        if rowIndex != 8:
+            solutionStr += "\n"
     print(solutionStr)
 
 
@@ -82,7 +85,10 @@ if __name__ == "__main__":
     with open("problem.txt", "r") as f:
         for line in f:
             grid = makeGrid(line.rstrip("\n"))
+            startTime = time()
             solution = solve(grid)
+            endTime = time()
             if verifySolution(solution):
                 printSolution(solution)
+                print(f"*** Execution time: {round(endTime - startTime, 2)} seconds")
 
