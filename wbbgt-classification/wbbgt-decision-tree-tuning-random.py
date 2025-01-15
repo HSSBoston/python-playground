@@ -1,7 +1,7 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, train_test_split, StratifiedKFold, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
-import numpy as np, csv
+import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 # import dtreeviz
@@ -33,12 +33,12 @@ parameters = {
 #               "criterion": ["gini", "entropy", "log_loss"],
               "criterion": ["gini"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": [None]+list(range(5, 500, 1)),
+              "max_depth": [None]+list(range(5, 500, 2)),
 #               "min_samples_split": [i for i in range(2, 51)],
-              "min_samples_split": list(range(2, 100, 1)),
-              "min_samples_leaf":  list(range(1, 100, 1)),
+              "min_samples_split": list(range(2, 100, 2)),
+              "min_samples_leaf":  list(range(1, 100, 2)),
               "max_features": [None, "sqrt", "log2"],
-              "max_leaf_nodes": [None]+list(range(2, 100, 1)),
+              "max_leaf_nodes": [None]+list(range(2, 200, 2)),
               }
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
@@ -47,7 +47,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
     # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
 
-gcv = RandomizedSearchCV(dTree, parameters, n_iter=5000,  cv=10, n_jobs=4)
+startTime = time.time()
+
+gcv = RandomizedSearchCV(dTree, parameters, n_iter=50000,  cv=10, n_jobs=4)
 gcv.fit(X_train, y_train)
 
 optimalModel = gcv.best_estimator_
@@ -74,6 +76,13 @@ scores = cross_val_score(optimalModel, X_test, y_test, cv=stratifiedkfold)
 # print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
 print(f"Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
 
+endTime = time.time()
+print(f"Exec time: {endTime-startTime} seconds")
+
+valCombinations = 1
+for paramValList in parameters.values():
+    valCombinations *= len(paramValList)
+print(f"Param val combinations: {valCombinations}")
 
 # print( clf.feature_importances_)
 # 
