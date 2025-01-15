@@ -27,6 +27,7 @@ X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
 print(f"First 5 feature sets: {X[0:5]}")
 print(f"First 5 classes: {y[0:5]}")
+print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=0)
