@@ -1,6 +1,6 @@
 import csv, random
 
-sampleSize = 482
+sampleSize = 306
 csvHeader =[]
 
 alertZeroRows  = []
@@ -15,7 +15,7 @@ alertTwoSamples   = []
 alertThreeSamples = []
 alertFourSamples  = []
 
-with open("dataset.csv", "r") as f:
+with open("dataset09.csv", "r") as f:
     csvReader = csv.reader(f)
     for rowIndex, row in enumerate(csvReader):
         if rowIndex == 0:

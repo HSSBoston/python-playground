@@ -1,7 +1,8 @@
 import os, csv
 
 csvFileNames = os.listdir("csv-files")
-csvFileNames.remove(".DS_Store")
+if os.path.isfile(".DS_Store"):
+    csvFileNames.remove(".DS_Store")
 print(csvFileNames)
 
 alertColors = ["Green", "Yellow", "Orange", "Red", "Black"]

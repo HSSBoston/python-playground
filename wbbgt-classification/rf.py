@@ -1,7 +1,8 @@
 from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
-import numpy as np, dtreeviz, csv
+from sklearn.metrics import f1_score
+import numpy as np, csv
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 
@@ -9,7 +10,7 @@ featureNames = []
 features = []
 classes = []
 
-with open("dataset-sampled.csv", "r") as f:
+with open("dataset09-sampled.csv", "r") as f:
     csvReader = csv.reader(f)
     for rowIndex, row in enumerate(csvReader):
         if rowIndex == 0:
@@ -25,12 +26,9 @@ print(f"First 5 classes: {classes[0:5]}")
 
 X = features
 y = classes
-# print(featureNames)
-# print(features[0:10])
-# print(classNames)
-# print(classes[0:10])
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.3, random_state=0)
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
 
@@ -48,18 +46,31 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 # #     print(f"Depth: {depth}, Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
 #     dtResults.append(round(np.mean(scores),3))
 
-rfResults = []
-for treeCount in range(1, 21):
-    clf = RandomForestClassifier(max_depth=10, n_estimators=treeCount, random_state=0)
-        # n_estimators=10 by default
-    clf.fit(X_train, y_train)
-    # K分割交差検証
-    stratifiedkfold = StratifiedKFold(n_splits=20)  #K=10分割
-    scores = cross_val_score(clf, X, y, cv=stratifiedkfold)
-    # print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
+clf = RandomForestClassifier(n_estimators=1000, n_jobs=4, random_state=0)
+    # n_estimators=100 by default
+clf.fit(X_train, y_train)
+
+accuracy = clf.score(X_train, y_train)
+print (f"Accuracy in training: {round(accuracy,3)}")
+accuracy = clf.score(X_test, y_test)
+print (f"Accuracy in testing: {round(accuracy,3)}")
+
+y_predicted = clf.predict(X_test)
+f1score = f1_score(y_test, y_predicted, average="macro")
+print(f"F1 score: {round(f1score, 3)}")
+
+# K分割交差検証
+skf = StratifiedKFold(n_splits=5)  #K=10分割
+scores = cross_val_score(clf, X, y, cv=skf)
+# print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
 #     print(f"Depth: {depth}, Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
 #     rfResults.append(round(np.mean(scores),3))
-    print(f"Tree Count: {treeCount}, Cross validation score: {round(np.mean(scores),3)}")
+print(f"Cross validation score: {round(np.mean(scores),3)}")
+
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+scores = cross_val_score(clf, X, y, cv=sskf)
+print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+
 
 
 # for i, result in enumerate(dtResults):

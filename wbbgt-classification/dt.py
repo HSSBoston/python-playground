@@ -1,12 +1,13 @@
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
+from sklearn.metrics import f1_score
+from sklearn.inspection import permutation_importance
+from sklearn.tree import plot_tree
 import numpy as np, csv
 import matplotlib.pyplot as plt
-from sklearn.tree import plot_tree
 # import dtreeviz
 
-datasetFileName = "dataset.csv"
+datasetFileName = "dataset09-sampled.csv"
 
 def readData(datasetFileName):
     with open(datasetFileName, "r") as f:
@@ -33,7 +34,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=0)
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
-dTree = DecisionTreeClassifier(max_depth=10, random_state=0)
+dTree = DecisionTreeClassifier(random_state=0)
     # Too shallow tree: poorer classification
     # Too deep: overfitting
 dTree.fit(X_train, y_train)
@@ -43,15 +44,24 @@ print (f"Accuracy in training: {round(accuracy,3)}")
 accuracy = dTree.score(X_test, y_test)
 print (f"Accuracy in testing: {round(accuracy,3)}")
 
+y_predicted = dTree.predict(X_test)
+f1score = f1_score(y_test, y_predicted, average="macro")
+print(f"F1 score: {round(f1score, 3)}")
+
 # K分割交差検証
-stratifiedkfold = StratifiedKFold(n_splits=10)  #K=10分割
-scores = cross_val_score(dTree, X_test, y_test, cv=stratifiedkfold)
-# print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
-print(f"Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
+skf = StratifiedKFold(n_splits=5)
+scores = cross_val_score(dTree, X, y, cv=skf)
+print(f"Cross validation score w/ StratifiedKFold: {round(np.mean(scores),3)}")
+
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+scores = cross_val_score(dTree, X, y, cv=sskf)
+print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+
+print(dTree.feature_importances_)
+pImportance = permutation_importance(dTree, X, y, n_repeats=10, random_state=0)
+print(pImportance["importances_mean"])
 
 
-# print( clf.feature_importances_)
-# 
 # plot_tree(clf,
 #           feature_names=iris.feature_names,
 #           class_names=iris.target_names,

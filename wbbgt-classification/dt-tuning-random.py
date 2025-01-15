@@ -1,12 +1,13 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, train_test_split, StratifiedKFold, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import f1_score
 import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 # import dtreeviz
 
-datasetFileName = "dataset.csv"
+datasetFileName = "dataset09-sampled.csv"
 
 def readData(datasetFileName):
     with open(datasetFileName, "r") as f:
@@ -49,7 +50,7 @@ dTree = DecisionTreeClassifier(random_state=0)
 
 startTime = time.time()
 
-gcv = RandomizedSearchCV(dTree, parameters, n_iter=50000,  cv=10, n_jobs=4)
+gcv = RandomizedSearchCV(dTree, parameters, n_iter=50000,  cv=5, n_jobs=4)
 gcv.fit(X_train, y_train)
 
 optimalModel = gcv.best_estimator_
@@ -58,46 +59,33 @@ print (f"Accuracy in training: {round(accuracy,3)}")
 accuracy = optimalModel.score(X_test, y_test)
 print (f"Accuracy in testing: {round(accuracy,3)}")
 
+y_predicted = optimalModel.predict(X_test)
+f1score = f1_score(y_test, y_predicted, average="macro")
+print(f"F1 score: {round(f1score, 3)}")
+
 
 # accuracy = gcv.score(featuresTesting, classesTesting)
 # print (f"Accuracy: {round(accuracy,3)}")
 
 print("Best parameters: ", gcv.best_params_)
 
-# 
-# dTree.fit(featuresTraining, classesTraining)
-# accuracy = dTree.score(featuresTesting, classesTesting)
-# print (f"Accuracy: {round(accuracy,3)}")
-# 
-# 
-# K分割交差検証
-stratifiedkfold = StratifiedKFold(n_splits=10)  #K=10分割
-scores = cross_val_score(optimalModel, X_test, y_test, cv=stratifiedkfold)
-# print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
-print(f"Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
+skf = StratifiedKFold(n_splits=5)  #K=10分割
+scores = cross_val_score(optimalModel, X, y, cv=skf)
+print(f"Cross validation score: {round(np.mean(scores),3)}")
+
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+scores = cross_val_score(optimalModel, X, y, cv=sskf)
+print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 endTime = time.time()
-print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1) min}")
+print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1)} min")
 
 valCombinations = 1
 for paramValList in parameters.values():
     valCombinations *= len(paramValList)
 print(f"Param val combinations: {valCombinations}")
 
-# print( clf.feature_importances_)
-# 
-# plot_tree(clf,
-#           feature_names=iris.feature_names,
-#           class_names=iris.target_names,
-#           fontsize=10,
-#           filled=True)
-# plt.show()
-# 
-# # viz_model = dtreeviz.model(clf,
-# #                X_train=X_train,
-# #                y_train=y_train,
-# #                target_name='Class',
-# #                feature_names=iris.feature_names,
-# #                class_names=iris.target_names)
-# # viz_model.view(scale=0.8)
+
+
+
 
