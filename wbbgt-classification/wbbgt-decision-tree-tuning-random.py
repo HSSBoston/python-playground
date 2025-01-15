@@ -77,7 +77,7 @@ scores = cross_val_score(optimalModel, X_test, y_test, cv=stratifiedkfold)
 print(f"Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
 
 endTime = time.time()
-print(f"Exec time: {endTime-startTime} seconds")
+print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1) min}")
 
 valCombinations = 1
 for paramValList in parameters.values():
