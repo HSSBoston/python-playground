@@ -113,14 +113,14 @@ def verifySolution(grid):
         rowNumbers    = row(i, grid)
         columnNumbers = column(i, grid)
         blockNumbers  = block(i, grid)
-        if unique(rowNumbers) and unique(columnNumbers) and unique(blockNumbers):
+        if set(rowNumbers + columnNumbers + blockNumbers) == {1, 2, 3, 4, 5, 6, 7, 8, 9}:
             continue
         else:
             return False
     return True
 
-def unique(numbersList):
-    return set(numbersList) == {1, 2, 3, 4, 5, 6, 7, 8, 9}
+# def unique(numbersList):
+#     return set(numbersList) == {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 def printSolution(grid):
     solutionStr = ""
