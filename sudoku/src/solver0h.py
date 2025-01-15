@@ -1,14 +1,21 @@
 import re, sys
+from time import time
 
 def main():
     with open("problem.txt", "r") as file:
         lines = file.readlines()
     for line in lines:
         allCellList = check(line)
-        emptyCellIndexList = empty(allCellList)
-
-        for emptyCell in emptyCellIndexList:
-            print(usableNums(emptyCell, allCellList))
+        startTime = time()
+        solution = solve(allCellList)
+        endTime = time()
+        print(solution)
+        if verifySolution(solution):
+            printSolution(solution)
+            print(f"*** Execution time: {round(endTime - startTime, 2)} seconds")
+#         emptyCellIndexList = empty(allCellList)
+#         for emptyCell in emptyCellIndexList:
+#             print(usableNums(emptyCell, allCellList))
 
 def check(line):
     match = re.search(r"^([\.1-9]{9} ){8}[\.1-9]{9}$", line)
@@ -87,7 +94,42 @@ def allUsedNumList(index, allCellList):
 def usableNums(index, allCellList):
     return {1,2,3,4,5,6,7,8,9} - allUsedNumList(index, allCellList)
 
+def solve(allCellList):
+    emptyCellIndexList = empty(allCellList)
+    if len(emptyCellIndexList) == 0:
+        return allCellList
+    else:
+        emptyCellIndex = emptyCellIndexList[0]
+        nums = usableNums(emptyCellIndex, allCellList)
+        for n in nums:
+            allCellList[emptyCellIndex] = n
+            if solve(allCellList):
+                return allCellList
+        allCellList[emptyCellIndex] = None
+        return False
 
+def verifySolution(grid):
+    for i, n in enumerate(grid):
+        rowNumbers    = row(i, grid)
+        columnNumbers = column(i, grid)
+        blockNumbers  = block(i, grid)
+        if unique(rowNumbers) and unique(columnNumbers) and unique(blockNumbers):
+            continue
+        else:
+            return False
+    return True
+
+def unique(numbersList):
+    return set(numbersList) == {1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+def printSolution(grid):
+    solutionStr = ""
+    for rowIndex in range(0, 9):
+        for i in range(rowIndex * 9, rowIndex * 9 + 9):
+            solutionStr += str(grid[i])
+        if rowIndex != 8:
+            solutionStr += "\n"
+    print(solutionStr)
 
 if __name__ == "__main__":
     main()
