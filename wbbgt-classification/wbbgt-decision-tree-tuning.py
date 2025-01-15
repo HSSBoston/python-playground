@@ -1,10 +1,11 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
-import numpy as np, dtreeviz, csv
+import numpy as np, csv
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 from sklearn.model_selection import GridSearchCV
+# import dtreeviz
 
 featureNames = []
 features = []
@@ -26,16 +27,17 @@ print(f"First 5 classes: {classes[0:5]}")
 # X = features
 # y = classes
 
-parameters = {"criterion": ["gini", "entropy"],
-              "splitter": ["best", "random"],
-              "max_depth": [i for i in range(1, 11)],
-              "min_samples_split": [i for i in range(2, 11)],
-              "min_samples_leaf": [i for i in range(1, 11)],
+parameters = {"criterion": {“gini”, “entropy”, “log_loss”},
+              "max_depth": [None]+[i for i in range(1, 21)],
+              "min_samples_split": [i for i in range(2, 21)],
+              "min_samples_leaf": [i for i in range(1, 21)],
+              "max_features": [None, “sqrt”, “log2”],
+              "max_leaf_nodes": 
               }
 
 featuresTraining, featuresTesting, classesTraining, classesTesting = train_test_split(features, classes,
                                                                                        test_size=0.3, random_state=0)
-    # 30% for testing, 70% for training
+    # 30% (or 20%) for testing, 70% (or 80%) for training
     # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
 
