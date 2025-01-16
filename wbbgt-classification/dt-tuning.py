@@ -1,5 +1,5 @@
 from sklearn.datasets import load_iris
-from sklearn.model_selection import GridSearchCV, train_test_split, StratifiedKFold, cross_val_score
+from sklearn.model_selection import GridSearchCV, train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np, csv, time
 import matplotlib.pyplot as plt
@@ -55,6 +55,7 @@ gcv = GridSearchCV(dTree, parameters, cv=5, n_jobs=4)
 gcv.fit(X_train, y_train)
 
 optimalModel = gcv.best_estimator_
+optimalModel.fit(X_train, y_train)
 accuracy = optimalModel.score(X_train, y_train)
 print (f"Accuracy in training: {round(accuracy,3)}")
 accuracy = optimalModel.score(X_test, y_test)
