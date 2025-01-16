@@ -1,6 +1,6 @@
 import csv, random
 
-sampleSize = 455
+sampleSize = 812
 outputFileName = "dataset-sampled.csv"
 
 csvHeader =[]
@@ -23,15 +23,15 @@ with open("dataset.csv", "r") as f:
         if rowIndex == 0:
             csvHeader = row
         else:
-            if row[6] == "0":
+            if row[7] == "0":
                 alertZeroRows.append(row)
-            elif row[6] == "1":
+            elif row[7] == "1":
                 alertOneRows.append(row)
-            elif row[6] == "2":
+            elif row[7] == "2":
                 alertTwoRows.append(row)
-            elif row[6] == "3":
+            elif row[7] == "3":
                 alertThreeRows.append(row)
-            elif row[6] == "4":
+            elif row[7] == "4":
                 alertFourRows.append(row)
 
 print(len(alertZeroRows), len(alertOneRows), len(alertTwoRows), len(alertThreeRows), len(alertFourRows))

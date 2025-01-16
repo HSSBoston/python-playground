@@ -2,30 +2,14 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.metrics import f1_score
 from sklearn.inspection import permutation_importance
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import plot_tree
 import numpy as np, csv
 import matplotlib.pyplot as plt
 # import dtreeviz
+from dataset import readData
 
 datasetFileName = "dataset-sampled.csv"
-
-def readData(datasetFileName):
-    with open(datasetFileName, "r") as f:
-        featureNames = []
-        X = [] # features
-        y = [] # classes
-        csvReader = csv.reader(f)
-        for rowIndex, row in enumerate(csvReader):
-            if rowIndex == 0:
-#                 featureNames = [row[0], row[1], row[2], row[3], row[4]]
-                featureNames = [row[0], row[1], row[3], row[4]]
-            else:
-#                 X.append([float(row[0]), float(row[1]),
-#                           float(row[2]), float(row[3]), float(row[4])])
-                X.append([float(row[0]), float(row[1]),
-                          float(row[3]), float(row[4])])
-                y.append(int(row[6]))
-    return (X, y, featureNames)
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
@@ -33,8 +17,16 @@ print(f"First 5 feature sets: {X[0:5]}")
 print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
+scaler = MinMaxScaler()
+X = scaler.fit_transform(X)
+print(f"Feature names: {featureNames}")
+print(f"First 5 feature sets: {X[0:5]}")
+print(f"First 5 classes: {y[0:5]}")
+print(f"Number of feature sets: {len(X)}")
+
+
 X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.5, random_state=0)
+                                                    test_size=0.3, random_state=0)
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
@@ -61,7 +53,7 @@ scores = cross_val_score(dTree, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 print(dTree.feature_importances_)
-pImportance = permutation_importance(dTree, X, y, n_repeats=10, random_state=0)
+pImportance = permutation_importance(dTree, X, y, n_repeats=100, random_state=0)
 print(pImportance["importances_mean"])
 
 

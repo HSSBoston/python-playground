@@ -16,8 +16,11 @@ for inputFileName in csvFileNames:
         csvReader = csv.reader(f)
         for rowIndex, row in enumerate(csvReader):
             if rowIndex == 0:
-                csvHeader = [row[5], row[6], row[7], row[8], row[10], row[9], "class", "alert color"]
+                csvHeader = [row[3], row[5], row[6], row[7], row[8], row[10], row[9], "class", "alert color"]
             else:
+                for data in row:
+                    if data == "": continue
+                    
                 wbgtF = float(row[9])
 #                 if wbgtF > 86.2:
 #                     classNum = 4
@@ -29,17 +32,17 @@ for inputFileName in csvFileNames:
 #                     classNum = 1
 #                 else:
 #                     classNum = 0
-                if wbgtF > 86:
+                if wbgtF >= 86:
                     classNum = 4
-                elif wbgtF > 84:
+                elif wbgtF >= 84:
                     classNum = 3
-                elif wbgtF > 81:
+                elif wbgtF >= 81:
                     classNum = 2
-                elif wbgtF > 76:
+                elif wbgtF >= 76:
                     classNum = 1
                 else:
                     classNum = 0
-                newRow = [row[5], row[6], row[7], row[8], row[10], row[9], classNum, alertColors[classNum]]
+                newRow = [row[3], row[5], row[6], row[7], row[8], row[10], row[9], classNum, alertColors[classNum]]
                 csvRows.append(newRow)
     print("Finished reading " + inputFileName)
 
@@ -67,15 +70,15 @@ with open(outputFileName, "r") as f:
         if rowIndex == 0:
             continue
         else:
-            if row[6] == "0":
+            if row[7] == "0":
                 alertZeroCount += 1
-            elif row[6] == "1":
+            elif row[7] == "1":
                 alertOneCount += 1
-            elif row[6] == "2":
+            elif row[7] == "2":
                 alertTwoCount += 1
-            elif row[6] == "3":
+            elif row[7] == "3":
                 alertThreeCount += 1
-            elif row[6] == "4":
+            elif row[7] == "4":
                 alertFourCount += 1
 
 print(alertZeroCount, alertOneCount, alertTwoCount, alertThreeCount, alertFourCount)

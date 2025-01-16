@@ -2,33 +2,26 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score
+from sklearn.preprocessing import MinMaxScaler
 import numpy as np, csv
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
+from dataset import readData
 
-featureNames = []
-features = []
-classes = []
+datasetFileName = "dataset-sampled.csv"
 
-with open("dataset-sampled.csv", "r") as f:
-    csvReader = csv.reader(f)
-    for rowIndex, row in enumerate(csvReader):
-        if rowIndex == 0:
-#             featureNames = [row[0], row[1], row[2], row[3], row[4]]
-            featureNames = [row[0], row[1], row[3], row[4]]
-        else:
-#             features.append([float(row[0]), float(row[1]), float(row[2]), float(row[3]), float(row[4])])
-            features.append([float(row[0]), float(row[1]),
-                             float(row[3]), float(row[4])])
-            classes.append(int(row[6]))
-
+X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {features[0:5]}")
-print(f"First 5 classes: {classes[0:5]}")
+print(f"First 5 feature sets: {X[0:5]}")
+print(f"First 5 classes: {y[0:5]}")
+print(f"Number of feature sets: {len(X)}")
 
-
-X = features
-y = classes
+scaler = MinMaxScaler()
+X = scaler.fit_transform(X)
+print(f"Feature names: {featureNames}")
+print(f"First 5 feature sets: {X[0:5]}")
+print(f"First 5 classes: {y[0:5]}")
+print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=0)
@@ -49,7 +42,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 # #     print(f"Depth: {depth}, Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
 #     dtResults.append(round(np.mean(scores),3))
 
-clf = RandomForestClassifier(n_estimators=1500, n_jobs=4, random_state=0)
+clf = RandomForestClassifier(n_estimators=2000, n_jobs=4, random_state=0)
     # n_estimators=100 by default
 clf.fit(X_train, y_train)
 
@@ -62,13 +55,13 @@ y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-# skf = StratifiedKFold(n_splits=5)
-# scores = cross_val_score(clf, X, y, cv=skf)
-# print(f"Cross validation score: {round(np.mean(scores),3)}")
-# 
-# sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
-# scores = cross_val_score(clf, X, y, cv=sskf)
-# print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+skf = StratifiedKFold(n_splits=2)
+scores = cross_val_score(clf, X, y, cv=skf)
+print(f"Cross validation score: {round(np.mean(scores),3)}")
+
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.5)
+scores = cross_val_score(clf, X, y, cv=sskf)
+print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 
 

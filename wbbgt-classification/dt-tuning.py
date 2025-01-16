@@ -5,26 +5,9 @@ import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 # import dtreeviz
+from dataset import readData
 
 datasetFileName = "dataset-sampled.csv"
-
-def readData(datasetFileName):
-    with open(datasetFileName, "r") as f:
-        featureNames = []
-        X = [] # features
-        y = [] # classes
-        csvReader = csv.reader(f)
-        for rowIndex, row in enumerate(csvReader):
-            if rowIndex == 0:
-#                 featureNames = [row[0], row[1], row[2], row[3], row[4]]
-                featureNames = [row[0], row[1], row[3], row[4]]
-            else:
-#                 X.append([float(row[0]), float(row[1]),
-#                           float(row[2]), float(row[3]), float(row[4])])
-                X.append([float(row[0]), float(row[1]),
-                          float(row[3]), float(row[4])])
-                y.append(int(row[6]))
-    return (X, y, featureNames)
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
@@ -35,12 +18,12 @@ print(f"Number of feature sets: {len(X)}")
 parameters = {
 #               "criterion": ["gini", "entropy", "log_loss"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": list(range(3, 15, 1)),
+              "max_depth": list(range(3, 20, 1)),
 #               "min_samples_split": [i for i in range(2, 51)],
-              "min_samples_split": list(range(4, 50, 2)),
-              "min_samples_leaf":  list(range(4, 50, 2)),
-              "max_features": ["sqrt", 3, 4],
-              "max_leaf_nodes": list(range(2, 20, 2)),
+              "min_samples_split": list(range(3, 20, 2)),
+              "min_samples_leaf":  list(range(2, 20, 2)),
+              "max_features": [None, 2, 3, 4],
+              "max_leaf_nodes": list(range(2, 50, 2)),
               }
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
