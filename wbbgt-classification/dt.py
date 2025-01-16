@@ -7,7 +7,7 @@ import numpy as np, csv
 import matplotlib.pyplot as plt
 # import dtreeviz
 
-datasetFileName = "dataset09-sampled.csv"
+datasetFileName = "dataset-sampled.csv"
 
 def readData(datasetFileName):
     with open(datasetFileName, "r") as f:
@@ -17,10 +17,13 @@ def readData(datasetFileName):
         csvReader = csv.reader(f)
         for rowIndex, row in enumerate(csvReader):
             if rowIndex == 0:
-                featureNames = [row[0], row[1], row[2], row[3], row[4]]
+#                 featureNames = [row[0], row[1], row[2], row[3], row[4]]
+                featureNames = [row[0], row[1], row[3], row[4]]
             else:
+#                 X.append([float(row[0]), float(row[1]),
+#                           float(row[2]), float(row[3]), float(row[4])])
                 X.append([float(row[0]), float(row[1]),
-                          float(row[2]), float(row[3]), float(row[4])])
+                          float(row[3]), float(row[4])])
                 y.append(int(row[6]))
     return (X, y, featureNames)
 
@@ -31,7 +34,7 @@ print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.3, random_state=0)
+                                                    test_size=0.5, random_state=0)
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
@@ -49,11 +52,11 @@ f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
 # K分割交差検証
-skf = StratifiedKFold(n_splits=5)
+skf = StratifiedKFold(n_splits=2)
 scores = cross_val_score(dTree, X, y, cv=skf)
 print(f"Cross validation score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.5)
 scores = cross_val_score(dTree, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 

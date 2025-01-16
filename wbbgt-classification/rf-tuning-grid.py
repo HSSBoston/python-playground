@@ -1,11 +1,10 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score
 import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
-# import dtreeviz
 
 datasetFileName = "dataset-sampled.csv"
 
@@ -33,26 +32,28 @@ print(f"First 5 feature sets: {X[0:5]}")
 print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
-parameters = {
+parameters = {"n_estimators": [1000, 1500, 2000],
 #               "criterion": ["gini", "entropy", "log_loss"],
+#               "criterion": ["gini"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": list(range(3, 15, 1)),
+              "max_depth": [3, 5, 10],
 #               "min_samples_split": [i for i in range(2, 51)],
-              "min_samples_split": list(range(4, 50, 2)),
-              "min_samples_leaf":  list(range(4, 50, 2)),
-              "max_features": ["sqrt", 3, 4],
-              "max_leaf_nodes": list(range(2, 20, 2)),
+              "min_samples_split": [2, 0.01, 0.0075, 0.005, 0.0125, 0.015, 0.02],
+              "min_samples_leaf": [1, 0.01, 0.0075, 0.005, 0.0125, 0.015, 0.02],
+              "max_features": [None, 1, 2, 3],
+#               "max_leaf_nodes": [None, 150, 125, 100, 75, 50, 25, 15, 10, 5, 3],
               }
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=0)
-    # 30% (or 20%) for testing, 70% (or 80%) for training
+    # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
-dTree = DecisionTreeClassifier(random_state=0)
+
+
+clf = RandomForestClassifier(random_state=0)
 
 startTime = time.time()
-
-gcv = RandomizedSearchCV(dTree, parameters, n_iter=50000,  cv=5, n_jobs=4)
+gcv = GridSearchCV(clf, parameters, cv=5, n_jobs=-1)
 gcv.fit(X_train, y_train)
 
 optimalModel = gcv.best_estimator_
@@ -65,29 +66,17 @@ y_predicted = optimalModel.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-
-# accuracy = gcv.score(featuresTesting, classesTesting)
-# print (f"Accuracy: {round(accuracy,3)}")
-
 print("Best parameters: ", gcv.best_params_)
 
-skf = StratifiedKFold(n_splits=5)  #K=10分割
-scores = cross_val_score(optimalModel, X, y, cv=skf)
-print(f"Cross validation score: {round(np.mean(scores),3)}")
-
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
-scores = cross_val_score(optimalModel, X, y, cv=sskf)
-print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
-
 endTime = time.time()
-print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1)} min")
+print(f"{round(endTime-startTime)} sec, {round( (endTime-startTime)/60, 1 )} min")
 
-valCombinations = 1
-for paramValList in parameters.values():
-    valCombinations *= len(paramValList)
-print(f"Param val combinations: {valCombinations}")
-
-
-
+# skf = StratifiedKFold(n_splits=5)  #K=10分割
+# scores = cross_val_score(optimalModel, X, y, cv=skf)
+# print(f"Cross validation score: {round(np.mean(scores),3)}")
+# 
+# sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+# scores = cross_val_score(optimalModel, X, y, cv=sskf)
+# print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 

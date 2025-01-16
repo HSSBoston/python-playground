@@ -29,16 +29,16 @@ print(f"First 5 feature sets: {X[0:5]}")
 print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
-parameters = {"n_estimators": list(range(100, 1500, 100)),             
+parameters = {"n_estimators": [1000, 1500, 2000],             
 #               "criterion": ["gini", "entropy", "log_loss"],
-              "criterion": ["gini"],
+#               "criterion": ["gini"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": [None]+list(range(5, 500, 5)),
+              "max_depth": [None]+list(range(10, 100, 10)),
 #               "min_samples_split": [i for i in range(2, 51)],
-              "min_samples_split": list(range(2, 100, 2)),
-              "min_samples_leaf":  list(range(1, 100, 2)),
+              "min_samples_split": list(range(2, 100, 20)),
+              "min_samples_leaf":  list(range(1, 100, 20)),
               "max_features": [None, "sqrt", "log2"],
-              "max_leaf_nodes": [None]+list(range(2, 200, 2)),
+#               "max_leaf_nodes": [None]+list(range(2, 200, 20)),
               }
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,

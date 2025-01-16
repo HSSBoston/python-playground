@@ -1,6 +1,8 @@
 import csv, random
 
-sampleSize = 306
+sampleSize = 455
+outputFileName = "dataset-sampled.csv"
+
 csvHeader =[]
 
 alertZeroRows  = []
@@ -15,7 +17,7 @@ alertTwoSamples   = []
 alertThreeSamples = []
 alertFourSamples  = []
 
-with open("dataset09.csv", "r") as f:
+with open("dataset.csv", "r") as f:
     csvReader = csv.reader(f)
     for rowIndex, row in enumerate(csvReader):
         if rowIndex == 0:
@@ -38,17 +40,17 @@ alertZeroSamples  = random.sample(alertZeroRows,  sampleSize)
 alertOneSamples   = random.sample(alertOneRows,   sampleSize)
 alertTwoSamples   = random.sample(alertTwoRows,   sampleSize)
 alertThreeSamples = random.sample(alertThreeRows, sampleSize)
-alertFourSamples  = random.sample(alertFourRows,  sampleSize)
+alertFourSamples  = alertFourRows
 
 print(len(alertZeroSamples), len(alertOneSamples), len(alertTwoSamples), len(alertThreeSamples), len(alertFourSamples))
 
 samples = alertZeroSamples + alertOneSamples + alertTwoSamples + alertThreeSamples + alertFourSamples
 random.shuffle(samples)
 
-with open("dataset-sampled.csv", "w") as f:
+with open(outputFileName, "w") as f:
     writer = csv.writer(f)
     writer.writerow(csvHeader)
     writer.writerows(samples)
 
-print(f"Generated dataset-sampled.csv: {len(samples)} rows")
+print(f"Generated {outputFileName}: {len(samples)} rows")
 
