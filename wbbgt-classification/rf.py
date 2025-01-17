@@ -28,21 +28,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
 
-# dtResults = []
-# for depth in range(1, 11):
-#     clf = tree.DecisionTreeClassifier(max_depth=depth, random_state=0)
-#         # Too shallow tree: poorer classification
-#         # Too deep: overfitting
-#     clf.fit(X_train, y_train)
-#     #     print (f"Depth: {depth}, Accuracy: {round(clf.score(X_test, y_test),3)}")
-#     # K分割交差検証
-#     stratifiedkfold = StratifiedKFold(n_splits=10)  #K=10分割
-#     scores = cross_val_score(clf, X, y, cv=stratifiedkfold)
-#     # print(f"Cross-Validation scores: {scores}")   # 各分割におけるスコア
-# #     print(f"Depth: {depth}, Cross validation score: {round(np.mean(scores),3)}")  # スコアの平均値
-#     dtResults.append(round(np.mean(scores),3))
-
-clf = RandomForestClassifier(n_estimators=2000, n_jobs=4, random_state=0)
+clf = RandomForestClassifier(n_estimators=2000, random_state=0, n_jobs=-1)
     # n_estimators=100 by default
 clf.fit(X_train, y_train)
 
@@ -55,11 +41,11 @@ y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-skf = StratifiedKFold(n_splits=2)
+skf = StratifiedKFold(n_splits=5)
 scores = cross_val_score(clf, X, y, cv=skf)
 print(f"Cross validation score: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.5)
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
 scores = cross_val_score(clf, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 

@@ -1,6 +1,8 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.inspection import permutation_importance
 import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
@@ -15,6 +17,13 @@ print(f"First 5 feature sets: {X[0:5]}")
 print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
+scaler = MinMaxScaler()
+X = scaler.fit_transform(X)
+print(f"Feature names: {featureNames}")
+print(f"First 5 feature sets: {X[0:5]}")
+print(f"First 5 classes: {y[0:5]}")
+print(f"Number of feature sets: {len(X)}")
+
 parameters = {
 #               "criterion": ["gini", "entropy", "log_loss"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
@@ -23,7 +32,8 @@ parameters = {
               "min_samples_split": list(range(3, 20, 2)),
               "min_samples_leaf":  list(range(2, 20, 2)),
               "max_features": [None, 2, 3, 4],
-              "max_leaf_nodes": list(range(2, 50, 2)),
+              "max_leaf_nodes": list(range(2, 100, 2)),
+              "ccp_alpha": np.arange(0, 0.1, 0.001).tolist(),
               }
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
@@ -31,10 +41,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
     # 30% (or 20%) for testing, 70% (or 80%) for training
     # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
+skf = StratifiedKFold(n_splits=5)
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
 
 startTime = time.time()
 
-gcv = GridSearchCV(dTree, parameters, cv=5, n_jobs=4)
+# Default: cv=5, StratifiedKFold
+gcv = GridSearchCV(dTree, parameters, cv=skf, n_jobs=-1)
 gcv.fit(X_train, y_train)
 
 optimalModel = gcv.best_estimator_
@@ -46,15 +59,18 @@ print (f"Accuracy in testing: {round(accuracy,3)}")
 
 print("Best parameters: ", gcv.best_params_)
 
-skf = StratifiedKFold(n_splits=5)  #K=10分割
 scores = cross_val_score(optimalModel, X, y, cv=skf)
 print(f"Cross validation score: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
 scores = cross_val_score(optimalModel, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 endTime = time.time()
+
+print(dTree.feature_importances_)
+pImportance = permutation_importance(dTree, X, y, n_repeats=100, random_state=0)
+print(pImportance["importances_mean"])
+
 print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1)} min")
 
 valCombinations = 1

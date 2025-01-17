@@ -24,7 +24,6 @@ print(f"First 5 feature sets: {X[0:5]}")
 print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
-
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.3, random_state=0)
     # 30% for testing, 70% for training
@@ -44,11 +43,11 @@ f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
 # K分割交差検証
-skf = StratifiedKFold(n_splits=2)
+skf = StratifiedKFold(n_splits=5)
 scores = cross_val_score(dTree, X, y, cv=skf)
 print(f"Cross validation score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.5)
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
 scores = cross_val_score(dTree, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
