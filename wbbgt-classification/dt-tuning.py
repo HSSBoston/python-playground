@@ -3,6 +3,7 @@ from sklearn.model_selection import GridSearchCV, train_test_split, StratifiedSh
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.inspection import permutation_importance
+from sklearn.metrics import f1_score, confusion_matrix
 import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
@@ -30,25 +31,26 @@ parameters = {
               "max_depth": list(range(3, 20, 1)),
 #               "min_samples_split": [i for i in range(2, 51)],
               "min_samples_split": list(range(3, 20, 2)),
-              "min_samples_leaf":  list(range(2, 20, 2)),
+              "min_samples_leaf":  list(range(3, 20, 1)),
               "max_features": [None, 2, 3, 4],
               "max_leaf_nodes": list(range(2, 100, 2)),
-              "ccp_alpha": np.arange(0, 0.1, 0.001).tolist(),
+#               "ccp_alpha": np.arange(0, 0.1, 0.001).tolist(),
               }
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.3, random_state=0)
+                                                    test_size=0.2, random_state=0)
     # 30% (or 20%) for testing, 70% (or 80%) for training
     # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
-skf = StratifiedKFold(n_splits=5)
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+skf = StratifiedKFold(n_splits=10)
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
 
 startTime = time.time()
 
 # Default: cv=5, StratifiedKFold
 gcv = GridSearchCV(dTree, parameters, cv=skf, n_jobs=-1)
 gcv.fit(X_train, y_train)
+# gcv.fit(X, y)
 
 optimalModel = gcv.best_estimator_
 optimalModel.fit(X_train, y_train)
@@ -70,6 +72,9 @@ endTime = time.time()
 print(dTree.feature_importances_)
 pImportance = permutation_importance(dTree, X, y, n_repeats=100, random_state=0)
 print(pImportance["importances_mean"])
+
+cm = confusion_matrix(y_test, y_predicted)
+print(cm)
 
 print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1)} min")
 

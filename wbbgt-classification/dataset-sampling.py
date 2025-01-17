@@ -1,6 +1,6 @@
 import csv, random
 
-sampleSize = 812
+sampleSize = 814
 outputFileName = "dataset-sampled.csv"
 
 csvHeader =[]
