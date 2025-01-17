@@ -52,7 +52,7 @@ sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
 scores = cross_val_score(dTree, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
-cm = confusion_matrix(y_test, y_predicted)
+cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
 print(cm)
 
 print(dTree.feature_importances_)

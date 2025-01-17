@@ -1,6 +1,6 @@
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.inspection import permutation_importance
 from sklearn.preprocessing import MinMaxScaler
 import xgboost as xgb
@@ -26,9 +26,8 @@ print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.5, random_state=0)
-clf = xgb.XGBClassifier(n_estimators=5000, n_jobs=-1)
-
+                                                    test_size=0.2, random_state=0)
+clf = xgb.XGBClassifier(n_estimators=2000, random_state=0, n_jobs=-1)
 clf.fit(X_train, y_train)
 
 accuracy = clf.score(X_train, y_train)
@@ -39,6 +38,9 @@ print (f"Accuracy in testing: {round(accuracy,3)}")
 y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
+
+cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
+print(cm)
 
 # skf = StratifiedKFold(n_splits=2)
 # scores = cross_val_score(clf, X, y, cv=5)
