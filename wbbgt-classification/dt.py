@@ -43,9 +43,6 @@ y_predicted = dTree.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-cm = confusion_matrix(y_test, y_predicted)
-print(cm)
-
 # K分割交差検証
 skf = StratifiedKFold(n_splits=10)
 scores = cross_val_score(dTree, X, y, cv=skf)
@@ -54,6 +51,9 @@ print(f"Cross validation score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
 scores = cross_val_score(dTree, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+
+cm = confusion_matrix(y_test, y_predicted)
+print(cm)
 
 print(dTree.feature_importances_)
 pImportance = permutation_importance(dTree, X, y, n_repeats=100, random_state=0)

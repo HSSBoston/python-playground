@@ -1,7 +1,7 @@
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np, csv
 import matplotlib.pyplot as plt
@@ -24,7 +24,7 @@ print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.3, random_state=0)
+                                                    test_size=0.2, random_state=0)
     # 30% for testing, 70% for training
     # Deterministic (non-random) sampling
 
@@ -41,15 +41,16 @@ y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-skf = StratifiedKFold(n_splits=5)
+skf = StratifiedKFold(n_splits=10)
 scores = cross_val_score(clf, X, y, cv=skf)
 print(f"Cross validation score: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
+sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
 scores = cross_val_score(clf, X, y, cv=sskf)
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
-
+cm = confusion_matrix(y_test, y_predicted)
+print(cm)
 
 # for i, result in enumerate(dtResults):
 #     print(f"Depth: {i+1}, DT: {result}, RF: {rfResults[i]}")
