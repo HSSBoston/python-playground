@@ -5,7 +5,7 @@ outputFileName = "dataset.csv"
 csvFileNames = os.listdir("csv-files")
 if os.path.isfile("csv-files/.DS_Store"):
     csvFileNames.remove(".DS_Store")
-print(csvFileNames)
+print(f"Importing: {csvFileNames}")
 
 alertColors = ["Green", "Yellow", "Orange", "Red", "Black"]
 csvHeader = []
@@ -18,8 +18,7 @@ for inputFileName in csvFileNames:
             if rowIndex == 0:
                 csvHeader = [row[3], row[5], row[6], row[7], row[8], row[10], row[9], "class", "alert color"]
             else:
-                for data in row:
-                    if data == "": continue
+                if "" in row: continue
                     
                 wbgtF = float(row[9])
 #                 if wbgtF > 86.2:
@@ -32,16 +31,11 @@ for inputFileName in csvFileNames:
 #                     classNum = 1
 #                 else:
 #                     classNum = 0
-                if wbgtF >= 86:
-                    classNum = 4
-                elif wbgtF >= 84:
-                    classNum = 3
-                elif wbgtF >= 81:
-                    classNum = 2
-#                 elif wbgtF >= 76:
-#                     classNum = 1
-                else:
-                    classNum = 0
+                if   wbgtF >= 86: classNum = 4
+                elif wbgtF >= 84: classNum = 3
+                elif wbgtF >= 81: classNum = 2
+#               elif wbgtF >= 76: classNum = 1
+                else:             classNum = 0
                 newRow = [row[3], row[5], row[6], row[7], row[8], row[10], row[9], classNum, alertColors[classNum]]
                 csvRows.append(newRow)
     print("Finished reading " + inputFileName)
@@ -59,27 +53,20 @@ with open(outputFileName, "w") as f:
     writer.writerows(uniqueCsvRows)
 print(f"Generated {outputFileName}: {len(uniqueCsvRows)} rows")
 
-alertZeroCount = 0
-alertOneCount = 0
-alertTwoCount = 0
-alertThreeCount = 0
-alertFourCount = 0
+alertZeroCount = alertOneCount = alertTwoCount = alertThreeCount = alertFourCount = 0
+
 with open(outputFileName, "r") as f:
     csvReader = csv.reader(f)
     for rowIndex, row in enumerate(csvReader):
         if rowIndex == 0:
             continue
         else:
-            if row[7] == "0":
-                alertZeroCount += 1
-            elif row[7] == "1":
-                alertOneCount += 1
-            elif row[7] == "2":
-                alertTwoCount += 1
-            elif row[7] == "3":
-                alertThreeCount += 1
-            elif row[7] == "4":
-                alertFourCount += 1
+            if   row[7] == "0": alertZeroCount  += 1
+            elif row[7] == "1": alertOneCount   += 1
+            elif row[7] == "2": alertTwoCount   += 1
+            elif row[7] == "3": alertThreeCount += 1
+            elif row[7] == "4": alertFourCount  += 1
 
-print(alertZeroCount, alertOneCount, alertTwoCount, alertThreeCount, alertFourCount)
+print("Sample count (alert level 0 to 5):")
+print(f"  {alertZeroCount}, {alertOneCount}, {alertTwoCount}, {alertThreeCount}, {alertFourCount}")
 

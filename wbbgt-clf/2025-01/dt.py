@@ -45,12 +45,12 @@ print(f"F1 score: {round(f1score, 3)}")
 
 # K分割交差検証
 skf = StratifiedKFold(n_splits=10)
-scores = cross_val_score(dTree, X, y, cv=skf)
-print(f"Cross validation score w/ StratifiedKFold: {round(np.mean(scores),3)}")
+scores = cross_val_score(dTree, X, y, cv=skf, scoring="f1_macro")
+print(f"Cross validation F1 score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
 sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
-scores = cross_val_score(dTree, X, y, cv=sskf)
-print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+scores = cross_val_score(dTree, X, y, cv=sskf, scoring="f1_macro")
+print(f"Cross validation F1 score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 # cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
 cm = confusion_matrix(y_test, y_predicted, labels=[0, 2, 3, 4])
