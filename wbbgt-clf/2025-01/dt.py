@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # import dtreeviz
 from dataset import readData
 
-datasetFileName = "dataset-sampled.csv"
+datasetFileName = "dataset-downsampled.csv"
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
