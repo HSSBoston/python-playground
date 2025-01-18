@@ -3,12 +3,13 @@ from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, St
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.inspection import permutation_importance
 import numpy as np, csv
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 from dataset import readData
 
-datasetFileName = "dataset-sampled.csv"
+datasetFileName = "dataset-downsampled.csv"
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
@@ -41,19 +42,22 @@ y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-skf = StratifiedKFold(n_splits=10)
-scores = cross_val_score(clf, X, y, cv=skf)
+skf = StratifiedKFold(n_splits=5)
+scores = cross_val_score(clf, X, y, cv=skf, scoring="f1_macro")
 print(f"Cross validation score: {round(np.mean(scores),3)}")
 
 sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
-scores = cross_val_score(clf, X, y, cv=sskf)
+scores = cross_val_score(clf, X, y, cv=sskf, scoring="f1_macro")
 print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
-cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
+# cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
+cm = confusion_matrix(y_test, y_predicted, labels=[0, 2, 3, 4])
 print(cm)
 
-# for i, result in enumerate(dtResults):
-#     print(f"Depth: {i+1}, DT: {result}, RF: {rfResults[i]}")
+print(clf.feature_importances_)
+pImportance = permutation_importance(clf, X, y, n_repeats=100, random_state=0)
+print(pImportance["importances_mean"])
+
 
 
 # iris = load_iris()

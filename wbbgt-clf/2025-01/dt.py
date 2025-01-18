@@ -44,7 +44,7 @@ f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
 # K分割交差検証
-skf = StratifiedKFold(n_splits=10)
+skf = StratifiedKFold(n_splits=5)
 scores = cross_val_score(dTree, X, y, cv=skf, scoring="f1_macro")
 print(f"Cross validation F1 score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
