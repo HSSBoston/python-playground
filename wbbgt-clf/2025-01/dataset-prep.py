@@ -16,7 +16,8 @@ for inputFileName in csvFileNames:
         csvReader = csv.reader(f)
         for rowIndex, row in enumerate(csvReader):
             if rowIndex == 0:
-                csvHeader = [row[3], row[5], row[6], row[7], row[8], row[10], row[9], "class", "alert color"]
+                csvHeader = [row[3], row[5], row[6], row[7], row[8], row[10], row[9],
+                             "class", "alert color"]
             else:
                 if "" in row: continue
                     
@@ -36,7 +37,8 @@ for inputFileName in csvFileNames:
                 elif wbgtF >= 81: classNum = 2
 #               elif wbgtF >= 76: classNum = 1
                 else:             classNum = 0
-                newRow = [row[3], row[5], row[6], row[7], row[8], row[10], row[9], classNum, alertColors[classNum]]
+                newRow = [row[3], row[5], row[6], row[7], row[8], row[10], row[9],
+                          classNum, alertColors[classNum]]
                 csvRows.append(newRow)
     print("Finished reading " + inputFileName)
 
