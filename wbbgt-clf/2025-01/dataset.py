@@ -1,6 +1,7 @@
 import csv
+from sklearn.preprocessing import MinMaxScaler
 
-def readData(datasetFileName):
+def readData(datasetFileName, minMaxScaling=True):
     with open(datasetFileName, "r") as f:
         featureNames = []
         X = [] # features
@@ -16,10 +17,13 @@ def readData(datasetFileName):
 #                 X.append([float(row[0]), float(row[1]), float(row[2]),
 #                           float(row[4]), float(row[5])])
                 y.append(int(row[7]))
+    if minMaxScaling:
+        scaler = MinMaxScaler()
+        X = scaler.fit_transform(X)
     return (X, y, featureNames)
 
 if __name__ == "__main__":
-    X, y, featureNames = readData("dataset-sampled.csv")
+    X, y, featureNames = readData("dataset-downsampled.csv")
     print(f"Feature names: {featureNames}")
     print(f"First 5 feature sets: {X[0:5]}")
     print(f"First 5 classes: {y[0:5]}")

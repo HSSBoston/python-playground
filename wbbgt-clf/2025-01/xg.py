@@ -10,19 +10,10 @@ import matplotlib.pyplot as plt
 # import dtreeviz
 from dataset import readData
 
-datasetFileName = "dataset-sampled.csv"
+datasetFileName = "dataset-downsampled.csv"
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {X[0:5]}")
-print(f"First 5 classes: {y[0:5]}")
-print(f"Number of feature sets: {len(X)}")
-
-scaler = MinMaxScaler()
-X = scaler.fit_transform(X)
-print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {X[0:5]}")
-print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
@@ -39,8 +30,16 @@ y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
+# cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
+cm = confusion_matrix(y_test, y_predicted, labels=[0, 2, 3, 4])
 print(cm)
+
+f1LooseScore = f1_score_loose(cm)
+print(f"F1 loose score: {round(f1LooseScore, 3)}")
+
+
+
+
 
 # skf = StratifiedKFold(n_splits=2)
 # scores = cross_val_score(clf, X, y, cv=5)

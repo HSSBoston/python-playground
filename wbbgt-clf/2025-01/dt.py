@@ -2,7 +2,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.inspection import permutation_importance
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import plot_tree
 from wbgt_metrics import f1_score_loose, f1_loose_scorer
 import numpy as np, csv
@@ -14,15 +13,6 @@ datasetFileName = "dataset-downsampled.csv"
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {X[0:5]}")
-print(f"First 5 classes: {y[0:5]}")
-print(f"Number of feature sets: {len(X)}")
-
-scaler = MinMaxScaler()
-X = scaler.fit_transform(X)
-print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {X[0:5]}")
-print(f"First 5 classes: {y[0:5]}")
 print(f"Number of feature sets: {len(X)}")
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
