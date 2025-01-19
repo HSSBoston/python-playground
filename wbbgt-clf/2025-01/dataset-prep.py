@@ -20,32 +20,33 @@ for inputFileName in csvFileNames:
                              "class", "alert color"]
             else:
                 if "" in row: continue
-                    
                 wbgtF = float(row[9])
-#                 if wbgtF > 86.2:
-#                     classNum = 4
-#                 elif wbgtF > 84.2:
-#                     classNum = 3
-#                 elif wbgtF > 81.1:
-#                     classNum = 2
-#                 elif wbgtF > 76.3:
-#                     classNum = 1
-#                 else:
-#                     classNum = 0
-                if   wbgtF >= 86: classNum = 4
-                elif wbgtF >= 84: classNum = 3
-                elif wbgtF >= 81: classNum = 2
-#               elif wbgtF >= 76: classNum = 1
+#                 if wbgtF > 86.2:   classNum = 4
+#                 elif wbgtF > 84.2: classNum = 3
+#                 elif wbgtF > 81.1: classNum = 2
+#                 elif wbgtF > 76.3: classNum = 1
+#                 else:              classNum = 0
+                
+#                 if   wbgtF >= 86: classNum = 4
+#                 elif wbgtF >= 84: classNum = 3
+#                 elif wbgtF >= 81: classNum = 2
+#                 elif wbgtF >= 76: classNum = 1
+#                 else:             classNum = 0
+
+                if   wbgtF >= 86: classNum = 3
+                elif wbgtF >= 84: classNum = 2
+                elif wbgtF >= 81: classNum = 1
                 else:             classNum = 0
+
                 newRow = [row[3], row[5], row[6], row[7], row[8], row[10], row[9],
                           classNum, alertColors[classNum]]
                 csvRows.append(newRow)
     print("Finished reading " + inputFileName)
 
-# Remove duplicated rows. Keys in a set has to be immutable (tuple).
+# Remove duplicated rows. Keys in a set has to be immutable (tuples).
 # {(...), (...), ...}
 uniqueCsvRowsSet = set([tuple(row) for row in csvRows])
-# [[...], [...], ...]
+# Unique rows are placed in a list of lists: [[...], [...], ...]
 uniqueCsvRows = [list(row) for row in uniqueCsvRowsSet]
 print(f"Duplicated rows removed. Before: {len(csvRows)}, After: {len(uniqueCsvRows)}")
 
@@ -55,7 +56,8 @@ with open(outputFileName, "w") as f:
     writer.writerows(uniqueCsvRows)
 print(f"Generated {outputFileName}: {len(uniqueCsvRows)} rows")
 
-alertZeroCount = alertOneCount = alertTwoCount = alertThreeCount = alertFourCount = 0
+# alertZeroCount = alertOneCount = alertTwoCount = alertThreeCount = alertFourCount = 0
+alertZeroCount = alertOneCount = alertTwoCount = alertThreeCount = 0
 
 with open(outputFileName, "r") as f:
     csvReader = csv.reader(f)
@@ -67,8 +69,11 @@ with open(outputFileName, "r") as f:
             elif row[7] == "1": alertOneCount   += 1
             elif row[7] == "2": alertTwoCount   += 1
             elif row[7] == "3": alertThreeCount += 1
-            elif row[7] == "4": alertFourCount  += 1
+#             elif row[7] == "4": alertFourCount  += 1
 
-print("Sample count (alert level 0 to 5):")
-print(f"  {alertZeroCount}, {alertOneCount}, {alertTwoCount}, {alertThreeCount}, {alertFourCount}")
+# print("Sample counts (alert level 0 to 4:")
+# print(f"  {alertZeroCount}, {alertOneCount}, {alertTwoCount}, {alertThreeCount}, {alertFourCount}")
+
+print("Sample counts (alert level 0 to 3):")
+print(f"  {alertZeroCount}, {alertOneCount}, {alertTwoCount}, {alertThreeCount}")
 

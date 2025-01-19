@@ -9,11 +9,12 @@ import matplotlib.pyplot as plt
 # import dtreeviz
 from dataset import readData
 
-datasetFileName = "dataset-downsampled.csv"
+datasetFileName = "dataset.csv"
 
 X, y, featureNames = readData(datasetFileName)
 print(f"Feature names: {featureNames}")
-print(f"Number of feature sets: {len(X)}")
+print(f"Number of feature sets: {len(X)} \n")
+
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.2, random_state=0)
@@ -35,7 +36,7 @@ f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
 # cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
-cm = confusion_matrix(y_test, y_predicted, labels=[0, 2, 3, 4])
+cm = confusion_matrix(y_test, y_predicted)
 print(cm)
 
 f1LooseScore = f1_score_loose(cm)

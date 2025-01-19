@@ -2,7 +2,7 @@ from sklearn.metrics import confusion_matrix
 
 def f1_loose_scorer(estimator, X, y):
     y_predicted = estimator.predict(X)
-    cm = confusion_matrix(y, y_predicted, labels=[0, 2, 3, 4])
+    cm = confusion_matrix(y, y_predicted)
     return f1_score_loose(cm)   
     
 def f1_score_loose(confusionMatrix):

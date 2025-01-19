@@ -36,7 +36,7 @@ startTime = time.time()
 
 # Default: cv=5, StratifiedKFold
 gcv = GridSearchCV(clf, parameters, cv=skf, n_jobs=-1)
-gcv.fit(X_train, y_train)
+gcv.fit(X, y)
 
 optimalModel = gcv.best_estimator_
 accuracy = optimalModel.score(X_train, y_train)
