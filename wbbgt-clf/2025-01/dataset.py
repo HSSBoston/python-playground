@@ -1,8 +1,12 @@
 import csv
 from sklearn.preprocessing import MinMaxScaler
 from imblearn.under_sampling import RandomUnderSampler
+from imblearn.over_sampling import SMOTE
+from imblearn.combine import SMOTEENN
 
-def readData(rawDatasetFileName, minMaxScaling=True, downSampling="imblearn"):
+def readData(rawDatasetFileName, minMaxScaling=True,
+             downSampling=False, overSampling=False, downOverSampling=False, 
+             randomState=0):
     print(f"Reading {rawDatasetFileName}")
     with open(rawDatasetFileName, "r") as f:
         featureNames = []
@@ -23,15 +27,30 @@ def readData(rawDatasetFileName, minMaxScaling=True, downSampling="imblearn"):
     print("Per-class sample count (alert level 0 to 3):")
     print(perClassSampleCounts(y))
     
-    if downSampling == "imblearn":
-        sampler = RandomUnderSampler(random_state=0)
+    if downSampling == "RandomUnderSampler":
+        sampler = RandomUnderSampler(random_state=randomState)
         X, y = sampler.fit_resample(X, y)
-        print("Downsamping with imblearn done.")
+        print("Downsamping with RandomUnderSampler done.")
+        print("Per-class sample count (alert level 0 to 3):")
+        print(perClassSampleCounts(y))
+
+    if overSampling == "SMOTE":
+        sampler = SMOTE(random_state=randomState)
+        X, y = sampler.fit_resample(X, y)
+        print("Oversampling with SMOTE done.")
+        print("Per-class sample count (alert level 0 to 3):")
+        print(perClassSampleCounts(y))        
+
+    if downOverSampling == "SMOTEENN":
+        sampler = SMOTEENN(random_state=randomState, n_jobs=-1)
+        X, y = sampler.fit_resample(X, y)
+        print("Down- and over-samping with SMOTEENN done.")
         print("Per-class sample count (alert level 0 to 3):")
         print(perClassSampleCounts(y))
 
     if minMaxScaling:
         scaler = MinMaxScaler()
+            # sampling_strategy="auto": Resampling all calsses but the minority class
         X = scaler.fit_transform(X)
         print("Min-max scaling done.")
 
@@ -45,4 +64,23 @@ if __name__ == "__main__":
     print(f"Feature names: {featureNames}")
     print(f"First 5 feature sets: {X[0:5]}")
     print(f"First 5 classes: {y[0:5]}")
-    print(f"Number of feature sets: {len(X)}")
+    print(f"Number of feature sets: {len(X)} \n")
+    
+    X, y, featureNames = readData("dataset.csv", downSampling="RandomUnderSampler")
+    print(f"Feature names: {featureNames}")
+    print(f"First 5 feature sets: {X[0:5]}")
+    print(f"First 5 classes: {y[0:5]}")
+    print(f"Number of feature sets: {len(X)} \n")
+   
+    X, y, featureNames = readData("dataset.csv", overSampling="SMOTE")
+    print(f"Feature names: {featureNames}")
+    print(f"First 5 feature sets: {X[0:5]}")
+    print(f"First 5 classes: {y[0:5]}")
+    print(f"Number of feature sets: {len(X)} \n")
+
+    X, y, featureNames = readData("dataset.csv", downOverSampling="SMOTEENN")
+    print(f"Feature names: {featureNames}")
+    print(f"First 5 feature sets: {X[0:5]}")
+    print(f"First 5 classes: {y[0:5]}")
+    print(f"Number of feature sets: {len(X)} \n")
+ 

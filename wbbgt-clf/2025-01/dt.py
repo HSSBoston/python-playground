@@ -1,30 +1,66 @@
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.model_selection import train_test_split, StratifiedShuffleSplit, StratifiedKFold, cross_val_score
 from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.inspection import permutation_importance
-from sklearn.tree import plot_tree
 from wbgt_metrics import f1_score_loose, f1_loose_scorer
-import numpy as np
+import numpy as np, sys
 import matplotlib.pyplot as plt
 # import dtreeviz
-from dataset import readData
+from dataset import readData, perClassSampleCounts
+from imblearn.over_sampling import SMOTE
+from imblearn.combine import SMOTEENN
 
 datasetFileName = "dataset.csv"
 
-X, y, featureNames = readData(datasetFileName)
+X, y, featureNames = readData(datasetFileName, minMaxScaling=False, downSampling="RandomUnderSampler")
 print(f"Feature names: {featureNames}")
-print(f"Number of feature sets: {len(X)} \n")
-
-
+print(f"Number of samples: {len(X)} \n")
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.2, random_state=0)
-    # 30% for testing, 70% for training
-    # Deterministic (non-random) sampling
+
+X_train, y_train, featureNames = readData(datasetFileName, minMaxScaling=False, overSampling="SMOTE")
+
+# print(X_test[0])
+# print(X_train[0])
+# print( np.array_equal(X_test[0], X_train[0]) )
+
+count=0
+for i, train in enumerate(X_train):
+    for j, test in enumerate(X_test):
+        if np.array_equal(train, test):
+            count += 1 
+print(count)
+
+# 
+# print(len(X_train))
+# X_train0 = [x for i, x in enumerate(X_train) if y_train[i]==0]
+# print(len(X_train0))
+# 
+# X_test X_train0
+
+sys.exit()
+      
+# print(type(X_train), type(X_train), type(y_train))
+# print(len(X_train), len(y_train))
+# for i, test in enumerate(X_test):
+#     X_train = X_train - test
+#     X_train = X_train[:, ~np.all(X_train == [0,0,0,0,0,0], axis=0)]
+# print(len(X_train))
+      
+#     for j, train in enumerate(X_train):
+#         if np.array_equal(train, test):
+# 　　            print("!!!")
+#             X_train = np.delete(X_train, j, axis=0)
+#             del y_train[j]
+print(len(X_train), len(y_train))
+print(f"Total sample count for training: {len(y_train)}")
+print("Per-class sample count (alert level 0 to 3):")
+print(perClassSampleCounts(y_train))        
+
 dTree = DecisionTreeClassifier(random_state=0)
     # Too shallow tree: poorer classification
     # Too deep: overfitting
 dTree.fit(X_train, y_train)
-# dTree.fit(X, y)
 
 accuracy = dTree.score(X_train, y_train)
 print (f"Accuracy in training: {round(accuracy,3)}")
