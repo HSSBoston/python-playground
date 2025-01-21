@@ -6,53 +6,55 @@ from wbgt_metrics import f1_score_loose, f1_loose_scorer
 import numpy as np, sys
 import matplotlib.pyplot as plt
 # import dtreeviz
-from dataset import readData, perClassSampleCounts
+from dataset_prep import getData, perClassSampleCounts
 from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTEENN
 
-datasetFileName = "dataset.csv"
+datasetFileName = "dataset-undersampled.csv"
 
-X, y, featureNames = readData(datasetFileName, minMaxScaling=False, downSampling="RandomUnderSampler")
-print(f"Feature names: {featureNames}")
-print(f"Number of samples: {len(X)} \n")
-
-print("X, y counts", len(X), len(y))
-print("X, y unique counts", len(np.unique(X, axis=0)),
-                                      len(np.unique(y, axis=0)))
+X, y, featureNames = getData(datasetFileName)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.2, random_state=0)
 
-print("X_test, y_test counts", len(X_test), len(y_test))
-print("X_test, y_test unique counts", len(np.unique(X_test, axis=0)),
-                                      len(np.unique(y_test, axis=0)))
 
-X_train, y_train, featureNames = readData(datasetFileName, minMaxScaling=False, downOverSampling="SMOTEENN")
-
-print("X_train, y_train counts", len(X_train), len(y_train))
-print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
-                                      len(np.unique(y_train, axis=0)))
-
-# print(X_test[0])
-# print(X_train[0])
-# print( np.array_equal(X_test[0], X_train[0]) )
-
-count=0
-for i, train in enumerate(X_train):
-    for j, test in enumerate(X_test):
-        if np.array_equal(train, test):
-            del X_train[i]
-            del y_train[i]
-            count += 1 
-print(count, " removed")
-print("X_train, y_train counts", len(X_train), len(y_train))
-print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
-                                      len(np.unique(y_train, axis=0)))
-
-print(len(X_train), len(y_train))
-print(f"Total sample count for training: {len(y_train)}")
-print("Per-class sample count (alert level 0 to 3):")
-print(perClassSampleCounts(y_train))        
+# print("X, y counts", len(X), len(y))
+# print("X, y unique counts", len(np.unique(X, axis=0)),
+#                                       len(np.unique(y, axis=0)))
+# 
+# X_train, X_test, y_train, y_test = train_test_split(X, y,
+#                                                     test_size=0.2, random_state=0)
+# 
+# print("X_test, y_test counts", len(X_test), len(y_test))
+# print("X_test, y_test unique counts", len(np.unique(X_test, axis=0)),
+#                                       len(np.unique(y_test, axis=0)))
+# 
+# X_train, y_train, featureNames = readData(datasetFileName, minMaxScaling=False, downOverSampling="SMOTEENN")
+# 
+# print("X_train, y_train counts", len(X_train), len(y_train))
+# print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
+#                                       len(np.unique(y_train, axis=0)))
+# 
+# # print(X_test[0])
+# # print(X_train[0])
+# # print( np.array_equal(X_test[0], X_train[0]) )
+# 
+# count=0
+# for i, train in enumerate(X_train):
+#     for j, test in enumerate(X_test):
+#         if np.array_equal(train, test):
+#             del X_train[i]
+#             del y_train[i]
+#             count += 1 
+# print(count, " removed")
+# print("X_train, y_train counts", len(X_train), len(y_train))
+# print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
+#                                       len(np.unique(y_train, axis=0)))
+# 
+# print(len(X_train), len(y_train))
+# print(f"Total sample count for training: {len(y_train)}")
+# print("Per-class sample count (alert level 0 to 3):")
+# print(perClassSampleCounts(y_train))        
 
 dTree = DecisionTreeClassifier(random_state=0)
     # Too shallow tree: poorer classification
