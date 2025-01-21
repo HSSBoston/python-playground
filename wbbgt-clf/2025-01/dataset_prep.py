@@ -26,41 +26,12 @@ def readRawDataset(rawDatasetFileName):
     print("Per-class sample count (alert level 0 to 3):")
     print(perClassSampleCounts(y))
     return (X, y, featureNames)
-    
-#     if downSampling == "RandomUnderSampler":
-#         sampler = RandomUnderSampler(random_state=randomState)
-#         X, y = sampler.fit_resample(X, y)
-#         print("Downsamping with RandomUnderSampler done.")
-#         print("Per-class sample count (alert level 0 to 3):")
-#         print(perClassSampleCounts(y))
-# 
-#     if overSampling == "SMOTE":
-#         sampler = SMOTE(random_state=randomState)
-#         X, y = sampler.fit_resample(X, y)
-#         print("Oversampling with SMOTE done.")
-#         print("Per-class sample count (alert level 0 to 3):")
-#         print(perClassSampleCounts(y))        
-# 
-#     if downOverSampling == "SMOTEENN":
-#         sampler = SMOTEENN(random_state=randomState, n_jobs=-1)
-#         X, y = sampler.fit_resample(X, y)
-#         print("Down- and over-samping with SMOTEENN done.")
-#         print("Per-class sample count (alert level 0 to 3):")
-#         print(perClassSampleCounts(y))
-# 
-#     if minMaxScaling:
-#         scaler = MinMaxScaler()
-#             # sampling_strategy="auto": Resampling all calsses but the minority class
-#         X = scaler.fit_transform(X)
-#         print("Min-max scaling done.")
-# 
-#     return (X, y, featureNames)
 
-def undersampleRawDataset(inputDatasetFileName,
-                          downSampling="RandomUnderSampler",
-                          randomState=0,
-                          outputFileName="dataset-undersampled.csv"):
-    X, y, featureNames = readRawDataset(inputDatasetFileName)
+def undersample(rawDatasetFileName,
+                downSampling="RandomUnderSampler",
+                randomState=0,
+                outputFileName="dataset-undersampled.csv"):
+    X, y, featureNames = readRawDataset(rawDatasetFileName)
     if downSampling == "RandomUnderSampler":
         sampler = RandomUnderSampler(random_state=randomState)
         X, y = sampler.fit_resample(X, y)
@@ -80,15 +51,21 @@ def undersampleRawDataset(inputDatasetFileName,
     print(f"Generated {outputFileName}: {len(csvRows)} rows \n")
     return (X, y, featureNames)
 
-def OversampleRawDataset(inputDatasetFileName,
-                         overSampling="SMOTE",
-                         randomState=0,
-                         removeTestData=False, # or X_test
-                         outputFileName="dataset-oversampled.csv"):
-    X, y, featureNames = readRawDataset(inputDatasetFileName)    
+def oversample(rawDatasetFileName,
+               overSampling="SMOTE",
+               randomState=0,
+               removeTestData=False, # or X_test
+               outputFileName="dataset-oversampled.csv"):
+    X, y, featureNames = readRawDataset(rawDatasetFileName)    
+
     if overSampling == "SMOTE":
         sampler = SMOTE(random_state=randomState)
         X, y = sampler.fit_resample(X, y)
+
+    if overSampling == "SMOTEENN":
+        sampler = SMOTEENN(random_state=randomState)
+        X, y = sampler.fit_resample(X, y)
+    
     print(f"Oversampling with {overSampling} done.")
     print("Per-class sample count (alert level 0 to 3):")
     print(perClassSampleCounts(y))
@@ -97,11 +74,16 @@ def OversampleRawDataset(inputDatasetFileName,
         X_test = removeTestData
         removalCount=0
         for i, x in enumerate(X):
-            for j, test in enumerate(X_test):
-                if np.array_equal(x, test):
-                    del X[i]
-                    del y[i]
-                    removalCount += 1
+            if x in X_test:
+                del X[i]
+                del y[i]
+                removalCount += 1
+#             for j, test in enumerate(X_test):
+#                 if np.array_equal(x, test):
+#                     del X[i]
+#                     del y[i]
+#                     removalCount += 1
+        print(f"Test data (X_test) size: {len(X_test)}")
         print(f"Test data (X_test) removed from the oversampled dataset. Removal count: {removalCount} ")
 
     csvRows = []
@@ -113,8 +95,11 @@ def OversampleRawDataset(inputDatasetFileName,
         writer = csv.writer(f)
         writer.writerow(featureNames)
         writer.writerows(csvRows)
-    print(f" {len(np.unique(X, axis=0))}")
-    print(f"Generated {outputFileName}: {len(csvRows)} rows, {len(np.unique(X, axis=0))} unique rows\n")
+    print("Per-class sample count (alert level 0 to 3):")
+    print(perClassSampleCounts(y))
+    print(f"Generated {outputFileName}: {len(csvRows)} rows, "\
+          f"{len(np.unique(X, axis=0))} unique rows, "\
+          f"{len(csvRows) - len(np.unique(X, axis=0))} duplicated rows\n")
     return (X, y, featureNames)
 
 def readData(inputDatasetFileName):
@@ -142,45 +127,35 @@ def readData(inputDatasetFileName):
 def perClassSampleCounts(y):
     return [y.count(0), y.count(1), y.count(2), y.count(3)]
 
+def minMaxScaling(X):
+    scaler = MinMaxScaler()
+    X = scaler.fit_transform(X)
+    print("Min-max scaling done.")
+    return X
+
 
 if __name__ == "__main__":
     rawDatasetFileName = "dataset.csv"
     
     print("***** Undersampling")
-    X, y, featureNames = undersampleRawDataset(rawDatasetFileName)
+    X, y, featureNames = undersample(rawDatasetFileName)
     _, X_test, _, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    print("***** Oversampling")
-    OversampleRawDataset(rawDatasetFileName)
+    print("***** Oversampling with SMOTE")
+    oversample(rawDatasetFileName)
 
-    print("***** Oversampling, then removing test data (X_test)")
-    X_train, y_train, featureNames = OversampleRawDataset(
-                                         rawDatasetFileName,
-                                         removeTestData = X_test,
-                                         outputFileName = "dataset-oversampled-testdata-removed.csv")
-    
-    
-#     X, y, featureNames = readData("dataset.csv")
-#     print(f"Feature names: {featureNames}")
-#     print(f"First 5 feature sets: {X[0:5]}")
-#     print(f"First 5 classes: {y[0:5]}")
-#     print(f"Number of feature sets: {len(X)} \n")
-#     
-#     X, y, featureNames = readData("dataset.csv", downSampling="RandomUnderSampler")
-#     print(f"Feature names: {featureNames}")
-#     print(f"First 5 feature sets: {X[0:5]}")
-#     print(f"First 5 classes: {y[0:5]}")
-#     print(f"Number of feature sets: {len(X)} \n")
-#    
-#     X, y, featureNames = readData("dataset.csv", overSampling="SMOTE")
-#     print(f"Feature names: {featureNames}")
-#     print(f"First 5 feature sets: {X[0:5]}")
-#     print(f"First 5 classes: {y[0:5]}")
-#     print(f"Number of feature sets: {len(X)} \n")
-# 
-#     X, y, featureNames = readData("dataset.csv", downOverSampling="SMOTEENN")
-#     print(f"Feature names: {featureNames}")
-#     print(f"First 5 feature sets: {X[0:5]}")
-#     print(f"First 5 classes: {y[0:5]}")
-#     print(f"Number of feature sets: {len(X)} \n")
- 
+    print("***** Oversampling with SMOTE, then removing test data (X_test)")
+    oversample(rawDatasetFileName,
+               removeTestData = X_test,
+               outputFileName = "dataset-oversampled-SMOTE-testdata-removed.csv")
+
+    print("***** Oversampling with SMOTEENN, then removing test data (X_test)")
+    oversample(rawDatasetFileName,
+               overSampling = "SMOTEENN",
+               removeTestData = X_test,
+               outputFileName = "dataset-oversampled-SMOTEENN-testdata-removed.csv")
+
+# print( np.array_equal(X_test, X_test2) )
+# print(X_test[:5])
+# print(X_test2[:5])
+
