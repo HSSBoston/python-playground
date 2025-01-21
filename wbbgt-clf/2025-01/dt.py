@@ -27,7 +27,7 @@ print("X_test, y_test counts", len(X_test), len(y_test))
 print("X_test, y_test unique counts", len(np.unique(X_test, axis=0)),
                                       len(np.unique(y_test, axis=0)))
 
-X_train, y_train, featureNames = readData(datasetFileName, minMaxScaling=False, overSampling="SMOTE")
+X_train, y_train, featureNames = readData(datasetFileName, minMaxScaling=False, downOverSampling="SMOTEENN")
 
 print("X_train, y_train counts", len(X_train), len(y_train))
 print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
