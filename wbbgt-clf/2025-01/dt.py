@@ -11,11 +11,16 @@ from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTEENN
 
 datasetFileName = "dataset-undersampled.csv"
-
 X, y, featureNames = getData(datasetFileName)
-
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.2, random_state=0)
+
+# datasetFileName = "dataset-oversampled.csv"
+# X, y, featureNames = getData(datasetFileName)
+# X_train, X_test, y_train, y_test = train_test_split(X, y,
+#                                                     test_size=0.2, random_state=0)
+
+
 
 
 # print("X, y counts", len(X), len(y))
