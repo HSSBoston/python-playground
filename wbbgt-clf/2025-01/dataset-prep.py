@@ -1,4 +1,5 @@
 import os, csv
+import numpy as np
 
 outputFileName = "dataset.csv"
 
@@ -42,6 +43,9 @@ for inputFileName in csvFileNames:
                           classNum, alertColors[classNum]]
                 csvRows.append(newRow)
     print("Finished reading " + inputFileName)
+
+print("CSV row count:", len(csvRows))
+print("CSV unique row count:", len(np.unique(csvRows, axis=0)))
 
 # Remove duplicated rows. Keys in a set has to be immutable (tuples).
 # {(...), (...), ...}

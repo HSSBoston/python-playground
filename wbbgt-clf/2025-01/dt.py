@@ -15,10 +15,23 @@ datasetFileName = "dataset.csv"
 X, y, featureNames = readData(datasetFileName, minMaxScaling=False, downSampling="RandomUnderSampler")
 print(f"Feature names: {featureNames}")
 print(f"Number of samples: {len(X)} \n")
+
+print("X, y counts", len(X), len(y))
+print("X, y unique counts", len(np.unique(X, axis=0)),
+                                      len(np.unique(y, axis=0)))
+
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.2, random_state=0)
 
+print("X_test, y_test counts", len(X_test), len(y_test))
+print("X_test, y_test unique counts", len(np.unique(X_test, axis=0)),
+                                      len(np.unique(y_test, axis=0)))
+
 X_train, y_train, featureNames = readData(datasetFileName, minMaxScaling=False, overSampling="SMOTE")
+
+print("X_train, y_train counts", len(X_train), len(y_train))
+print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
+                                      len(np.unique(y_train, axis=0)))
 
 # print(X_test[0])
 # print(X_train[0])
@@ -28,30 +41,14 @@ count=0
 for i, train in enumerate(X_train):
     for j, test in enumerate(X_test):
         if np.array_equal(train, test):
+            del X_train[i]
+            del y_train[i]
             count += 1 
-print(count)
+print(count, " removed")
+print("X_train, y_train counts", len(X_train), len(y_train))
+print("X_train, y_train unique counts", len(np.unique(X_train, axis=0)),
+                                      len(np.unique(y_train, axis=0)))
 
-# 
-# print(len(X_train))
-# X_train0 = [x for i, x in enumerate(X_train) if y_train[i]==0]
-# print(len(X_train0))
-# 
-# X_test X_train0
-
-sys.exit()
-      
-# print(type(X_train), type(X_train), type(y_train))
-# print(len(X_train), len(y_train))
-# for i, test in enumerate(X_test):
-#     X_train = X_train - test
-#     X_train = X_train[:, ~np.all(X_train == [0,0,0,0,0,0], axis=0)]
-# print(len(X_train))
-      
-#     for j, train in enumerate(X_train):
-#         if np.array_equal(train, test):
-# 　　            print("!!!")
-#             X_train = np.delete(X_train, j, axis=0)
-#             del y_train[j]
 print(len(X_train), len(y_train))
 print(f"Total sample count for training: {len(y_train)}")
 print("Per-class sample count (alert level 0 to 3):")
