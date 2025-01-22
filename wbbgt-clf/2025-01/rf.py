@@ -33,8 +33,7 @@ y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-# cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
-cm = confusion_matrix(y_test, y_predicted, labels=[0, 2, 3, 4])
+cm = confusion_matrix(y_test, y_predicted)
 print(cm)
 
 f1LooseScore = f1_score_loose(cm)
