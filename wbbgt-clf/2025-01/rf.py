@@ -7,18 +7,18 @@ from wbgt_metrics import f1_score_loose, f1_loose_scorer
 import numpy as np, csv
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
-from dataset import readData
+from dataset_prep import undersample, oversample 
 
-datasetFileName = "dataset-downsampled.csv"
-
-X, y, featureNames = readData(datasetFileName)
-print(f"Feature names: {featureNames}")
-print(f"Number of feature sets: {len(X)}")
-
+rawDatasetFileName = "dataset.csv"
+X, y, featureNames = undersample(rawDatasetFileName)
 X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size=0.2, random_state=0)
-    # 30% for testing, 70% for training
-    # Deterministic (non-random) sampling
+
+X_train, y_train, featureNames = oversample(rawDatasetFileName,
+                                            overSampling="SMOTE", # or SMOTEENN
+                                            removeTestData = X_test)
+X = np.concatenate([X_train, X_test])
+y = np.concatenate([y_train, y_test])
 
 clf = RandomForestClassifier(n_estimators=2000, random_state=0, n_jobs=-1)
     # n_estimators=100 by default

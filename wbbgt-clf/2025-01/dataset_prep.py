@@ -66,7 +66,7 @@ def oversample(rawDatasetFileName,
         sampler = SMOTEENN(random_state=randomState)
         X, y = sampler.fit_resample(X, y)
     
-    print(f"Oversampling with {overSampling} done.")
+    print(f"Oversampling with {overSampling} done. Sample cout: {len(X)}")
     print("Per-class sample count (alert level 0 to 3):")
     print(perClassSampleCounts(y))
     

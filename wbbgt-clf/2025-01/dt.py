@@ -7,8 +7,6 @@ import numpy as np, sys
 import matplotlib.pyplot as plt
 # import dtreeviz
 from dataset_prep import undersample, oversample 
-from imblearn.over_sampling import SMOTE
-from imblearn.combine import SMOTEENN
 
 rawDatasetFileName = "dataset.csv"
 X, y, featureNames = undersample(rawDatasetFileName)
@@ -18,6 +16,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 X_train, y_train, featureNames = oversample(rawDatasetFileName,
                                             overSampling="SMOTE", # or SMOTEENN
                                             removeTestData = X_test)
+X = np.concatenate([X_train, X_test])
+y = np.concatenate([y_train, y_test])
 
 dTree = DecisionTreeClassifier(random_state=0)
     # Too shallow tree: poorer classification
@@ -33,7 +33,6 @@ y_predicted = dTree.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
 print(f"F1 score: {round(f1score, 3)}")
 
-# cm = confusion_matrix(y_test, y_predicted, labels=[0, 1, 2, 3, 4])
 cm = confusion_matrix(y_test, y_predicted)
 print(cm)
 
