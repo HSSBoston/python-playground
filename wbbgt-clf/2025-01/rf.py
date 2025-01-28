@@ -20,8 +20,7 @@ X_train, y_train, featureNames = oversample(rawDatasetFileName,
 X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
 
-clf = RandomForestClassifier(n_estimators=2000,
-                             max_depth=10, max_leaf_nodes=50,
+clf = RandomForestClassifier(n_estimators=100,
                              random_state=0, n_jobs=-1)
     # n_estimators=100 by default
 clf.fit(X_train, y_train)
@@ -46,20 +45,20 @@ skf = StratifiedKFold(n_splits=5)
 scores = cross_val_score(clf, X, y, cv=skf, scoring="f1_macro")
 print(f"Cross validation F1 score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
-scores = cross_val_score(clf, X, y, cv=sskf, scoring="f1_macro")
-print(f"Cross validation F1 score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+# sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
+# scores = cross_val_score(clf, X, y, cv=sskf, scoring="f1_macro")
+# print(f"Cross validation F1 score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 scores = cross_val_score(clf, X, y, cv=skf, scoring=f1_loose_scorer)
 print(f"Cross validation F1 loose score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
-scores = cross_val_score(clf, X, y, cv=sskf, scoring=f1_loose_scorer)
-print(f"Cross validation F1 loose score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+# sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
+# scores = cross_val_score(clf, X, y, cv=sskf, scoring=f1_loose_scorer)
+# print(f"Cross validation F1 loose score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 print(clf.feature_importances_)
-pImportance = permutation_importance(clf, X, y, n_repeats=100, random_state=0)
-print(pImportance["importances_mean"])
+# pImportance = permutation_importance(clf, X, y, n_repeats=100, random_state=0)
+# print(pImportance["importances_mean"])
 
 
 
