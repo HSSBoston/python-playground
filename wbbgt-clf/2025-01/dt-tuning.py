@@ -34,7 +34,7 @@ parameters = {
               }
 
 dTree = DecisionTreeClassifier(random_state=0)
-skf = StratifiedKFold(n_splits=10)
+skf = StratifiedKFold(n_splits=5)
 sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
 
 startTime = time.time()
