@@ -31,10 +31,10 @@ visualizer = validation_curve(RandomForestClassifier(random_state=0),
                               X,
                               y,
 #                               param_name = "n_estimators", param_range = range(1, 500, 50),
-                              param_name = "max_depth", param_range = range(1, 21),
+#                               param_name = "max_depth", param_range = range(1, 21),
 #                               param_name = "max_leaf_nodes", param_range = range(2, 201),
-#                               param_name = "min_samples_split", param_range = range(2, 101, 2), #def 2
-#                               param_name = "min_samples_leaf", param_range = range(1, 101, 2), #def 1
+#                               param_name = "min_samples_split", param_range = range(2, 51, 2), #def 2
+                              param_name = "min_samples_leaf", param_range = range(1, 51, 2), #def 1
 #                               param_name = "max_features", param_range = [1, 2, 3, 4, 5], #def 5
                               scoring = "f1_macro", cv=skf, ax=ax, n_jobs=-1)
 
