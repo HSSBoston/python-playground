@@ -4,43 +4,35 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.inspection import permutation_importance
 from sklearn.metrics import f1_score, confusion_matrix
+from wbgt_metrics import f1_score_loose, f1_loose_scorer
 import numpy as np, csv, time
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 # import dtreeviz
-from dataset import readData
+from dataset_prep import undersample, oversample 
 
-datasetFileName = "dataset-sampled.csv"
+rawDatasetFileName = "dataset.csv"
+X, y, featureNames = undersample(rawDatasetFileName)
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.2, random_state=0)
 
-X, y, featureNames = readData(datasetFileName)
-print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {X[0:5]}")
-print(f"First 5 classes: {y[0:5]}")
-print(f"Number of feature sets: {len(X)}")
-
-scaler = MinMaxScaler()
-X = scaler.fit_transform(X)
-print(f"Feature names: {featureNames}")
-print(f"First 5 feature sets: {X[0:5]}")
-print(f"First 5 classes: {y[0:5]}")
-print(f"Number of feature sets: {len(X)}")
+X_train, y_train, featureNames = oversample(rawDatasetFileName,
+                                            overSampling="SMOTE", # or SMOTEENN
+                                            removeTestData = X_test)
+X = np.concatenate([X_train, X_test])
+y = np.concatenate([y_train, y_test])
 
 parameters = {
 #               "criterion": ["gini", "entropy", "log_loss"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": list(range(3, 20, 1)),
-#               "min_samples_split": [i for i in range(2, 51)],
-              "min_samples_split": list(range(3, 20, 2)),
-              "min_samples_leaf":  list(range(3, 20, 1)),
-              "max_features": [None, 2, 3, 4],
-              "max_leaf_nodes": list(range(2, 100, 2)),
+              "max_depth": list(range(9, 15, 1)),
+              "min_samples_split": list(range(20, 40, 1)),
+              "min_samples_leaf":  list(range(10, 30, 1)),
+#               "max_features": [None, "sqrt"],
+#               "max_leaf_nodes": list(range(25, 77, 2)),
 #               "ccp_alpha": np.arange(0, 0.1, 0.001).tolist(),
               }
 
-X_train, X_test, y_train, y_test = train_test_split(X, y,
-                                                    test_size=0.2, random_state=0)
-    # 30% (or 20%) for testing, 70% (or 80%) for training
-    # Deterministic (non-random) sampling
 dTree = DecisionTreeClassifier(random_state=0)
 skf = StratifiedKFold(n_splits=10)
 sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
@@ -61,27 +53,22 @@ print (f"Accuracy in testing: {round(accuracy,3)}")
 
 print("Best parameters: ", gcv.best_params_)
 
-scores = cross_val_score(optimalModel, X, y, cv=skf)
-print(f"Cross validation score: {round(np.mean(scores),3)}")
+scores = cross_val_score(optimalModel, X, y, cv=skf, scoring="f1_macro")
+print(f"Cross validation F1 score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
-scores = cross_val_score(optimalModel, X, y, cv=sskf)
-print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+scores = cross_val_score(dTree, X, y, cv=skf, scoring=f1_loose_scorer)
+print(f"Cross validation F1 loose score w/ StratifiedKFold: {round(np.mean(scores),3)}")
+
+# scores = cross_val_score(optimalModel, X, y, cv=sskf)
+# print(f"Cross validation score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 endTime = time.time()
 
-print(dTree.feature_importances_)
-pImportance = permutation_importance(dTree, X, y, n_repeats=100, random_state=0)
+print(optimalModel.feature_importances_)
+pImportance = permutation_importance(optimalModel, X, y, n_repeats=100, random_state=0)
 print(pImportance["importances_mean"])
 
-cm = confusion_matrix(y_test, y_predicted)
-print(cm)
-
 print(f"Exec time: {round(endTime-startTime)} sec, {round((endTime-startTime)/60, 1)} min")
-
-valCombinations = 1
-for paramValList in parameters.values():
-    valCombinations *= len(paramValList)
-print(f"Param val combinations: {valCombinations}")
 
 
 

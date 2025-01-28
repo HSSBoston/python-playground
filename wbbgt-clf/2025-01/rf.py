@@ -20,7 +20,9 @@ X_train, y_train, featureNames = oversample(rawDatasetFileName,
 X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
 
-clf = RandomForestClassifier(n_estimators=2000, random_state=0, n_jobs=-1)
+clf = RandomForestClassifier(n_estimators=2000,
+                             max_depth=10, max_leaf_nodes=50,
+                             random_state=0, n_jobs=-1)
     # n_estimators=100 by default
 clf.fit(X_train, y_train)
 

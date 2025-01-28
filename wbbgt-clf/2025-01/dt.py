@@ -19,9 +19,8 @@ X_train, y_train, featureNames = oversample(rawDatasetFileName,
 X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
 
-dTree = DecisionTreeClassifier(random_state=0)
-    # Too shallow tree: poorer classification
-    # Too deep: overfitting
+# dTree = DecisionTreeClassifier(random_state=0)
+dTree = DecisionTreeClassifier(max_depth=10, random_state=0)
 dTree.fit(X_train, y_train)
 
 accuracy = dTree.score(X_train, y_train)
@@ -60,13 +59,14 @@ pImportance = permutation_importance(dTree, X, y, n_repeats=100, random_state=0)
 print(pImportance["importances_mean"])
 
 
-# plot_tree(clf,
-#           feature_names=iris.feature_names,
-#           class_names=iris.target_names,
+# plot_tree(dTree,
+#           feature_names = featureNames,
+#           class_names = ["0", "1", "2", "3"],
 #           fontsize=10,
 #           filled=True)
 # plt.show()
-# 
+
+
 # # viz_model = dtreeviz.model(clf,
 # #                X_train=X_train,
 # #                y_train=y_train,
