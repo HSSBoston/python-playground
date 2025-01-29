@@ -25,9 +25,9 @@ y = np.concatenate([y_train, y_test])
 parameters = {
 #               "criterion": ["gini", "entropy", "log_loss"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": list(range(9, 15, 1)),
-              "min_samples_split": list(range(18, 40, 1)),
-              "min_samples_leaf":  list(range(10, 30, 1)),
+              "max_depth": list(range(9, 11, 1)),
+              "min_samples_split": list(range(40, 45, 1)),
+              "min_samples_leaf":  list(range(20, 30, 1)),
 #               "max_features": [None, "sqrt"],
 #               "max_leaf_nodes": list(range(25, 77, 2)),
 #               "ccp_alpha": np.arange(0, 0.1, 0.001).tolist(),
