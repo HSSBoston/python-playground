@@ -24,10 +24,10 @@ parameters = {
 #               "criterion": ["gini", "entropy", "log_loss"],
 #               "criterion": ["gini"],
 #               "max_depth": [None]+[i for i in range(1, 21)],
-              "max_depth": list(range(8, 13, 1)),
+              "max_depth": list(range(8, 15, 1)),
 #               "min_samples_split": [i for i in range(2, 51)],
-              "min_samples_split": list(range(3, 20, 1)),
-              "min_samples_leaf":  list(range(9, 15, 1)),
+              "min_samples_split": list(range(2, 21, 1)),
+              "min_samples_leaf":  list(range(5, 13, 1)),
 #               "max_features": [None, 2, 3, 4, 5],
 #               "max_leaf_nodes": list(range(2, 50, 2)),
 #               "ccp_alpha": np.arange(0, 0.1, 0.001).tolist(),
@@ -65,6 +65,9 @@ print(f"{round(endTime-startTime)} sec, {round( (endTime-startTime)/60, 1 )} min
 
 scores = cross_val_score(optimalModel, X, y, cv=skf, scoring="f1_macro")
 print(f"Cross validation F1 score w/ StratifiedKFold: {round(np.mean(scores),3)}")
+
+scores = cross_val_score(optimalModel, X, y, cv=skf, scoring=f1_loose_scorer)
+print(f"Cross validation F1 loose score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
 # 
 # sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.3)
