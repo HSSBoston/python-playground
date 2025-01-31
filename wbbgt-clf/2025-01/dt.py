@@ -20,17 +20,21 @@ X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
 
 # dTree = DecisionTreeClassifier(random_state=0)
-dTree = DecisionTreeClassifier(max_depth=10, random_state=0)
+dTree = DecisionTreeClassifier(random_state=0)
 dTree.fit(X_train, y_train)
 
-accuracy = dTree.score(X_train, y_train)
-print (f"Accuracy in training: {round(accuracy,3)}")
-accuracy = dTree.score(X_test, y_test)
-print (f"Accuracy in testing: {round(accuracy,3)}")
+# accuracy = dTree.score(X_train, y_train)
+# print (f"Accuracy in training: {round(accuracy,3)}")
+# accuracy = dTree.score(X_test, y_test)
+# print (f"Accuracy in testing: {round(accuracy,3)}")
+
+y_predicted = dTree.predict(X_train)
+f1score = f1_score(y_train, y_predicted, average="macro")
+print(f"Training accuracy in F1: {round(f1score, 3)}")
 
 y_predicted = dTree.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
-print(f"F1 score: {round(f1score, 3)}")
+print(f"Testing accuracy in F1: {round(f1score, 3)}")
 
 cm = confusion_matrix(y_test, y_predicted)
 print(cm)
@@ -43,15 +47,16 @@ skf = StratifiedKFold(n_splits=5)
 scores = cross_val_score(dTree, X, y, cv=skf, scoring="f1_macro")
 print(f"Cross validation F1 score w/ StratifiedKFold: {round(np.mean(scores),3)}")
 
-sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
-scores = cross_val_score(dTree, X, y, cv=sskf, scoring="f1_macro")
-print(f"Cross validation F1 score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+# sskf = StratifiedShuffleSplit(n_splits=10, test_size=0.2)
+# scores = cross_val_score(dTree, X, y, cv=sskf, scoring="f1_macro")
+# print(f"Cross validation F1 score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
+# 
+# scores = cross_val_score(dTree, X, y, cv=skf, scoring=f1_loose_scorer)
+# print(f"Cross validation F1 loose score w/ StratifiedKFold: {round(np.mean(scores),3)}")
+# 
+# scores = cross_val_score(dTree, X, y, cv=sskf, scoring=f1_loose_scorer)
+# print(f"Cross validation F1 loose score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
-scores = cross_val_score(dTree, X, y, cv=skf, scoring=f1_loose_scorer)
-print(f"Cross validation F1 loose score w/ StratifiedKFold: {round(np.mean(scores),3)}")
-
-scores = cross_val_score(dTree, X, y, cv=sskf, scoring=f1_loose_scorer)
-print(f"Cross validation F1 loose score w/ StratifiedShuffleSplit: {round(np.mean(scores),3)}")
 
 
 print(dTree.feature_importances_)

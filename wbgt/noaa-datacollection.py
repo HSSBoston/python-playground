@@ -18,10 +18,10 @@
 # To use this library, install the xmltodict module: 
 #   sudo pip3 install xmltodict
 
-import requests, xmltodict, os, csv, time
-from datetime import datetime, timedelta
-from pprint import pprint
-from geopy.geocoders import Nominatim
+# import requests, xmltodict, os, csv, time
+# from datetime import datetime, timedelta
+# from pprint import pprint
+# from geopy.geocoders import Nominatim
 
 geolocator = Nominatim(user_agent="spaceapps24-wbgt")
 
@@ -178,22 +178,24 @@ if __name__ == "__main__":
                "Portland, OR", "Salem, OR", "Albany, OR", "Eugene, OR", "Medford, OR", "Bend, OR"]
     hawaiiCities = ["Honolulu, HI", "Koloa, HI", "Kihei, HI", "Hilo, HI", "Koloa, HI"]
 
-#     regions = [estCities1, estCities2, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
-    regions = [flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
+    regions = [estCities1, estCities2, flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
+#     regions = [flCities, cstCities, mstCities, pstCities, nwCities, hawaiiCities]
 
+    print(len(regions))
+          
 #     for city in hawaiiCities:
 #         saveCurrentData(city)
 
 dtNow = datetime.now()
 
-while dtNow.hour <= 30:
-    for region in regions:
-        for city in region:
-            saveCurrentData(city)
-        print("Sleeping for 4 mins...")
-        time.sleep(240)
-    dtNow = datetime.now()
-    sleepMin = 60 - dtNow.minute + 3
-    print(f"Sleeping for {sleepMin} mins...")
-    time.sleep(sleepMin * 60)
+# while dtNow.hour <= 30:
+#     for region in regions:
+#         for city in region:
+#             saveCurrentData(city)
+#         print("Sleeping for 4 mins...")
+#         time.sleep(240)
+#     dtNow = datetime.now()
+#     sleepMin = 60 - dtNow.minute + 3
+#     print(f"Sleeping for {sleepMin} mins...")
+#     time.sleep(sleepMin * 60)
 

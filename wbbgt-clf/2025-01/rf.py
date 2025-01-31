@@ -25,14 +25,18 @@ clf = RandomForestClassifier(n_estimators=100,
     # n_estimators=100 by default
 clf.fit(X_train, y_train)
 
-accuracy = clf.score(X_train, y_train)
-print (f"Accuracy in training: {round(accuracy,3)}")
-accuracy = clf.score(X_test, y_test)
-print (f"Accuracy in testing: {round(accuracy,3)}")
+# accuracy = clf.score(X_train, y_train)
+# print (f"Accuracy in training: {round(accuracy,3)}")
+# accuracy = clf.score(X_test, y_test)
+# print (f"Accuracy in testing: {round(accuracy,3)}")
+
+y_predicted = clf.predict(X_train)
+f1score = f1_score(y_train, y_predicted, average="macro")
+print(f"Training accuracy in F1: {round(f1score, 3)}")
 
 y_predicted = clf.predict(X_test)
 f1score = f1_score(y_test, y_predicted, average="macro")
-print(f"F1 score: {round(f1score, 3)}")
+print(f"Testing accuracy in F1: {round(f1score, 3)}")
 
 cm = confusion_matrix(y_test, y_predicted)
 print(cm)
