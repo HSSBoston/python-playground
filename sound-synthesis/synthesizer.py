@@ -18,6 +18,13 @@ def synthesizeTriad(midiData1, midiData2, midiData3, instrument, outputFileName)
     noteCount = len(midiData1)
     synth(score, noteCount, instrument, outputFileName)
 
+def synthesizeTracks(midiDataList, instrument, outputFileName):
+    score = np.append(midiDataList[0], midiDataList[1], axis=0)
+    for midiData in midiDataList[2:]:
+        score = np.append(score, midiData, axis=0)
+    noteCount = len(midiDataList[0])
+    synth(score, noteCount, instrument, outputFileName)
+    
 def synth(score, noteCount, instrument, outputFileName):
     scoreDuration = score[ noteCount-1 ][1] + score[ noteCount-1 ][4]
     masterDuration = scoreDuration + 1
@@ -85,7 +92,7 @@ def synth(score, noteCount, instrument, outputFileName):
     samples = reverb(samplingFreq, reverbTime, reverbLevel, samples)
     wave_write_16bit_mono(samplingFreq, samples.copy(),
                           outputFileName.split(".")[0] + "-reverb.wav")
-    print("\tSaved:", outputFileName)
+    print("\tSaved:", outputFileName.split(".")[0] + "-reverb.wav")
 
 if __name__ == "__main__":
     # Beats per minute

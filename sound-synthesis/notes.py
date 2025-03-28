@@ -3,8 +3,6 @@ NOTEWITHOUTSHARP = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 OCTAVES = list(range(10))
 NOTES_IN_OCTAVE = len(NOTES)
 
-
-
 def noteToNumber(note: str, octave: int) -> int:
     assert note in NOTES, "Wrong note name."
     assert octave in OCTAVES, "Wrong octave number."
