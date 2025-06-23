@@ -31,6 +31,18 @@ if len(events) != 0:
         start = event["start"]["dateTime"]
         end   = event["end"]["dateTime"]
         evName = event["summary"]
-        print(start, end, evName)
+        evDesc = event["description"]
+        print(start, end, evName, evDesc)
+
+        startDate = start.split("T")[0]
+        startTime = start.split("T")[1][:5]
+        print(startDate, startTime)
+        
+        mo = startDate.split("-")[1]
+        day = startDate.split("-")[2]
+        print(mo, day)
+        
+        hr = startTime.split("")
+        
 else:
     print("No events today")
