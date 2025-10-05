@@ -1,13 +1,13 @@
-import csv
+import csv, statistics
 
-inputFile = "Tasmania_5years.csv"
+inputFile = "Tasmania5years.csv"
 
 # Optimal temperature: 61–68 °F
 # Active Range: 57–72 °F
-optimalLow  = 16.11
-optimalHigh = 20
-activeLow   = 13.89
-activeHigh  = 22.22
+optimalLow  = 21.11
+optimalHigh = 25
+activeLow   = 18.89
+activeHigh  = 27.22
 
 pfsiList = []
 # (1)
@@ -31,7 +31,7 @@ for year in range(2021, 2026):
         for row in reader:
             yr = int(row[0])
             if year == yr:
-               ts, tsMax, tsMin, ws = float(row[2]), float(row[3]), float(row[4]), float(row[5])
+               ts, tsMax, tsMin, ws = float(row[2]), float(row[3]), float(row[4]), float(row[6])
 
                if optimalLow <= ts <= optimalHigh:
                    tsInOptimal += 1
@@ -45,8 +45,9 @@ for year in range(2021, 2026):
                    tsMinInOptimal += 1
                if activeLow <= tsMin <= activeHigh:
                    tsMinInActive += 1
-               if 2 <= ws < 4.5:
+               if 2.0 <= ws < 4.5:
                    wsInOptimal += 1
+#                    print(year, ws)
 #             print(year)
 
 # (2)
@@ -54,12 +55,18 @@ for year in range(2021, 2026):
         allTsInActiveTotal  = tsInActive + tsMaxInActive + tsMinInActive
         print (allTsInOptimalTotal)
         print (allTsInActiveTotal)
+        print(wsInOptimal)
 # (3)
-        pfsi = ( allTsInOptimalTotal/(21*3) + allTsInActiveTotal/(21*3) * wsInOptimal/21 )/3
+        print(allTsInOptimalTotal/(21*3))
+        print(allTsInActiveTotal/(21*3))
+        print(wsInOptimal)
+        pfsi = ( allTsInOptimalTotal/(21*3) + allTsInActiveTotal/(21*3) + wsInOptimal/21 )/3
         print (pfsi)
         pfsiList.append(pfsi)
 
-outputFileName = "pfsi.csv"
+print("Avg PFSI:", statistics.mean(pfsiList))
+
+outputFileName = inputFile + "-pfsi.csv"
 with open(outputFileName, 'w') as f:
     writer = csv.writer(f)
     writer.writerow(["YEAR", "PFSI"])
