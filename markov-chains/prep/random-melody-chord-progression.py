@@ -9,7 +9,7 @@ chords = {
     "V":  [67, 71, 74], # G
     "VI": [69, 72, 76]  # Am
 }
-progression = ["I", "V", "vi", "IV"]
+progression = ["I", "V", "VI", "IV"]
 
 # MIDI setup
 mid = MidiFile()
@@ -35,4 +35,4 @@ for chord in progression:
         mel_track.append(Message('note_off', note=note, velocity=80, time=120))
 
 mid.save("auto_song.mid")
-print("MIDIファイルを生成しました → auto_song.mid")
+print("Generated a MIDI file: auto_song.mid")
