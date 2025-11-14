@@ -1,5 +1,5 @@
 .DS_Store
-
+*.mid
 2025-*.csv
 
 # Byte-compiled / optimized / DLL files
