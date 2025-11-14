@@ -19,7 +19,7 @@ mid.tracks.append(ch_track)
 mid.tracks.append(mel_track)
 
 # Generating chord progression
-time_per_chord = 480  # 480 ticks = 1小節相当（テンポ依存）
+time_per_chord = 480
 for chord in progression:
     notes = chords[chord]
     for note in notes:
@@ -29,7 +29,8 @@ for chord in progression:
 
 # Generating melody
 for chord in progression:
-    for _ in range(4):  # 各コードに4音（8分音符想定）
+    # 4 eighth notes per chord
+    for _ in range(4): 
         note = random.choice(scale)
         mel_track.append(Message('note_on', note=note, velocity=80, time=0))
         mel_track.append(Message('note_off', note=note, velocity=80, time=120))
