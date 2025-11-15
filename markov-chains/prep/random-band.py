@@ -1,7 +1,8 @@
 import mido, random
 from mido import Message, MidiFile, MidiTrack, MetaMessage
 
-outputFile = "random-band.mid"
+OUTPUT_FILE = "random-band.mid"
+BPM = 100
 
 key = "C" # C major
 scale = [60, 62, 64, 65, 67, 69, 71]
@@ -34,8 +35,8 @@ note8 = int(TPB/2)
 note16 = int(TPB/4)
 note32 = int(TPB/8)
 
-chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
-melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
+chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
+melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
 
 # Chord progression
 for chord in progression:
@@ -106,8 +107,8 @@ for _ in progression:
         drumHhTrack.append(Message('note_on', note=42, velocity=60, time=0, channel=9))
         drumHhTrack.append(Message('note_off', note=42, velocity=60, time=note16, channel=9))
         
-midi.save(outputFile)
-print("Generated a MIDI file:", outputFile)
+midi.save(OUTPUT_FILE)
+print("Generated a MIDI file:", OUTPUT_FILE)
 
 # midi = MidiFile('random-song.mid')
 # for i, track in enumerate(mid.tracks):
