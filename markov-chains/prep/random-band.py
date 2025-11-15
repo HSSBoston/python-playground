@@ -20,10 +20,12 @@ chordTrack = MidiTrack()
 melodyTrack = MidiTrack()
 bassTrack = MidiTrack()
 drumTrack = MidiTrack()
+drumHhTrack = MidiTrack()
 midi.tracks.append(chordTrack)
 midi.tracks.append(melodyTrack)
 midi.tracks.append(bassTrack)
 midi.tracks.append(drumTrack)
+midi.tracks.append(drumHhTrack)
 
 TPB = 480 # ticks per beat (ticks per quater note)
 note4 = TPB
@@ -42,9 +44,9 @@ for chord in progression:
         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
     for i, note in enumerate(notes):
         if i==0:
-            chordTrack.append(Message('note_off', note=note, velocity=50, time=note4))
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=note4))
         else:
-            chordTrack.append(Message('note_off', note=note, velocity=50, time=0))
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
 # Melody
 #   Chord notes at 70% and scale notes at 30%
@@ -91,18 +93,18 @@ for _ in progression:
             drumTrack.append(Message('note_off', note=36, velocity=80, time=note16, channel=9))
         # Snare
         elif(step == note16) or (step == note16*3):
-            drumTrack.append(Message('note_on', note=38, velocity=80, time=0, channel=9))
-            drumTrack.append(Message('note_off', note=38, velocity=80, time=note16, channel=9))
+            drumTrack.append(Message('note_on', note=38, velocity=70, time=0, channel=9))
+            drumTrack.append(Message('note_off', note=38, velocity=70, time=note16, channel=9))
         else:
-            drumTrack.append(Message('note_on', note=0, velocity=80, time=0, channel=9))
-            drumTrack.append(Message('note_off', note=0, velocity=80, time=note16, channel=9))
+            drumTrack.append(Message('note_on', note=0, velocity=70, time=0, channel=9))
+            drumTrack.append(Message('note_off', note=0, velocity=70, time=note16, channel=9))
             
 # Dram high hut
 for _ in progression:
     for step in range(0, note4, note16):
         # Hihut
-        drumTrack.append(Message('note_on', note=42, velocity=50, time=0, channel=9))
-        drumTrack.append(Message('note_off', note=42, velocity=50, time=note16, channel=9))
+        drumHhTrack.append(Message('note_on', note=42, velocity=60, time=0, channel=9))
+        drumHhTrack.append(Message('note_off', note=42, velocity=60, time=note16, channel=9))
         
 midi.save(outputFile)
 print("Generated a MIDI file:", outputFile)
