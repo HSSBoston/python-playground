@@ -41,7 +41,7 @@ for chord in progression:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
 # Melody
-for chord in progression:
+for _ in progression:
     # 16 eighth notes per chord
     for _ in range(4): 
         note = random.choice(scale)

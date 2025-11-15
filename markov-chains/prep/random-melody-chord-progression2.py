@@ -1,7 +1,7 @@
 import mido, random
 from mido import Message, MidiFile, MidiTrack, MetaMessage
 
-outputFile = "random-piece.mid"
+outputFile = "random-piece2.mid"
 
 key = "C" # C major
 scale = [60, 62, 64, 65, 67, 69, 71]
@@ -40,11 +40,14 @@ for chord in progression:
         else:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
-# Melody
+# Melody with chord notes at 70% and scale notes at 30%
 for chord in progression:
-    # 16 eighth notes per chord
-    for _ in range(4): 
-        note = random.choice(scale)
+    chordNotes = chords[chord]
+    for _ in range(4):
+        if random.random() < 0.7:
+            note = random.choice(chordNotes)
+        else:
+            note = random.choice(scale)
         melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
         melodyTrack.append(Message('note_off', note=note, velocity=80, time=note16))
 
