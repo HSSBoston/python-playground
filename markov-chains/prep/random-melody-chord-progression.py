@@ -13,7 +13,7 @@ chords = {
 progression = ["I", "V", "VI", "IV"]
 
 # MIDI setup
-# ticks_per_beat=480
+# ticks per beat: 480
 midi = MidiFile()
 chordTrack = MidiTrack()
 melodyTrack = MidiTrack()
@@ -24,29 +24,29 @@ chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
 melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
 
 # Chord progression
-time_per_chord = 480
+ticksPerChord = 480
 for chord in progression:
     notes = chords[chord]
     for note in notes:    
         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
     for i, note in enumerate(notes):
         if i==0:
-            chordTrack.append(Message('note_off', note=note, velocity=60, time=time_per_chord))
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=ticksPerChord))
         else:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
 # Melody
 for chord in progression:
-    # 4 eighth notes per chord
+    # 4 eighth notes per chord; ticks/8th note = 120
     for _ in range(4): 
         note = random.choice(scale)
         melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
         melodyTrack.append(Message('note_off', note=note, velocity=80, time=120))
 
-midi.save("auto_song.mid")
-print("Generated a MIDI file: auto_song.mid")
+midi.save("random-song.mid")
+print("Generated a MIDI file: random-song.mid")
 
-# midi = MidiFile('auto_song.mid')
+# midi = MidiFile('random-song.mid')
 # for i, track in enumerate(mid.tracks):
 #     print('Track {}: {}'.format(i, track.name))
 #     for msg in track:
