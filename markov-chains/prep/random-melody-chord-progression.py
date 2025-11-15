@@ -11,7 +11,7 @@ chords = {
     "VI": [69, 72, 76]  # Am
 }
 progression = ["I", "IV", "V", "I"]
-progression = ["I", "V", "VI", "IV"]
+# progression = ["I", "V", "VI", "IV"]
 
 # MIDI setup
 # ticks per beat: 480
