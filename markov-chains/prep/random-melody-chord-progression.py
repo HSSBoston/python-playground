@@ -2,7 +2,7 @@ import mido
 from mido import Message, MidiFile, MidiTrack, MetaMessage
 import random
 
-key = "C"
+key = "C" # C major
 scale = [60, 62, 64, 65, 67, 69, 71]
 chords = {
     "I":  [60, 64, 67], # C
@@ -10,6 +10,7 @@ chords = {
     "V":  [67, 71, 74], # G
     "VI": [69, 72, 76]  # Am
 }
+progression = ["I", "IV", "V", "I"]
 progression = ["I", "V", "VI", "IV"]
 
 # MIDI setup
