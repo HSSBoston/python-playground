@@ -1,4 +1,5 @@
-from mido import Message, MidiFile, MidiTrack
+import mido
+from mido import Message, MidiFile, MidiTrack, MetaMessage
 import random
 
 key = "C"
@@ -18,14 +19,20 @@ mel_track = MidiTrack()
 mid.tracks.append(ch_track)
 mid.tracks.append(mel_track)
 
+ch_track.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
+mel_track.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
+
 # Generating chord progression
 time_per_chord = 480
 for chord in progression:
     notes = chords[chord]
-    for note in notes:
+    for note in notes:    
         ch_track.append(Message('note_on', note=note, velocity=60, time=0))
-    for note in notes:
-        ch_track.append(Message('note_off', note=note, velocity=60, time=time_per_chord))
+    for i, note in enumerate(notes):
+        if i==0:
+            ch_track.append(Message('note_off', note=note, velocity=60, time=time_per_chord))
+        else:
+            ch_track.append(Message('note_off', note=note, velocity=60, time=0))
 
 # Generating melody
 for chord in progression:
@@ -37,3 +44,9 @@ for chord in progression:
 
 mid.save("auto_song.mid")
 print("Generated a MIDI file: auto_song.mid")
+
+# mid = MidiFile('auto_song.mid')
+# for i, track in enumerate(mid.tracks):
+#     print('Track {}: {}'.format(i, track.name))
+#     for msg in track:
+#         print(msg)
