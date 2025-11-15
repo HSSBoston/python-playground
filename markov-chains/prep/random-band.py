@@ -110,7 +110,7 @@ for _ in progression:
 midi.save(OUTPUT_FILE)
 print("Generated a MIDI file:", OUTPUT_FILE)
 
-# midi = MidiFile('random-song.mid')
+# midi = MidiFile(OUTPUT_FILE)
 # for i, track in enumerate(mid.tracks):
 #     print('Track {}: {}'.format(i, track.name))
 #     for msg in track:
