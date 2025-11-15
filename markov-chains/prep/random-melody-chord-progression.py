@@ -20,24 +20,24 @@ melodyTrack = MidiTrack()
 midi.tracks.append(chordTrack)
 midi.tracks.append(melodyTrack)
 
+TPB = 480 # ticks per beat (ticks per quater note)
 chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
 melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
 
 # Chord progression
-ticksPerChord = 480
 for chord in progression:
     notes = chords[chord]
     for note in notes:    
         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
     for i, note in enumerate(notes):
         if i==0:
-            chordTrack.append(Message('note_off', note=note, velocity=60, time=ticksPerChord))
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=TPB))
         else:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
 # Melody
 for chord in progression:
-    # 4 eighth notes per chord; ticks/8th note = 120
+    # 4 eighth notes per chord; ticks/8th note = 480/4 = 120
     for _ in range(4): 
         note = random.choice(scale)
         melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
