@@ -1,6 +1,5 @@
-import mido
+import mido, random
 from mido import Message, MidiFile, MidiTrack, MetaMessage
-import random
 
 key = "C" # C major
 scale = [60, 62, 64, 65, 67, 69, 71]
