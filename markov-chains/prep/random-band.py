@@ -61,10 +61,13 @@ for chord in progression:
         if remainingTicks - duration < 0:
             duration = remainingTicks        
         
-        if random.random() < 0.7:
-            note = random.choice(chordNotes)
-        else:
+        r = random.random()
+        if r < 0.1:
+            note = 0
+        elif r < 0.35:
             note = random.choice(scale)
+        else:
+            note = random.choice(chordNotes)            
             
         melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
         melodyTrack.append(Message('note_off', note=note, velocity=80, time=duration))
