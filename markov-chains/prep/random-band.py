@@ -50,7 +50,7 @@ for chord in progression:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
 # Melody
-#   Chord notes at 70% and scale notes at 30%
+#   Chord notes at the 70% probability and scale notes at the 30% prob
 #   8th and 16th notes at random
 for chord in progression:
     chordNotes = chords[chord]
