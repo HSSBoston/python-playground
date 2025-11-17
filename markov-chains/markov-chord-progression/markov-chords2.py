@@ -14,21 +14,20 @@ P = np.array(
      [0.50, 0.3, 0.2],
      ])
 
-state = np.zeros(len(S))
+probDist = np.zeros(len(S))
 P_r = np.zeros(P.shape)
-state_index = 0
-state[state_index] = 1.0
+currentChord = 0
+probDist[currentChord] = 1.0
 
-print(f"Step      Chord\tProb distribution")
-print(f"=====================================")
+print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
-    print(f"{i:0=8}: {S[state_index]}\t{np.round(state,4)}")
+    print(f"{i:0=8}: {S[currentChord]}\t{np.round(probDist,4)}")
     # Transition
     r = np.random.random()
-    pre_state_index = state_index
-    state_index = np.random.choice([0, 1, 2], p=P[state_index])
-    state = np.dot(state, P)
-    P_r[pre_state_index, state_index] += 1.0
+    pre_currentChord = currentChord
+    currentChord = np.random.choice([0, 1, 2], p=P[currentChord])
+    probDist = np.dot(probDist, P)
+    P_r[pre_currentChord, currentChord] += 1.0
 
 a, b, c = sym.symbols("a, b, c")
 eq1 = sym.Eq( 0.2*a + 0.3*b + 0.5*c, a )
@@ -40,15 +39,13 @@ print("\nStationary probability distribution")
 print(solution)
 
 
-
-
 print("\n> Stationary dist.")
 eig_val, eig_vec = np.linalg.eig(P.T)
 idx = np.argmin(np.abs(np.real(eig_val) - 1))
 # Get an eigenvector correspond to the eigenvalue equal to 1.
 w = np.real(eig_vec[:, idx]).T 
 w /= np.sum(w) # Normalize
-print(f"Recurrence relation:\t{np.round(state,2)}")
+print(f"Recurrence relation:\t{np.round(probDist,2)}")
 print(f"Eigen-decomposition:\t{np.round(w,2)}\n")
 
 # Check transition matrix
