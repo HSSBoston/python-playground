@@ -4,7 +4,9 @@ import sympy as sym
 
 n_iter = 10
 
+# Set of states (chords) 
 S = ["C", "F", "G"]
+# Transition probability matrix
 P = np.array(
     [[0.20, 0.40, 0.40],
      [0.3, 0.1, 0.6],
