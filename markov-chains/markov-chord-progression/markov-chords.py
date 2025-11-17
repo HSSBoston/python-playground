@@ -32,9 +32,10 @@ for iter in range(0, n_iter):
     pre_state_index = state_index
     state_index = random.choices([0, 1, 2], P[state_index])[0]
 #     state_index = np.where(cumulativeP[state_index] > r)[0][0]
-    state = np.dot(P.T, state)
+#     state = np.dot(P.T, state)
+    state = np.dot(state, P)
     P_r[pre_state_index, state_index] += 1.0
-    time.sleep(0.0001)
+#     time.sleep(0.0001)
 
 print("\n> Stationary dist.")
 eig_val, eig_vec = np.linalg.eig(P.T)

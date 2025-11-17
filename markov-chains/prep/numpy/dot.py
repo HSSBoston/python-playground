@@ -10,4 +10,11 @@ state = np.zeros(3)
 state[0] = 1.0
 print(state)
 
-state = np.dot(P.T, state)
+state2 = np.dot(P.T, state)
+print(P.T)
+print(state2)
+
+state2 = np.dot(state, P)
+print(state2)
+
+
