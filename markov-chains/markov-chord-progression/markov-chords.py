@@ -10,15 +10,6 @@ P = np.array(
      [0.50, 0.33, 0.17],
      ])
 
-cumulativeP = np.zeros((P.shape[0], P.shape[1]))
-# print(cumulativeP)
-for row_i in range(P.shape[0]):
-    for column_i in range(P.shape[1]):
-        cumulativeP[row_i][column_i] = P[row_i, 0:column_i+1].sum()
-# print(cumulativeP)
-     
-# cumulativeP = [np.array([P[m, 0:n+1].sum() for n in range(P.shape[1])]) for m in range(P.shape[0])]
-
 state = np.zeros(len(S))
 P_r = np.zeros(P.shape)
 state_index = 0
@@ -31,11 +22,8 @@ for iter in range(0, n_iter):
     r = np.random.random()
     pre_state_index = state_index
     state_index = random.choices([0, 1, 2], P[state_index])[0]
-#     state_index = np.where(cumulativeP[state_index] > r)[0][0]
-#     state = np.dot(P.T, state)
     state = np.dot(state, P)
     P_r[pre_state_index, state_index] += 1.0
-#     time.sleep(0.0001)
 
 print("\n> Stationary dist.")
 eig_val, eig_vec = np.linalg.eig(P.T)
