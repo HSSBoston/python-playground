@@ -4,7 +4,7 @@ import sympy as sym
 
 n_iter = 10
 
-# Set of states (chords) 
+# State space: set of possible states (chords) 
 S = ["C", "F", "G"]
 # Transition probability matrix
 P = np.array(
@@ -35,6 +35,7 @@ eq2 = sym.Eq( 0.4*a + 0.1*b + 0.3*c, b )
 eq3 = sym.Eq( 0.4*a + 0.6*b + 0.2*c, c )
 eq4 = sym.Eq( a+b+c, 1 )
 solution = sym.solve([eq1, eq2, eq3, eq4], [a, b, c])
+print("Stationary probability distribution")
 print(solution)
 
 
