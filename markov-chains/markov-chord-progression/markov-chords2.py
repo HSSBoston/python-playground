@@ -59,4 +59,8 @@ print(P)
 print("P_r")
 print(np.round(P_r, 2))
 
+plt.plot( probDist[:, 0] )
+plt.plot( probDist[:, 1] )
+plt.plot( probDist[:, 2] )
+plt.show()
 
