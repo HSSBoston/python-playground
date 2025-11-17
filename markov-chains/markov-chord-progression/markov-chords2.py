@@ -1,8 +1,9 @@
 import sys, time, random
 import numpy as np
 import sympy as sym
+import matplotlib.pyplot as plt
 
-n_iter = 10
+N = 10 # Number of iterations
 
 # State space: set of possible states (chords) 
 S = ["C", "F", "G"]
@@ -18,14 +19,14 @@ P_r = np.zeros(P.shape)
 state_index = 0
 state[state_index] = 1.0
 
-print(f"Step      State\tStationary")
+print(f"Step      Chord\tProb distribution")
 print(f"=====================================")
-for iter in range(0, n_iter):
-    print(f"{iter:0=8}: {S[state_index]}\t{np.round(state,4)}")
+for i in range(N-1):
+    print(f"{i:0=8}: {S[state_index]}\t{np.round(state,4)}")
     # Transition
     r = np.random.random()
     pre_state_index = state_index
-    state_index = random.choices([0, 1, 2], P[state_index])[0]
+    state_index = np.random.choice([0, 1, 2], p=P[state_index])
     state = np.dot(state, P)
     P_r[pre_state_index, state_index] += 1.0
 
@@ -35,7 +36,7 @@ eq2 = sym.Eq( 0.4*a + 0.1*b + 0.3*c, b )
 eq3 = sym.Eq( 0.4*a + 0.6*b + 0.2*c, c )
 eq4 = sym.Eq( a+b+c, 1 )
 solution = sym.solve([eq1, eq2, eq3, eq4], [a, b, c])
-print("Stationary probability distribution")
+print("\nStationary probability distribution")
 print(solution)
 
 
