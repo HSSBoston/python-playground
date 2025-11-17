@@ -9,25 +9,27 @@ N = 10 # Number of iterations
 S = ["C", "F", "G"]
 # Transition probability matrix
 P = np.array(
-    [[0.20, 0.40, 0.40],
+    [[0.2, 0.4, 0.4],
      [0.3, 0.1, 0.6],
-     [0.50, 0.3, 0.2],
+     [0.5, 0.3, 0.2],
      ])
 
 probDist = np.zeros(len(S))
 P_r = np.zeros(P.shape)
-currentChord = 0
-probDist[currentChord] = 1.0
+
+firstChordId = 0
+chordProgression = [firstChordId]
+probDist[firstChordId] = 1.0
 
 print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
-    print(f"{i:0=8}: {S[currentChord]}\t{np.round(probDist,4)}")
-    # Transition
+    currentChordId = chordProgression[-1]
+    print(f"{i:0=8}: {S[currentChordId]}\t{np.round(probDist,4)}")
     r = np.random.random()
-    pre_currentChord = currentChord
-    currentChord = np.random.choice([0, 1, 2], p=P[currentChord])
+    nextChordId = np.random.choice([0, 1, 2], p=P[currentChordId])
+    chordProgression.append(nextChordId)
     probDist = np.dot(probDist, P)
-    P_r[pre_currentChord, currentChord] += 1.0
+    P_r[currentChordId, nextChordId] += 1.0
 
 a, b, c = sym.symbols("a, b, c")
 eq1 = sym.Eq( 0.2*a + 0.3*b + 0.5*c, a )
