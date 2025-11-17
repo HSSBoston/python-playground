@@ -14,24 +14,25 @@ P = np.array(
      [0.5, 0.3, 0.2],
      ])
 
-probDist = np.zeros(len(S))
+probDist = np.zeros( (N,len(S)) )
 P_r = np.zeros(P.shape)
 
 firstChordId = 0
 chordProgression = [firstChordId]
-probDist[firstChordId] = 1.0
+probDist[0][firstChordId] = 1.0
+print(probDist)
 
 print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
-    currentChordId = chordProgression[-1]
-    print(f"{i:0=8}: {S[currentChordId]}\t{np.round(probDist,4)}")
+    currentChordId = chordProgression[i]
+    print(f"{i:0=8}: {S[currentChordId]}\t{np.round(probDist[i],4)}")
     r = np.random.random()
     nextChordId = np.random.choice([0, 1, 2], p=P[currentChordId])
     chordProgression.append(nextChordId)
-    probDist = np.dot(probDist, P)
+    probDist[i+1] = np.dot(probDist[i], P)
     P_r[currentChordId, nextChordId] += 1.0
 
-a, b, c = sym.symbols("a, b, c")
+a, b, c = sym.symbols(", ".join(S))
 eq1 = sym.Eq( 0.2*a + 0.3*b + 0.5*c, a )
 eq2 = sym.Eq( 0.4*a + 0.1*b + 0.3*c, b )
 eq3 = sym.Eq( 0.4*a + 0.6*b + 0.2*c, c )
@@ -47,7 +48,7 @@ idx = np.argmin(np.abs(np.real(eig_val) - 1))
 # Get an eigenvector correspond to the eigenvalue equal to 1.
 w = np.real(eig_vec[:, idx]).T 
 w /= np.sum(w) # Normalize
-print(f"Recurrence relation:\t{np.round(probDist,2)}")
+print(f"Recurrence relation:\t{np.round(probDist[-1],2)}")
 print(f"Eigen-decomposition:\t{np.round(w,2)}\n")
 
 # Check transition matrix
@@ -57,4 +58,5 @@ print("P")
 print(P)
 print("P_r")
 print(np.round(P_r, 2))
+
 
