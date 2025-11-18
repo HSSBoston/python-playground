@@ -26,7 +26,6 @@ print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
     currentChordId = chordProgression[i]
     print(f"{i:0=8}: {S[currentChordId]}\t{np.round(probDist[i],4)}")
-    r = np.random.random()
     nextChordId = np.random.choice([0, 1, 2], p=P[currentChordId])
     chordProgression.append(nextChordId)
     probDist[i+1] = np.dot(probDist[i], P)
