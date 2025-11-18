@@ -24,6 +24,8 @@ rng = np.random.default_rng(seed=200); print(rng.random())
 l = ["apple", "orange", "grape"]
 rng = np.random.default_rng()
 print( rng.choice(l), rng.choice(l), rng.choice(l), rng.choice(l) )
+rng = np.random.default_rng(seed=None)
+print( rng.choice(l), rng.choice(l), rng.choice(l), rng.choice(l) )
 rng = np.random.default_rng(seed=300)
 print( rng.choice(l), rng.choice(l), rng.choice(l), rng.choice(l) )
 

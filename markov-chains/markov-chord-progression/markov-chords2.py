@@ -3,7 +3,8 @@ import numpy as np
 import sympy as sym
 import matplotlib.pyplot as plt
 
-N = 10 # Number of iterations
+N = 10                 # Number of iterations (generated chords)
+RANDOM_NUM_SEED = None # Non-negative int or None
 
 # State space: set of possible states (chords) 
 S = ["C", "F", "G"]
@@ -26,7 +27,8 @@ print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
     currentChordId = chordProgression[i]
     print(f"{i:0=8}: {S[currentChordId]}\t{np.round(probDist[i],4)}")
-    nextChordId = np.random.choice([0, 1, 2], p=P[currentChordId])
+    rng = np.random.default_rng(seed=RANDOM_NUM_SEED)
+    nextChordId = rng.choice([0, 1, 2], p=P[currentChordId])
     chordProgression.append(nextChordId)
     probDist[i+1] = np.dot(probDist[i], P)
     P_r[currentChordId, nextChordId] += 1.0
