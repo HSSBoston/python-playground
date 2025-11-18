@@ -21,7 +21,6 @@ P_r = np.zeros(P.shape)
 firstChordId = 0
 chordProgression = [firstChordId]
 probDist[0][firstChordId] = 1.0
-print(probDist)
 
 print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
