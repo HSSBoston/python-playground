@@ -11,6 +11,10 @@ random.seed(None); print(random.random())
 
 print(random.random(), random.random(), random.random()) 
 
+print("Numpy")
+rng = np.random.default_rng()
+print(rng.random(), rng.random(), rng.random())
+
 # np.random
 # 
 # 
