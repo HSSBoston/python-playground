@@ -2,6 +2,7 @@ import numpy as np
 import sympy as sym
 import matplotlib.pyplot as plt
 
+FIRST_CHORD_ID = FIRST_CHORD_ID = 0
 N = 10                 # Number of iterations (generated chords)
 RANDOM_NUM_SEED = None # Non-negative int or None
 
@@ -17,9 +18,8 @@ P = np.array(
 probDist = np.zeros( (N,len(S)) )
 P_r = np.zeros(P.shape)
 
-firstChordId = 0
-chordProgression = [firstChordId]
-probDist[0][firstChordId] = 1.0
+chordProgression = [FIRST_CHORD_ID]
+probDist[0][FIRST_CHORD_ID] = 1.0
 
 print(f"Step      Chord\tProb distribution over {S}")
 for i in range(N-1):
