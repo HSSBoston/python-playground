@@ -1,0 +1,3 @@
+{0.0} <music21.chord.Chord G4 C5 E5>
+{1.0} <music21.note.Rest eighth>
+{1.5} <music21.note.Note A#>
