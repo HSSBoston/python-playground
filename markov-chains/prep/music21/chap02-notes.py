@@ -14,6 +14,7 @@ print(a.pitch, a.pitch.frequency, a.pitch.pitchClassString, a.duration)
 n = note.Note(64, type="eighth")
 print(n, n.name, n.octave, n.nameWithOctave, n.pitch, n.duration)
 
+r = note.Rest()
 
 
 
