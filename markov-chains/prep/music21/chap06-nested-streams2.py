@@ -19,5 +19,16 @@ p1.append([m11, m12])
 
 s.insert(0, p0)
 s.insert(0, p1)
+
+for el in s.recurse():
+    print(el.offset, el, el.activeSite)
+
+for n in s.recurse().notes:
+    print(n.offset, n, n.activeSite)
+
+pprint( list(s.recurse().notes) )
+
+
+
 # s.show('text')
-s.show()
+# s.show()
