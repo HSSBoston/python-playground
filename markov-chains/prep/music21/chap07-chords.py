@@ -33,7 +33,7 @@ stream2.append(cMajor)
 stream2.append(rest1)
 stream2.append(noteASharp)
 stream2.write("midi", "chord.mid")
-stream2.write("musicxml", "chord.xml")
+stream2.write("musicxml", "chord.musicxml")
 stream2.write("text", "chord.txt")
 stream2.show()
 
