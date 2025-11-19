@@ -8,15 +8,15 @@ pprint( [e for e in sBach] )
 # print( len(sBach[3]) )
 # print( len(sBach[3][1]) )
 
-print( len(sBach.getElementsByClass(stream.Part)) )
-print( len(sBach.getElementsByClass("Part")) )
+# print( len(sBach.getElementsByClass(stream.Part)) )
+# print( len(sBach.getElementsByClass("Part")) )
 print( len(sBach.parts) )
 
-
 for p in sBach.parts:
-    print( len( p))
+    print(p.partName, len(p), p.duration)
 
-
+excerpt = sBach.parts[0].measures(1,4)
+excerpt.show()
 
 sBach.show("text")
 
