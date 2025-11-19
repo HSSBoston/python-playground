@@ -25,3 +25,5 @@ for n in stream1:
 
 # stream1.show("midi")
 
+print( stream1.duration )
+
