@@ -2,7 +2,7 @@ import numpy as np
 import sympy as sym
 import matplotlib.pyplot as plt
 
-FIRST_CHORD_ID = FIRST_CHORD_ID = 0
+FIRST_CHORD_ID = 0
 N = 10                 # Number of iterations (generated chords)
 RANDOM_NUM_SEED = None # Non-negative int or None
 
