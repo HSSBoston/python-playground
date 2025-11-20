@@ -1,5 +1,11 @@
 from music21 import *
 
+keyChoice = "C"
+
+roman.RomanNumeral("I", keyChoice)
+
+
+
 f = chord.Chord('F4 C5 A5')
 kf = key.Key('F')
 sf = stream.Measure([kf, f])
@@ -22,5 +28,6 @@ print(rc2)
 
 rc3 = rc2 = roman.RomanNumeral("I", "C")
 print(rc3)
+
 
 
