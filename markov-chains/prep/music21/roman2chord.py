@@ -4,14 +4,24 @@ from pprint import pprint
 keyChoice = "C"
 
 if keyChoice in ["C","D","E","F","G","A","B"]
+    rc1 = roman.RomanNumeral("I", keyChoice)
+    rc2 = roman.RomanNumeral("ii", keyChoice)
+    rc4 = roman.RomanNumeral("IV", keyChoice)
+    rc5 = roman.RomanNumeral("V", keyChoice)
+    rc6 = roman.RomanNumeral("vi", keyChoice)
+    rc7 = roman.RomanNumeral("viio", keyChoice)
 
-rc1 = roman.RomanNumeral("I", keyChoice)
-rc2 = roman.RomanNumeral("ii", keyChoice)
-rc4 = roman.RomanNumeral("IV", keyChoice)
-rc5 = roman.RomanNumeral("V", keyChoice)
-rc6 = roman.RomanNumeral("vi", keyChoice)
-rc7 = roman.RomanNumeral("viio", keyChoice)
+if keyChoice in ["c","d","e","f,"g","a","b"]
+    rc1 = roman.RomanNumeral("I", keyChoice)
+    rc2 = roman.RomanNumeral("ii", keyChoice)
+    rc4 = roman.RomanNumeral("IV", keyChoice)
+    rc5 = roman.RomanNumeral("V", keyChoice)
+    rc6 = roman.RomanNumeral("vi", keyChoice)
+    rc7 = roman.RomanNumeral("viio", keyChoice)
+
 chords = [rc1, rc2, rc4, rc5, rc6, rc7]
+
+    
 
 romanToChordMidi = {
     "I":  [p.midi for p in rc1.pitches],
