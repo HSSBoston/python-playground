@@ -3,10 +3,11 @@ from mido import Message, MidiFile, MidiTrack, MetaMessage
 from music21 import *
 from pprint import pprint
 
-KEY_CHOICE = "C"
+KEY_CHOICE = "a"
 PROGRESSION = ["I", "IV", "V", "I"]
 # PROGRESSION = ["I", "V", "VI", "IV"]
 
+BPM = 100
 OUTPUT_FILE = "random-piece4.mid"
 
 k = key.Key(KEY_CHOICE)
@@ -24,19 +25,19 @@ scaleMidi = [p.midi for p in scale.getPitches()[:-1]]
 print(f"Scale (MIDI)\t {scaleMidi}" )
  
 if k.mode == "major":
-    rc1 = roman.RomanNumeral("I", KEY_CHOICE)
-    rc2 = roman.RomanNumeral("ii", KEY_CHOICE)
-    rc4 = roman.RomanNumeral("IV", KEY_CHOICE)
-    rc5 = roman.RomanNumeral("V", KEY_CHOICE)
-    rc6 = roman.RomanNumeral("vi", KEY_CHOICE)
-    rc7 = roman.RomanNumeral("viio", KEY_CHOICE)
+    rc1 = roman.RomanNumeral("I", scale)
+    rc2 = roman.RomanNumeral("ii", scale)
+    rc4 = roman.RomanNumeral("IV", scale)
+    rc5 = roman.RomanNumeral("V", scale)
+    rc6 = roman.RomanNumeral("vi", scale)
+    rc7 = roman.RomanNumeral("viio", scale)
 else:
-    rc1 = roman.RomanNumeral("i", KEY_CHOICE)
-    rc2 = roman.RomanNumeral("iio", KEY_CHOICE)
-    rc4 = roman.RomanNumeral("iv", KEY_CHOICE)
-    rc5 = roman.RomanNumeral("v", KEY_CHOICE)
-    rc6 = roman.RomanNumeral("VI", KEY_CHOICE)
-    rc7 = roman.RomanNumeral("VII", KEY_CHOICE)
+    rc1 = roman.RomanNumeral("i", scale)
+    rc2 = roman.RomanNumeral("iio", scale)
+    rc4 = roman.RomanNumeral("iv", scale)
+    rc5 = roman.RomanNumeral("v", scale)
+    rc6 = roman.RomanNumeral("VI", scale)
+    rc7 = roman.RomanNumeral("VII", scale)
 
 romanToChordName = {
     "I":  [p.nameWithOctave for p in rc1.pitches],
@@ -58,32 +59,32 @@ romanToChordMidi = {
     }
 pprint(romanToChordMidi)
 
-# # MIDI setup
-# midi = MidiFile()
-# chordTrack = MidiTrack()
-# melodyTrack = MidiTrack()
-# midi.tracks.append(chordTrack)
-# midi.tracks.append(melodyTrack)
-# 
-# TPB = 480 # ticks per beat (ticks per quater note)
-# note4 = TPB
-# note8 = int(TPB/2)
-# note16 = int(TPB/4)
-# 
-# chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
-# melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(100)))
-# 
-# # Chord progression
-# for chord in progression:
-#     notes = chords[chord]
-#     for note in notes:    
-#         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
-#     for i, note in enumerate(notes):
-#         if i==0:
-#             chordTrack.append(Message('note_off', note=note, velocity=60, time=note4))
-#         else:
-#             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
-# 
+# MIDI setup
+midi = MidiFile()
+chordTrack = MidiTrack()
+melodyTrack = MidiTrack()
+midi.tracks.append(chordTrack)
+midi.tracks.append(melodyTrack)
+
+TPB    = 480 # ticks per beat (ticks per quater note)
+NOTE4  = TPB
+NOTE8  = int(TPB/2)
+NOTE16 = int(TPB/4)
+
+chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
+melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
+
+# Chord progression
+for chord in progression:
+    notes = chords[chord]
+    for note in notes:    
+        chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
+    for i, note in enumerate(notes):
+        if i==0:
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=note4))
+        else:
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
+
 # # Melody
 # #   Chord notes at 70% and scale notes at 30%
 # #   8th and 16th notes at random
