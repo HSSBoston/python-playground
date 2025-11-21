@@ -11,6 +11,10 @@ for kc in keyChoices:
         scale = k.getScale("minor")
     print("Tonic:", scale.getTonic()) 
     print([p.nameWithOctave for p in scale.getPitches()])
+
+
+#     print([p.nameWithOctave for p in scale.pitchesFromScaleDegrees(
+
         
 #     print( [k.pitchFromDegree(i).nameWithOctave for i in range(1,8)] )
 #     print( [k.pitchFromDegree(i).midi for i in range(1,8)] )    
@@ -19,6 +23,10 @@ am = key.Key("a")
 print(am.tonic, am.mode)
 print("Relative:", am.relative)
 print("Parallel", am.parallel)
+print( [am.pitchFromDegree(i).nameWithOctave for i in range(1,8)] )
+
+am.tonic = pitch.Pitch("A3")
+print(am.tonic, am.mode)
 print( [am.pitchFromDegree(i).nameWithOctave for i in range(1,8)] )
 
 am3 = am.transpose(-12)
