@@ -3,6 +3,8 @@ from pprint import pprint
 
 keyChoice = "C"
 
+if keyChoice in ["C","D","E","F","G","A","B"]
+
 rc1 = roman.RomanNumeral("I", keyChoice)
 rc2 = roman.RomanNumeral("ii", keyChoice)
 rc4 = roman.RomanNumeral("IV", keyChoice)
