@@ -5,8 +5,15 @@ keyChoices = ["C", "c", "a"]
 for kc in keyChoices:    
     k = key.Key(kc)
     print(k.tonic, k.mode)
-    print( [k.pitchFromDegree(i).nameWithOctave for i in range(1,8)] )
-    print( [k.pitchFromDegree(i).midi for i in range(1,8)] )    
+    if k.mode == "major":
+        scale = k.getScale("major")
+    else:
+        scale = k.getScale("minor")
+    print("Tonic:", scale.getTonic()) 
+    print([p.nameWithOctave for p in scale.getPitches()])
+        
+#     print( [k.pitchFromDegree(i).nameWithOctave for i in range(1,8)] )
+#     print( [k.pitchFromDegree(i).midi for i in range(1,8)] )    
 
 am = key.Key("a")
 print(am.tonic, am.mode)
