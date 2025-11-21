@@ -1,7 +1,48 @@
 import mido, random
 from mido import Message, MidiFile, MidiTrack, MetaMessage
+from music21 import *
+from pprint import pprint
 
-outputFile = "random-piece4.mid"
+KEY_CHOICE = "a"
+PROGRESSION = ["I", "IV", "V", "I"]
+# progression = ["I", "V", "VI", "IV"]
+OUTPUT_FILE = "random-piece4.mid"
+
+if KEY_CHOICE in ["C","D","E","F","G","A","B"]:
+    rc1 = roman.RomanNumeral("I", keyChoice)
+    rc2 = roman.RomanNumeral("ii", keyChoice)
+    rc4 = roman.RomanNumeral("IV", keyChoice)
+    rc5 = roman.RomanNumeral("V", keyChoice)
+    rc6 = roman.RomanNumeral("vi", keyChoice)
+    rc7 = roman.RomanNumeral("viio", keyChoice)
+
+if KEY_CHOICE in ["c","d","e","f","g","a","b"]:
+    rc1 = roman.RomanNumeral("i", keyChoice)
+    rc2 = roman.RomanNumeral("iio", keyChoice)
+    rc4 = roman.RomanNumeral("iv", keyChoice)
+    rc5 = roman.RomanNumeral("v", keyChoice)
+    rc6 = roman.RomanNumeral("VI", keyChoice)
+    rc7 = roman.RomanNumeral("VII", keyChoice)
+
+romanToChordName = {
+    "I":  [p.nameWithOctave for p in rc1.pitches],
+    "II": [p.nameWithOctave for p in rc2.pitches],
+    "IV": [p.nameWithOctave for p in rc4.pitches],
+    "V":  [p.nameWithOctave for p in rc5.pitches],
+    "VI": [p.nameWithOctave for p in rc6.pitches],
+    "VII":[p.nameWithOctave for p in rc7.pitches],    
+    }
+pprint(romanToChordName)
+
+romanToChordMidi = {
+    "I":  [p.midi for p in rc1.pitches],
+    "II": [p.midi for p in rc2.pitches],
+    "IV": [p.midi for p in rc4.pitches],
+    "V":  [p.midi for p in rc5.pitches],
+    "VI": [p.midi for p in rc6.pitches],
+    "VII":[p.midi for p in rc7.pitches],
+    }
+pprint(romanToChordMidi)
 
 key = "C" # C major
 scale = [60, 62, 64, 65, 67, 69, 71]
@@ -11,8 +52,6 @@ chords = {
     "V":  [67, 71, 74], # G
     "VI": [69, 72, 76]  # Am
 }
-progression = ["I", "IV", "V", "I"]
-# progression = ["I", "V", "VI", "IV"]
 
 # MIDI setup
 midi = MidiFile()
@@ -62,8 +101,8 @@ for chord in progression:
         
         remainingTicks -= duration
 
-midi.save(outputFile)
-print("Generated a MIDI file:", outputFile)
+midi.save(OUTPUT_FILE)
+print("Generated a MIDI file:", OUTPUT_FILE)
 
 # midi = MidiFile('random-song.mid')
 # for i, track in enumerate(mid.tracks):

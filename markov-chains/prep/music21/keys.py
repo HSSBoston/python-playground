@@ -1,14 +1,12 @@
 from music21 import *
 
-c = key.Key("C")
-print(c.mode, c.tonic)
-for i in range(1, 7):
-    print( c.pitchFromDegree(i) )
+keyChoices = ["C", "c", "a"]
 
-cm = key.Key("c")
-print(cm.mode, cm.tonic)
-for i in range(1, 7):
-    print( cm.pitchFromDegree(i) )
+for kc in keyChoices:    
+    k = key.Key(kc)
+    print(k.tonic, k.mode)
+    print( [k.pitchFromDegree(i).nameWithOctave for i in range(1,7)] )
+    print( [k.pitchFromDegree(i).midi for i in range(1,7)] )    
 
 cm = key.Key("a")
 print(cm.mode, cm.tonic)
