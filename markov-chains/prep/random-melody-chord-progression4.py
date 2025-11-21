@@ -3,27 +3,34 @@ from mido import Message, MidiFile, MidiTrack, MetaMessage
 from music21 import *
 from pprint import pprint
 
-KEY_CHOICE = "a"
+KEY_CHOICE = "C"
 PROGRESSION = ["I", "IV", "V", "I"]
-# progression = ["I", "V", "VI", "IV"]
+# PROGRESSION = ["I", "V", "VI", "IV"]
 
 OUTPUT_FILE = "random-piece4.mid"
 
 k = key.Key(KEY_CHOICE)
 print("Key choice:", k.tonic, k.mode)
-print(f"Scale (Name):\t {[k.pitchFromDegree(i).nameWithOctave for i in range(1,8)]}" )
-scale = [k.pitchFromDegree(i).midi for i in range(1,8)]
-print(f"Scale (MIDI)\t {scale}" )
 
-if KEY_CHOICE in ["C","D","E","F","G","A","B"]:
+if k.mode == "major":
+    scale = k.getScale("major")
+else:
+    scale = k.getScale("minor")
+    if scale.tonic.name in ["A", "B"]:
+        scale.tonic = pitch.Pitch(scale.tonic.name, octave=3)
+
+print(f"Scale tonic: {scale.getTonic()}\t {[p.nameWithOctave for p in scale.getPitches()[:-1]]}" )
+scaleMidi = [p.midi for p in scale.getPitches()[:-1]]
+print(f"Scale (MIDI)\t {scaleMidi}" )
+ 
+if k.mode == "major":
     rc1 = roman.RomanNumeral("I", KEY_CHOICE)
     rc2 = roman.RomanNumeral("ii", KEY_CHOICE)
     rc4 = roman.RomanNumeral("IV", KEY_CHOICE)
     rc5 = roman.RomanNumeral("V", KEY_CHOICE)
     rc6 = roman.RomanNumeral("vi", KEY_CHOICE)
     rc7 = roman.RomanNumeral("viio", KEY_CHOICE)
-
-if KEY_CHOICE in ["c","d","e","f","g","a","b"]:
+else:
     rc1 = roman.RomanNumeral("i", KEY_CHOICE)
     rc2 = roman.RomanNumeral("iio", KEY_CHOICE)
     rc4 = roman.RomanNumeral("iv", KEY_CHOICE)
