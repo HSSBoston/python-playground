@@ -31,4 +31,6 @@ print( [am.pitchFromDegree(i).nameWithOctave for i in range(1,8)] )
 
 am3 = am.transpose(-12)
 print( [am3.pitchFromDegree(i).transpose(-12).nameWithOctave for i in range(1,8)] )
-             
+print(am3.tonic, am3.mode)
+
+
