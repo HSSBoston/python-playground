@@ -62,7 +62,7 @@ romanToChord = {
     "VI": rn6,
     "VII":rn7
     }
-pprint(romanToChord)
+# pprint(romanToChord)
 
 romanTo7thChord = {
     "I":  rn17,
@@ -72,7 +72,7 @@ romanTo7thChord = {
     "VI": rn67,
     "VII":rn77
     }
-pprint(romanTo7thChord)
+# pprint(romanTo7thChord)
 
 romanToChordTones = {
     "I":  [p.nameWithOctave for p in rn1.pitches],
