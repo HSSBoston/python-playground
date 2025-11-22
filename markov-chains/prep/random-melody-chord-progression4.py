@@ -67,6 +67,8 @@ midi.tracks.append(chordTrack)
 midi.tracks.append(melodyTrack)
 
 TPB    = 480 # ticks per beat (ticks per quater note)
+NOTE1  = TPB * 4
+NOTE2  = TPB * 2
 NOTE4  = TPB
 NOTE8  = int(TPB/2)
 NOTE16 = int(TPB/4)
@@ -81,7 +83,7 @@ for roman in PROGRESSION :
         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
     for i, note in enumerate(notes):
         if i==0:
-            chordTrack.append(Message('note_off', note=note, velocity=60, time=NOTE4))
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=NOTE2))
         else:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
