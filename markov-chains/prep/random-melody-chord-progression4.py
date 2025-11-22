@@ -145,9 +145,9 @@ for roman in PROGRESSION :
 # Melody
 #   Chord notes at 70% and scale notes at 30%
 #   quarter and 8th notes at random
-def melodyWith7thChordRandamized():
+def melodyWithTriadRandamized():
     for roman in PROGRESSION:
-        chordTonesMidi = romanTo7thChordMidi[roman]
+        chordTonesMidi = romanToChordMidi[roman]
         remainingTicks = NOTE2
         
         while remainingTicks > 0:
@@ -170,6 +170,29 @@ def melodyWith7thChordRandamized():
 #   quarter and 8th notes at random
 def melodyWith7thChordRandamized():
     for roman in PROGRESSION:
+        chordTonesMidi = romanTo7thChordTonesMidi[roman]
+        remainingTicks = NOTE2
+        
+        while remainingTicks > 0:
+            duration = random.choice([NOTE4, NOTE8])
+            if remainingTicks - duration < 0:
+                duration = remainingTicks        
+            
+            if random.random() < 0.7:
+                note = random.choice(chordTonesMidi)
+            else:
+                note = random.choice(scaleMidi)
+                
+            melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
+            melodyTrack.append(Message('note_off', note=note, velocity=80, time=duration))
+            
+            remainingTicks -= duration
+
+# Melody
+#   Chord notes at 70% and scale notes at 30%
+#   quarter and 8th notes at random
+def melodyWithChordDegrees(degreeSeq):
+    for roman in degreeSeq:
         chordTonesMidi = romanTo7thChordTonesMidi[roman]
         remainingTicks = NOTE2
         
