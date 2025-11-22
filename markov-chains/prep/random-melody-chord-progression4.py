@@ -133,7 +133,7 @@ melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
 
 # Chord progression
 for roman in PROGRESSION :
-    chordTonesMidi = romanToChordMidi[roman]
+    chordTonesMidi = romanToChordTonesMidi[roman]
     for note in chordTonesMidi:    
         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
     for i, note in enumerate(chordTonesMidi):
@@ -170,7 +170,7 @@ def melodyWith7thChordRandamized():
 #   quarter and 8th notes at random
 def melodyWith7thChordRandamized():
     for roman in PROGRESSION:
-        chordTonesMidi = romanTo7thChordMidi[roman]
+        chordTonesMidi = romanTo7thChordTonesMidi[roman]
         remainingTicks = NOTE2
         
         while remainingTicks > 0:
