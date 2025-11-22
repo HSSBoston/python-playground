@@ -75,13 +75,13 @@ chordTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
 melodyTrack.append(MetaMessage('set_tempo', tempo=mido.bpm2tempo(BPM)))
 
 # Chord progression
-for chord in progression:
-    notes = chords[chord]
+for roman in PROGRESSION :
+    notes = romanToChordMidi[roman]
     for note in notes:    
         chordTrack.append(Message('note_on', note=note, velocity=60, time=0))
     for i, note in enumerate(notes):
         if i==0:
-            chordTrack.append(Message('note_off', note=note, velocity=60, time=note4))
+            chordTrack.append(Message('note_off', note=note, velocity=60, time=NOTE4))
         else:
             chordTrack.append(Message('note_off', note=note, velocity=60, time=0))
 
@@ -106,9 +106,9 @@ for chord in progression:
 #         melodyTrack.append(Message('note_off', note=note, velocity=80, time=duration))
 #         
 #         remainingTicks -= duration
-# 
-# midi.save(OUTPUT_FILE)
-# print("Generated a MIDI file:", OUTPUT_FILE)
+
+midi.save(OUTPUT_FILE)
+print("Generated a MIDI file:", OUTPUT_FILE)
 
 # midi = MidiFile('random-song.mid')
 # for i, track in enumerate(mid.tracks):
