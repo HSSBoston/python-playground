@@ -4,6 +4,7 @@ from music21 import *
 from pprint import pprint
 
 KEY_CHOICE = "a"
+# KEY_CHOICE = "C"
 PROGRESSION = ["I", "IV", "VII", "I", "VI", "II", "V", "I"]
 # PROGRESSION = ["I", "IV", "V", "I"]
 # PROGRESSION = ["I", "V", "VI", "IV"]
