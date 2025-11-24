@@ -197,13 +197,28 @@ def melodyWithChordDegrees(degreeSeq):
         for degNum in degreeSeq:
             if degNum == 1:
                 note = chordTonesMidi[0]
+                if random.random() > 0.9:
+                    note += 12
+                if random.random() > 0.9:
+                    note -= 12
             elif degNum == 3:
                 note = chordTonesMidi[1]
+                if random.random() > 0.9:
+                    note += 12
+                if random.random() > 0.9:
+                    note -= 12
             elif degNum == 5:
                 note = chordTonesMidi[2]
+                if random.random() > 0.9:
+                    note += 12
+                if random.random() > 0.9:
+                    note -= 12
             elif degNum == 7:
                 note = chordTonesMidi[3]
-                
+                if random.random() > 0.9:
+                    note += 12
+                if random.random() > 0.9:
+                    note -= 12
             melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
             melodyTrack.append(Message('note_off', note=note, velocity=80, time=NOTE8))
 
