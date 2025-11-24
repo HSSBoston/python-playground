@@ -189,31 +189,28 @@ def melodyWith7thChordRandamized():
             remainingTicks -= duration
 
 # Melody
-#   Chord notes at 70% and scale notes at 30%
+#   degreeSeq: e.g. [3, 5, 1, 7]
 #   quarter and 8th notes at random
 def melodyWithChordDegrees(degreeSeq):
-    for roman in degreeSeq:
-        chordTonesMidi = romanTo7thChordTonesMidi[roman]
-        remainingTicks = NOTE2
-        
-        while remainingTicks > 0:
-            duration = random.choice([NOTE4, NOTE8])
-            if remainingTicks - duration < 0:
-                duration = remainingTicks        
-            
-            if random.random() < 0.7:
-                note = random.choice(chordTonesMidi)
-            else:
-                note = random.choice(scaleMidi)
+    for roman in PROGRESSION:
+        chordTonesMidi = romanTo7thChordTonesMidi[roman]        
+        for degNum in degreeSeq:
+            if degNum == 1:
+                note = chordTonesMidi[0]
+            elif degNum == 3:
+                note = chordTonesMidi[1]
+            elif degNum == 5:
+                note = chordTonesMidi[2]
+            elif degNum == 7:
+                note = chordTonesMidi[3]
                 
             melodyTrack.append(Message('note_on', note=note, velocity=80, time=0))
-            melodyTrack.append(Message('note_off', note=note, velocity=80, time=duration))
-            
-            remainingTicks -= duration
+            melodyTrack.append(Message('note_off', note=note, velocity=80, time=NOTE8))
 
 if __name__ == "__main__":
-    melodyWith7thChordRandamized()
-
+#     melodyWithChordDegrees([3,5,1,7])
+    melodyWithChordDegrees([3,1,5,7])
+    
     midi.save(OUTPUT_FILE)
     print("Generated a MIDI file:", OUTPUT_FILE)
 
