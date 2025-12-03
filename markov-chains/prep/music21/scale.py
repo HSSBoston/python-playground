@@ -21,3 +21,4 @@ sc1 = scale.MajorScale("c")
 print(sc1)
 
 ds1 = scale.DiatonicScale("c4")
+
