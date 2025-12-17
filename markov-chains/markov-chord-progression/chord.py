@@ -25,15 +25,8 @@ if k.mode == "major":
 else:
   sc = scale.MinorScale(KEY_CHOICE)
 
-scalePitchNames = []
-scaleMidi = []
-
-# start = k.tonic
-# start.octave = 4
-
-for p in sc.getPitches():
-  scalePitchNames.append(p.nameWithOctave)
-  scaleMidi.append(p.midi)
+scalePitchNames = [p.nameWithOctave for p in sc.getPitches()]
+scaleMidi       = [p.midi           for p in sc.getPitches()]
 
 scalePitchNames = scalePitchNames[0:-1]
 scaleMidi = scaleMidi[0:-1]
@@ -54,15 +47,7 @@ else:
     rn5 = roman.RomanNumeral("v", sc)
     rn6 = roman.RomanNumeral("VI", sc)
     rn7 = roman.RomanNumeral("VII", sc)
-"""
-romanToChordTones = {}
-romanToChordTonesMidi = {}
 
-chordTones=[]
-for p in rn1.pitches:
-  chordTones.append(p.nameWithOctave)
-romanToChordTones["I"] = chordTones
-"""
 romanToChordTones = {
     "I":  [p.nameWithOctave for p in rn1.pitches],
     "II": [p.nameWithOctave for p in rn2.pitches],
