@@ -15,7 +15,7 @@ P = np.array(
      [0.4, 0, 0, 0.1, 0.4, 0.1],
      [0, 0.3, 0.3, 0.3, 0.05, 0.05],
      [1, 0, 0, 0, 0, 0]
-     ])
+    ])
 
 k = key.Key(KEY_CHOICE)
 #print(k)
@@ -27,9 +27,8 @@ else:
 
 scalePitchNames = [p.nameWithOctave for p in sc.getPitches()]
 scaleMidi       = [p.midi           for p in sc.getPitches()]
-
 scalePitchNames = scalePitchNames[0:-1]
-scaleMidi = scaleMidi[0:-1]
+scaleMidi       = scaleMidi[0:-1]
 #print(scalePitchNames)
 #print(scaleMidi)
 
@@ -64,8 +63,16 @@ romanToChordTonesMidi = {
     "VI": [p.midi for p in rn6.pitches],
     "VII":[p.midi for p in rn7.pitches],
     }
+romanToIndex = {
+    "I":   0,
+    "II":  1,
+    "IV":  2,
+    "V":   3,
+    "VI":  4,
+    "VII": 5,
+}
 
-#pprint.pprint(romanToChordTones)
+# pprint.pprint(romanToChordTones)
 # pprint.pprint(romanToChordTonesMidi)
 
 # melody = stream.Part()
@@ -95,14 +102,6 @@ numOfMeasures = 2
 # else:
 #     numOfChords = 4
 
-romanToIndex = {
-    "I" : 0,
-    "II" : 1,
-    "IV" : 2,
-    "V" : 3,
-    "VI" : 4,
-    "VII" : 5,
-}
 
 if numOfMeasures == 1:
 
