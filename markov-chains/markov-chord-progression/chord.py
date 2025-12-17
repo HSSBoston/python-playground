@@ -1,7 +1,6 @@
 from music21 import *
-import pprint
+import random, pprint
 import numpy as np
-import random
 
 KEY_CHOICE = "C"
 #PROGRESSION = ["I", "IV", "V", "I"]
@@ -29,8 +28,8 @@ else:
 scalePitchNames = []
 scaleMidi = []
 
-start = k.tonic
-start.octave = 4
+# start = k.tonic
+# start.octave = 4
 
 for p in sc.getPitches():
   scalePitchNames.append(p.nameWithOctave)
