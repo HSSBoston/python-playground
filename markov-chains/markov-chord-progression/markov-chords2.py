@@ -62,4 +62,3 @@ plt.plot( probDist[:, 0] )
 plt.plot( probDist[:, 1] )
 plt.plot( probDist[:, 2] )
 plt.show()
-
