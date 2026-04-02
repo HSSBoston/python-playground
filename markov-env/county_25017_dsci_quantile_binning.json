@@ -1,0 +1,1 @@
+{"county_fips":"25017","train_start":"1\/1\/2011","train_end":"12\/31\/2020","n_states_requested":5,"n_states_actual":3,"alpha":0.5,"edges":[0.0,38.0,153.0,399.0],"labels":["S0","S1","S2"]}
