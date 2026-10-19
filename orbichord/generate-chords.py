@@ -1,6 +1,7 @@
 from music21.scale import MajorScale
 from orbichord.generator import Generator
 from orbichord.symbol import chordSymbolFigure
+from orbichord.identify import chordPitchNames
 
 scale = MajorScale("C")
 
@@ -13,4 +14,5 @@ chordGen = Generator(
 #chords = list(chord_generator.run())
 
 for chord in chordGen.run():
-    print(chord, chordSymbolFigure(chord, inversion=0))
+    print(chordSymbolFigure(chord, inversion=0), chordPitchNames(chord))
+
