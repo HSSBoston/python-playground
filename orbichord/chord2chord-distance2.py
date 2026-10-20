@@ -15,47 +15,30 @@ print("Movement:", movement)
 print("Distance:", distance)
 
 # Sort starting pitches by scale degree
-orderedPitches = []
+startOrderedPitches = []
 for degree in range(1, 8):
     for p in start.pitches:
         pitchDegree = scale.getScaleDegreeFromPitch(
             p, comparisonAttribute="pitchClass")
         if pitchDegree == degree:
-            orderedPitches.append(p)
-print(orderedPitches)
-# 
-# 
-# # Apply the voice-leading movement to each pitch
-# result_pitches = []
-# 
-# for p, steps in zip(ordered_pitches, movement):
-#     steps = int(steps)
-# 
-#     if steps == 0:
-#         new_pitch = p
-#     else:
-#         direction = (
-#             Direction.ASCENDING if steps > 0
-#             else Direction.DESCENDING
-#         )
-#         new_pitch = scale.nextPitch(
-#             p,
-#             direction=direction,
-#             stepSize=abs(steps)
-#         )
-# 
-#     result_pitches.append(new_pitch)
-# 
-# # Construct the actual voiced chord
-# result = Chord(result_pitches)
-# 
-# # Verify it has the intended target pitch classes
-# assert sorted(result.pitchClasses) == sorted(target.pitchClasses)
-# 
-# print("Chord:", " ".join(p.nameWithOctave for p in result.pitches))
-# print("Root:", result.root().name)
-# print("Quality:", result.quality)
-# print("Inversion:", result.inversionText())
-# print("Description:",
-#       f"{result.root().name} {result.quality}, "
-#       f"{result.inversionText().lower()}")
+            startOrderedPitches.append(p)
+print(startOrderedPitches)
+
+# Apply the voice-leading movement to each pitch
+targetPitches = []
+for p, steps in zip(startOrderedPitches, movement):
+    if steps == 0:
+        newPitch = p
+    else:
+        direction = Direction.ASCENDING if steps > 0 else Direction.DESCENDING
+        newPitch = scale.nextPitch(p, direction=direction, stepSize=abs(steps))
+    targetPitches.append(newPitch)
+
+voicingResult = Chord(targetPitches)
+assert sorted(voicingResult.pitchClasses) == sorted(target.pitchClasses)
+
+print("Chord:",     voicingResult.pitches)
+print("Root:",      voicingResult.root().name)
+print("Quality:",   voicingResult.quality)
+print("Inversion:", voicingResult.inversionText())
+
