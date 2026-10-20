@@ -9,4 +9,7 @@ brew install portaudio
 
 pip install --upgrade pip setuptools wheel pbr
 pip install -r requirements.txt
+python -m pip install ./orbichord-source
+
+If necessary: 
 python -m pip install -e ./orbichord-source
