@@ -5,7 +5,7 @@ from orbichord.chordinate import EfficientVoiceLeading
 
 vl = EfficientVoiceLeading( scale=MajorScale("C"),
                             metric=lambda delta: norm(delta, 1) )
-  # L1 distance. Other choices: 
+  # L1 distance. Other common choices: 2 and inf
 
 movement, distance = vl( Chord("C E G"),
                          Chord("G B D") )
