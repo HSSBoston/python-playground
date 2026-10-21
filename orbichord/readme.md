@@ -3,7 +3,7 @@ python -m pip uninstall -y orbichord
 
 git clone https://github.com/orbichord/orbichord.git
 mv orbichord orbichord-source
-In requirements.txt, replace pygame with pygame-ce
+In requirements.txt, replace pygame with pygame-ce, and add holoviews
 
 brew install portaudio
 
