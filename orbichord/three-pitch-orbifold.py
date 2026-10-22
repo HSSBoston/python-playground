@@ -3,6 +3,7 @@ from orbichord.chordinate import standardSimplex
 from orbichord.generator import Generator
 
 import holoviews as hv
+import plotly.graph_objects as go
 
 hv.extension("plotly")
 
@@ -26,7 +27,11 @@ plot = hv.Scatter3D(points).opts(
     height=600,
     size=5 )
 
-fig = hv.render(plot, backend="plotly")
+figDict = hv.render(plot, backend="plotly")
+fig = go.Figure(figDict)
+# fig = go.Figure(
+#     data=fig_dict["data"],
+#     layout=fig_dict["layout"] )
 fig.show(renderer="browser")
 
 # fig.write_html("trichord_orbifold.html")
