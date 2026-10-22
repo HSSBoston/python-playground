@@ -13,7 +13,6 @@ for chord in chord_generator.run():
     points.append(standardSimplex(chord, scale))
 
 print("Number of points:", len(points))
-print("First 5 points:", points[:5])
 
 fig = px.scatter(
     x=[p[1] for p in points],
