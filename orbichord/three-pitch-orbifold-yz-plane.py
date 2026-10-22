@@ -11,8 +11,11 @@ chord_generator = Generator( pitches = scale.getPitches('C','B'),
 points = []
 for chord in chord_generator.run():
     points.append(standardSimplex(chord, scale))
-
 print("Number of points:", len(points))
+
+# Count distinct points in the yz projection
+uniqueYzPoints = { (round(p[1], 8), round(p[2], 8)) for p in points }
+print("Distinct 2D points:", len(uniqueYzPoints))
 
 fig = px.scatter(
     x=[p[1] for p in points],
