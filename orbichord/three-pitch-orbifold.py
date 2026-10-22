@@ -27,11 +27,13 @@ plot = hv.Scatter3D(points).opts(
     height=600,
     size=5 )
 
-figDict = hv.render(plot, backend="plotly")
-fig = go.Figure(figDict)
-# fig = go.Figure(
-#     data=fig_dict["data"],
-#     layout=fig_dict["layout"] )
-fig.show(renderer="browser")
+hv.save(plot, "./output/trichord_orbifold.html", backend="plotly")
 
-# fig.write_html("trichord_orbifold.html")
+# figDict = hv.render(plot, backend="plotly")
+# fig = go.Figure(figDict)
+# # fig = go.Figure(
+# #     data=fig_dict["data"],
+# #     layout=fig_dict["layout"] )
+# fig.show(renderer="browser")
+# 
+# # fig.write_html("trichord_orbifold.html")
