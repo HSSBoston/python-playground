@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from music21.scale import ChromaticScale
+from music21.scale import ChromaticScale, DiatonicScale
 from music21.chord import Chord
 from orbichord.chordinate import standardSimplex
 from orbichord.generator import Generator
