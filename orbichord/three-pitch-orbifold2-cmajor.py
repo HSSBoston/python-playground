@@ -1,46 +1,43 @@
 from pathlib import Path
-
-from music21.scale import MajorScale
+from music21.scale import MajorScale, ChromaticScale
 from orbichord.chordinate import standardSimplex
 from orbichord.generator import Generator
-
 import plotly.graph_objects as go
 
 scale = MajorScale("C")
+orbifoldScale = ChromaticScale("C")
 
-chord_generator = Generator(
+chordGen = Generator(
     pitches=scale.getPitches("C4", "B4"),
     dimension=3,
     select=lambda chord: chord.isTriad()
 )
 
-# Map each diatonic triad in C major to a Roman numeral label
-roman_map = {
-    frozenset(["C", "E", "G"]):  "I",
-    frozenset(["D", "F", "A"]):  "ii",
-    frozenset(["E", "G", "B"]):  "iii",
-    frozenset(["F", "A", "C"]):  "IV",
-    frozenset(["G", "B", "D"]):  "V",
-    frozenset(["A", "C", "E"]):  "vi",
-    frozenset(["B", "D", "F"]):  "vii°"
+romanMap = {
+    frozenset(["C", "E", "G"]): "I (CEG)",
+    frozenset(["D", "F", "A"]): "ii (DFA)",
+    frozenset(["E", "G", "B"]): "iii (EGB)",
+    frozenset(["F", "A", "C"]): "IV (FAC)",
+    frozenset(["G", "B", "D"]): "V (GBD)",
+    frozenset(["A", "C", "E"]): "vi (ACE)",
+    frozenset(["B", "D", "F"]): "vii° (BDF)"
 }
 
-# Store chord, coordinates, and label
-chord_data = []
-for chord in chord_generator.run():
-    coords = standardSimplex(chord, scale)
-    pitch_set = frozenset(chord.pitchNames)
-    roman = roman_map.get(pitch_set, "?")
-    pitch_label = "-".join(chord.pitchNames)
-    full_label = f"{roman} ({pitch_label})"
-    chord_data.append((chord, coords, roman, pitch_label, full_label))
+chordData = []
 
-print("Number of points:", len(chord_data))
-print()
+for chord in chordGen.run():
+    coords = standardSimplex(chord, orbifoldScale)
+    label = romanMap[frozenset(chord.pitchNames)]
+    quality = chord.commonName
 
-print("Generated diatonic triads in C major:")
-for chord, (x, y, z), roman, pitch_label, full_label in chord_data:
-    print(f"{full_label:18s}   x={x:.4f}, y={y:.4f}, z={z:.4f}")
+    chordData.append((chord, coords, label, quality))
+
+print("Number of points:", len(chordData))
+
+for chord, coords, label, quality in chordData:
+    x, y, z = coords
+    print(f"{label:20s} {quality:20s} "
+          f"x={x:.4f}, y={y:.4f}, z={z:.4f}")
 
 fig = go.Figure()
 
@@ -76,29 +73,52 @@ fig.add_trace(go.Mesh3d(
 ))
 
 # 3. Plot the C-major diatonic triads as labeled blue points.
-x_vals = [coords[0] for chord, coords, roman, pitch_label, full_label in chord_data]
-y_vals = [coords[1] for chord, coords, roman, pitch_label, full_label in chord_data]
-z_vals = [coords[2] for chord, coords, roman, pitch_label, full_label in chord_data]
+# 3. Plot diatonic triads with colors by chord quality.
 
-plot_labels = [full_label for chord, coords, roman, pitch_label, full_label in chord_data]
+colors = {
+    "major triad": "royalblue",
+    "minor triad": "seagreen",
+    "diminished triad": "darkorange"
+}
 
-hover_labels = [
-    f"{full_label}<br>x={coords[0]:.4f}, y={coords[1]:.4f}, z={coords[2]:.4f}"
-    for chord, coords, roman, pitch_label, full_label in chord_data
-]
+for quality, color in colors.items():
 
-fig.add_trace(go.Scatter3d(
-    x=x_vals,
-    y=y_vals,
-    z=z_vals,
-    mode="markers+text",
-    marker=dict(size=6, color="royalblue", opacity=0.9),
-    text=plot_labels,
-    textposition="top center",
-    hovertext=hover_labels,
-    hoverinfo="text",
-    name="C-major diatonic triads"
-))
+    # Select only chords of the current quality
+    group = [
+        (chord, coords, label)
+        for chord, coords, label, q in chordData
+        if q == quality
+    ]
+
+    if not group:
+        continue
+
+    fig.add_trace(go.Scatter3d(
+        x=[coords[0] for chord, coords, label in group],
+        y=[coords[1] for chord, coords, label in group],
+        z=[coords[2] for chord, coords, label in group],
+
+        mode="markers+text",
+
+        marker=dict(
+            size=7,
+            color=color,
+            opacity=0.95
+        ),
+
+        text=[label for chord, coords, label in group],
+        textposition="top center",
+
+        hovertemplate=(
+            "%{text}<br>"
+            "x=%{x:.4f}<br>"
+            "y=%{y:.4f}<br>"
+            "z=%{z:.4f}"
+            "<extra></extra>"
+        ),
+
+        name=quality.title()
+    ))
 
 # 4. Draw the nine edges of the prism.
 edges = [
@@ -107,19 +127,19 @@ edges = [
     (0, 3), (1, 4), (2, 5)
 ]
 
-edge_x = []
-edge_y = []
-edge_z = []
+edgeX = []
+edgeY = []
+edgeZ = []
 
 for a, b in edges:
-    edge_x.extend([vertices[a][0], vertices[b][0], None])
-    edge_y.extend([vertices[a][1], vertices[b][1], None])
-    edge_z.extend([vertices[a][2], vertices[b][2], None])
+    edgeX.extend([vertices[a][0], vertices[b][0], None])
+    edgeY.extend([vertices[a][1], vertices[b][1], None])
+    edgeZ.extend([vertices[a][2], vertices[b][2], None])
 
 fig.add_trace(go.Scatter3d(
-    x=edge_x,
-    y=edge_y,
-    z=edge_z,
+    x=edgeX,
+    y=edgeY,
+    z=edgeZ,
     mode="lines",
     line=dict(color="black", width=5),
     hoverinfo="skip",
@@ -153,5 +173,5 @@ fig.update_layout(
 
 Path("./output").mkdir(exist_ok=True)
 
-fig.write_html("./output/orbifold-cmajor-diatonic-trichords.html.html")
+fig.write_html("./output/orbifold-cmajor-diatonic-trichords.html")
 fig.show(renderer="browser")
