@@ -14,22 +14,33 @@ chord_generator = Generator(
     select=lambda chord: chord.isTriad()
 )
 
-# Store both the chord and its orbifold coordinates
+# Map each diatonic triad in C major to a Roman numeral label
+roman_map = {
+    frozenset(["C", "E", "G"]):  "I",
+    frozenset(["D", "F", "A"]):  "ii",
+    frozenset(["E", "G", "B"]):  "iii",
+    frozenset(["F", "A", "C"]):  "IV",
+    frozenset(["G", "B", "D"]):  "V",
+    frozenset(["A", "C", "E"]):  "vi",
+    frozenset(["B", "D", "F"]):  "vii°"
+}
+
+# Store chord, coordinates, and label
 chord_data = []
 for chord in chord_generator.run():
     coords = standardSimplex(chord, scale)
-    chord_data.append((chord, coords))
+    pitch_set = frozenset(chord.pitchNames)
+    roman = roman_map.get(pitch_set, "?")
+    pitch_label = "-".join(chord.pitchNames)
+    full_label = f"{roman} ({pitch_label})"
+    chord_data.append((chord, coords, roman, pitch_label, full_label))
 
 print("Number of points:", len(chord_data))
 print()
 
 print("Generated diatonic triads in C major:")
-for chord, (x, y, z) in chord_data:
-    print(
-        f"{chord.commonName:20s} "
-        f"{chord.pitchNames}   "
-        f"x={x:.4f}, y={y:.4f}, z={z:.4f}"
-    )
+for chord, (x, y, z), roman, pitch_label, full_label in chord_data:
+    print(f"{full_label:18s}   x={x:.4f}, y={y:.4f}, z={z:.4f}")
 
 fig = go.Figure()
 
@@ -65,20 +76,15 @@ fig.add_trace(go.Mesh3d(
 ))
 
 # 3. Plot the C-major diatonic triads as labeled blue points.
-x_vals = [coords[0] for chord, coords in chord_data]
-y_vals = [coords[1] for chord, coords in chord_data]
-z_vals = [coords[2] for chord, coords in chord_data]
+x_vals = [coords[0] for chord, coords, roman, pitch_label, full_label in chord_data]
+y_vals = [coords[1] for chord, coords, roman, pitch_label, full_label in chord_data]
+z_vals = [coords[2] for chord, coords, roman, pitch_label, full_label in chord_data]
 
-# Label text shown directly on the plot
-plot_labels = [
-    f"{'/'.join(chord.pitchNames)}"
-    for chord, coords in chord_data
-]
+plot_labels = [full_label for chord, coords, roman, pitch_label, full_label in chord_data]
 
-# Hover text (more detailed)
 hover_labels = [
-    f"{chord.commonName}<br>{', '.join(chord.pitchNames)}"
-    for chord, coords in chord_data
+    f"{full_label}<br>x={coords[0]:.4f}, y={coords[1]:.4f}, z={coords[2]:.4f}"
+    for chord, coords, roman, pitch_label, full_label in chord_data
 ]
 
 fig.add_trace(go.Scatter3d(
@@ -130,11 +136,11 @@ fig.add_trace(go.Scatter3d(
     name="Augmented-triad line"
 ))
 
-# 6. Improve the 3D camera and axis display.
+# 6. Improve layout.
 fig.update_layout(
-    title="C-Major Diatonic Triads in the Three-Pitch Chord Orbifold",
-    width=1050,
-    height=800,
+    title="C-Major Diatonic Triads",
+    width=1150,
+    height=850,
     scene=dict(
         xaxis=dict(title="x (transposition)", range=[0, 1]),
         yaxis=dict(title="y (first pitch gap)", range=[0, 1]),
@@ -147,5 +153,5 @@ fig.update_layout(
 
 Path("./output").mkdir(exist_ok=True)
 
-fig.write_html("./output/c_major_diatonic_trichords.html")
+fig.write_html("./output/orbifold-cmajor-diatonic-trichords.html.html")
 fig.show(renderer="browser")
