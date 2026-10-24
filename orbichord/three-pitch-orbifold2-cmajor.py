@@ -94,8 +94,7 @@ fig.add_trace(go.Scatter3d(
     mode="lines",
     line=dict(color="black", width=5),
     hoverinfo="skip",
-    name="Prism edges"
-))
+    name="Prism edges" ))
 
 # 5. Draw the augmented-triad center line.
 
@@ -105,13 +104,12 @@ fig.add_trace(go.Scatter3d(
     z=[1/3, 1/3],
     mode="lines",
     line=dict(color="orange", width=6, dash="dash"),
-    name="Augmented triads"
-))
+    name="Augmented triads" ))
 
 # 7. Improve the 3D camera and axis display.
 
 fig.update_layout(
-    title="Three-Pitch Chord Orbifold",
+    title="Three-Pitch Chord Orbifold, C-major",
     width=1050,
     height=800,
     scene=dict(
@@ -121,8 +119,7 @@ fig.update_layout(
         aspectmode="manual",
         aspectratio=dict(x=1.6, y=1, z=1),
         camera=dict(eye=dict(x=1.8, y=1.5, z=1.2))
-    )
-)
+    ))
 
 Path("./output").mkdir(exist_ok=True)
 
