@@ -1,7 +1,6 @@
 from pathlib import Path
 
-from music21.scale import ChromaticScale, MajorScale
-from music21.chord import Chord
+from music21.scale import MajorScale
 from orbichord.chordinate import standardSimplex
 from orbichord.generator import Generator
 
@@ -15,18 +14,26 @@ chord_generator = Generator(
     select=lambda chord: chord.isTriad()
 )
 
-points = [
-    standardSimplex(chord, scale)
-    for chord in chord_generator.run()
-]
+# Store both the chord and its orbifold coordinates
+chord_data = []
+for chord in chord_generator.run():
+    coords = standardSimplex(chord, scale)
+    chord_data.append((chord, coords))
 
-print("Number of points:", len(points))
+print("Number of points:", len(chord_data))
+print()
+
+print("Generated diatonic triads in C major:")
+for chord, (x, y, z) in chord_data:
+    print(
+        f"{chord.commonName:20s} "
+        f"{chord.pitchNames}   "
+        f"x={x:.4f}, y={y:.4f}, z={z:.4f}"
+    )
 
 fig = go.Figure()
 
 # 1. Define the six vertices of the triangular prism.
-# Coordinates are (x, y, z).
-
 vertices = [
     (0, 0, 0),
     (0, 1, 0),
@@ -37,8 +44,6 @@ vertices = [
 ]
 
 # 2. Add transparent prism surfaces.
-# Each face of the prism is divided into triangles.
-
 faces = [
     (0, 1, 2), (3, 4, 5),
     (0, 1, 4), (0, 4, 3),
@@ -59,23 +64,41 @@ fig.add_trace(go.Mesh3d(
     showlegend=False
 ))
 
-# 3. Plot all the chords as blue points.
+# 3. Plot the C-major diatonic triads as labeled blue points.
+x_vals = [coords[0] for chord, coords in chord_data]
+y_vals = [coords[1] for chord, coords in chord_data]
+z_vals = [coords[2] for chord, coords in chord_data]
+
+# Label text shown directly on the plot
+plot_labels = [
+    f"{'/'.join(chord.pitchNames)}"
+    for chord, coords in chord_data
+]
+
+# Hover text (more detailed)
+hover_labels = [
+    f"{chord.commonName}<br>{', '.join(chord.pitchNames)}"
+    for chord, coords in chord_data
+]
 
 fig.add_trace(go.Scatter3d(
-    x=[p[0] for p in points],
-    y=[p[1] for p in points],
-    z=[p[2] for p in points],
-    mode="markers",
-    marker=dict(size=3, color="royalblue", opacity=0.7),
-    name="Chords"
+    x=x_vals,
+    y=y_vals,
+    z=z_vals,
+    mode="markers+text",
+    marker=dict(size=6, color="royalblue", opacity=0.9),
+    text=plot_labels,
+    textposition="top center",
+    hovertext=hover_labels,
+    hoverinfo="text",
+    name="C-major diatonic triads"
 ))
 
 # 4. Draw the nine edges of the prism.
-
 edges = [
-    (0, 1), (1, 2), (2, 0),  # First triangular end
-    (3, 4), (4, 5), (5, 3),  # Second triangular end
-    (0, 3), (1, 4), (2, 5)   # Three longitudinal edges
+    (0, 1), (1, 2), (2, 0),
+    (3, 4), (4, 5), (5, 3),
+    (0, 3), (1, 4), (2, 5)
 ]
 
 edge_x = []
@@ -94,22 +117,22 @@ fig.add_trace(go.Scatter3d(
     mode="lines",
     line=dict(color="black", width=5),
     hoverinfo="skip",
-    name="Prism edges" ))
+    name="Prism edges"
+))
 
 # 5. Draw the augmented-triad center line.
-
 fig.add_trace(go.Scatter3d(
     x=[0, 1],
     y=[1/3, 1/3],
     z=[1/3, 1/3],
     mode="lines",
     line=dict(color="orange", width=6, dash="dash"),
-    name="Augmented triads" ))
+    name="Augmented-triad line"
+))
 
-# 7. Improve the 3D camera and axis display.
-
+# 6. Improve the 3D camera and axis display.
 fig.update_layout(
-    title="Three-Pitch Chord Orbifold, C-major",
+    title="C-Major Diatonic Triads in the Three-Pitch Chord Orbifold",
     width=1050,
     height=800,
     scene=dict(
@@ -119,9 +142,10 @@ fig.update_layout(
         aspectmode="manual",
         aspectratio=dict(x=1.6, y=1, z=1),
         camera=dict(eye=dict(x=1.8, y=1.5, z=1.2))
-    ))
+    )
+)
 
 Path("./output").mkdir(exist_ok=True)
 
-fig.write_html("./output/trichord-orbifold-cmajor.html")
+fig.write_html("./output/c_major_diatonic_trichords.html")
 fig.show(renderer="browser")
