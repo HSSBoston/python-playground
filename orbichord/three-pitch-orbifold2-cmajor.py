@@ -126,5 +126,5 @@ fig.update_layout(
 
 Path("./output").mkdir(exist_ok=True)
 
-fig.write_html("./output/trichord_orbifold.html")
+fig.write_html("./output/trichord-orbifold-cmajor.html")
 fig.show(renderer="browser")
